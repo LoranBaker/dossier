@@ -1,0 +1,563 @@
+<!-- tabs/building-data-tab/building-data-tab.component.html -->
+<div class="building-data-section">
+    <div class="section-header">
+      <h2>Ihre Angaben und Basisdaten</h2>
+      <div class="edit-controls">
+        <button *ngIf="!isEditMode" class="edit-button" (click)="toggleEditMode()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+          </svg>
+          Bearbeiten
+        </button>
+        <div *ngIf="isEditMode" class="action-buttons">
+          <button class="cancel-button" (click)="cancelChanges()">Abbrechen</button>
+          <button class="save-button" (click)="saveChanges()">Speichern</button>
+        </div>
+      </div>
+      <div id="saved-message" class="saved-message">Änderungen gespeichert</div>
+    </div>
+    
+    <h3>Objekt: {{building.buildingType}} {{building.address}}</h3>
+  
+    <!-- Basic Building Data Table -->
+    <div class="data-table">
+      <table>
+        <tr>
+          <th>Eigenschaft</th>
+          <th>Wert</th>
+          <th>Eigenschaft</th>
+          <th>Wert</th>
+        </tr>
+        <tr>
+          <td>Eigentümerstruktur</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.ownerStructure}}</ng-container>
+            <input *ngIf="isEditMode" type="text" [(ngModel)]="editableBuilding!.ownerStructure" class="edit-input">
+          </td>
+          <td>Gibt es nachträgliche Anbauten</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.additionalConstruction ? 'Ja' : 'Nein'}}</ng-container>
+            <label *ngIf="isEditMode" class="toggle-switch">
+              <input type="checkbox" [checked]="editableBuilding!.additionalConstruction" 
+                     (change)="onCheckboxChange($event, editableBuilding!, 'additionalConstruction')">
+              <span class="toggle-slider"></span>
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <td>Baujahr</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.buildingYear}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.buildingYear" class="edit-input">
+          </td>
+          <td>Anzahl Wohn-& Gewerbeeinheiten</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.units.total}} (davon {{building.units.commercial}} gewerblich)</ng-container>
+            <div *ngIf="isEditMode" class="input-group">
+              <input type="number" [(ngModel)]="editableBuilding!.units.total" class="edit-input small-input">
+              <span>davon</span>
+              <input type="number" [(ngModel)]="editableBuilding!.units.commercial" class="edit-input small-input">
+              <span>gewerblich</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Anzahl Vollgeschosse</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.floors}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.floors" class="edit-input">
+          </td>
+          <td>Wohnfläche in m²</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.livingSpace}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.livingSpace" class="edit-input">
+          </td>
+        </tr>
+        <tr>
+          <td>Angrenzende Gebäude</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.adjacentBuildings ? 'Ja' : 'Nein'}}</ng-container>
+            <label *ngIf="isEditMode" class="toggle-switch">
+              <input type="checkbox" [checked]="editableBuilding!.adjacentBuildings" 
+                     (change)="onCheckboxChange($event, editableBuilding!, 'adjacentBuildings')">
+              <span class="toggle-slider"></span>
+            </label>
+          </td>
+          <td>Gewerbefläche in m² (beheizt)</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.commercialSpace}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.commercialSpace" class="edit-input">
+          </td>
+        </tr>
+        <tr>
+          <td>Anzahl Wohneinheiten</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">3</ng-container>
+            <input *ngIf="isEditMode" type="number" value="3" class="edit-input">
+          </td>
+          <td>Grundfläche</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">ca. {{building.baseArea}} m²</ng-container>
+            <div *ngIf="isEditMode" class="input-group">
+              <span>ca.</span>
+              <input type="number" [(ngModel)]="editableBuilding!.baseArea" class="edit-input">
+              <span>m²</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Davon Selbstbezug</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.selfOccupied}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.selfOccupied" class="edit-input">
+          </td>
+          <td>Wurde nachträglich gedämmt</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.retrofittedInsulation ? 'Ja' : 'Nein'}}</ng-container>
+            <label *ngIf="isEditMode" class="toggle-switch">
+              <input type="checkbox" [checked]="editableBuilding!.retrofittedInsulation" 
+                     (change)="onCheckboxChange($event, editableBuilding!, 'retrofittedInsulation')">
+              <span class="toggle-slider"></span>
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <td>Selbstgenutzte Wohnfläche</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.selfUsedLivingSpace}} m²</ng-container>
+            <div *ngIf="isEditMode" class="input-group">
+              <input type="number" [(ngModel)]="editableBuilding!.selfUsedLivingSpace" class="edit-input">
+              <span>m²</span>
+            </div>
+          </td>
+          <td>Flurstücksgröße ca.</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">ca. {{building.plotSize}} m²</ng-container>
+            <div *ngIf="isEditMode" class="input-group">
+              <span>ca.</span>
+              <input type="number" [(ngModel)]="editableBuilding!.plotSize" class="edit-input">
+              <span>m²</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Anzahl Gewerbeeinheiten</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.units.commercial}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.units.commercial" class="edit-input">
+          </td>
+          <td>Anzahl Personen im HH</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.residents}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.residents" class="edit-input">
+          </td>
+        </tr>
+      </table>
+    </div>
+  
+    <!-- Heating Table -->
+    <div class="data-table">
+      <table>
+        <tr>
+          <th colspan="4">Heizung</th>
+        </tr>
+        <tr>
+          <td>Energieträger</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.heating.type}}</ng-container>
+            <select *ngIf="isEditMode" [(ngModel)]="editableBuilding!.heating.type" class="edit-input">
+              <option value="Gas">Gas</option>
+              <option value="Öl">Öl</option>
+              <option value="Strom">Strom</option>
+              <option value="Fernwärme">Fernwärme</option>
+              <option value="Wärmepumpe">Wärmepumpe</option>
+              <option value="Pellets">Pellets</option>
+            </select>
+          </td>
+          <td>Sanierungsjahr (anderes als Haus)</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.heating.renovationYear || 'Nein'}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.heating.renovationYear" class="edit-input" placeholder="Nein">
+          </td>
+        </tr>
+        <tr>
+          <td>Heizflächen</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.heating.surfaces}}</ng-container>
+            <select *ngIf="isEditMode" [(ngModel)]="editableBuilding!.heating.surfaces" class="edit-input">
+              <option value="Heizkörper">Heizkörper</option>
+              <option value="Fußbodenheizung">Fußbodenheizung</option>
+              <option value="Wandheizung">Wandheizung</option>
+              <option value="Gemischt">Gemischt</option>
+            </select>
+          </td>
+          <td>Sind Rohre gedämmt</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.heating.insulatedPipes ? 'Ja' : 'Nein'}}</ng-container>
+            <label *ngIf="isEditMode" class="toggle-switch">
+              <input type="checkbox" [checked]="editableBuilding!.heating.insulatedPipes" 
+                     (change)="onCheckboxChange($event, editableBuilding!.heating, 'insulatedPipes')">
+              <span class="toggle-slider"></span>
+            </label>
+          </td>
+        </tr>
+      </table>
+    </div>
+    
+    <!-- Hot Water Table -->
+    <div class="data-table">
+      <table>
+        <tr>
+          <th colspan="4">Warmwasser</th>
+        </tr>
+        <tr>
+          <td>Warmwasseraufbereitung</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.hotWater.source}}</ng-container>
+            <select *ngIf="isEditMode" [(ngModel)]="editableBuilding!.hotWater.source" class="edit-input">
+              <option value="Nur über Heizung">Nur über Heizung</option>
+              <option value="Separate Anlage">Separate Anlage</option>
+              <option value="Durchlauferhitzer">Durchlauferhitzer</option>
+              <option value="Boiler">Boiler</option>
+              <option value="Warmwasserwärmepumpe">Warmwasserwärmepumpe</option>
+            </select>
+          </td>
+          <td>Sanierungsjahr</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.hotWater.renovationYear || 'Nein'}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.hotWater.renovationYear" class="edit-input" placeholder="Nein">
+          </td>
+        </tr>
+      </table>
+    </div>
+    
+    <!-- Roof Table -->
+    <div class="data-table">
+      <table>
+        <tr>
+          <th colspan="4">Dach</th>
+        </tr>
+        <tr>
+          <td>Dachform</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.roof.form}}</ng-container>
+            <select *ngIf="isEditMode" [(ngModel)]="editableBuilding!.roof.form" class="edit-input">
+              <option value="versch. Dachtypen">versch. Dachtypen</option>
+              <option value="Satteldach">Satteldach</option>
+              <option value="Flachdach">Flachdach</option>
+              <option value="Pultdach">Pultdach</option>
+              <option value="Walmdach">Walmdach</option>
+              <option value="Mansarddach">Mansarddach</option>
+            </select>
+          </td>
+          <td>Dachausrichtung (Himmelsrichtung)</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.roof.orientation.direction}}</ng-container>
+            <input *ngIf="isEditMode" type="text" [(ngModel)]="editableBuilding!.roof.orientation.direction" class="edit-input">
+          </td>
+        </tr>
+        <tr>
+          <td>Dachnutzung</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.roof.usage}}</ng-container>
+            <select *ngIf="isEditMode" [(ngModel)]="editableBuilding!.roof.usage" class="edit-input">
+              <option value="genutzt/beheizt">genutzt/beheizt</option>
+              <option value="ungenutzt/unbeheizt">ungenutzt/unbeheizt</option>
+              <option value="teilweise genutzt">teilweise genutzt</option>
+            </select>
+          </td>
+          <td>Dachausrichtung in m²</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">ca. {{building.roof.orientation.area.sso}} / {{building.roof.orientation.area.ono}}</ng-container>
+            <div *ngIf="isEditMode" class="input-group">
+              <span>ca.</span>
+              <input type="number" [(ngModel)]="editableBuilding!.roof.orientation.area.sso" class="edit-input small-input">
+              <span>/</span>
+              <input type="number" [(ngModel)]="editableBuilding!.roof.orientation.area.ono" class="edit-input small-input">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Dachfläche</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">ca. {{building.roof.area}} m²</ng-container>
+            <div *ngIf="isEditMode" class="input-group">
+              <span>ca.</span>
+              <input type="number" [(ngModel)]="editableBuilding!.roof.area" class="edit-input">
+              <span>m²</span>
+            </div>
+          </td>
+          <td>Anzahl Gauben & Dachfenster</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.roof.skylights}} Dachfenster</ng-container>
+            <div *ngIf="isEditMode" class="input-group">
+              <input type="number" [(ngModel)]="editableBuilding!.roof.skylights" class="edit-input">
+              <span>Dachfenster</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    
+    <!-- Facade Table -->
+    <div class="data-table">
+      <table>
+        <tr>
+          <th colspan="4">Fassade</th>
+        </tr>
+        <tr>
+          <td>Bauweise</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.facade.construction}}</ng-container>
+            <select *ngIf="isEditMode" [(ngModel)]="editableBuilding!.facade.construction" class="edit-input">
+              <option value="Massiv">Massiv</option>
+              <option value="Holzbau">Holzbau</option>
+              <option value="Stahlbeton">Stahlbeton</option>
+              <option value="Mischbauweise">Mischbauweise</option>
+            </select>
+          </td>
+          <td>Zustand</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.facade.condition}}</ng-container>
+            <select *ngIf="isEditMode" [(ngModel)]="editableBuilding!.facade.condition" class="edit-input">
+              <option value="solide">solide</option>
+              <option value="Putz mit Rissen">Putz mit Rissen</option>
+              <option value="sanierungsbedürftig">sanierungsbedürftig</option>
+              <option value="neuwertig">neuwertig</option>
+            </select>
+          </td>
+        </tr>
+      </table>
+    </div>
+    
+    <!-- Windows Table -->
+    <div class="data-table">
+      <table>
+        <tr>
+          <th colspan="4">Fenster</th>
+        </tr>
+        <tr>
+          <td>Verglasung</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.windows.glazing}}</ng-container>
+            <select *ngIf="isEditMode" [(ngModel)]="editableBuilding!.windows.glazing" class="edit-input">
+              <option value="2-fach">2-fach</option>
+              <option value="3-fach">3-fach</option>
+              <option value="Einfachverglasung">Einfachverglasung</option>
+              <option value="Verschiedene">Verschiedene</option>
+            </select>
+          </td>
+          <td>Rahmenmaterial</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.windows.frameMaterial}}</ng-container>
+            <select *ngIf="isEditMode" [(ngModel)]="editableBuilding!.windows.frameMaterial" class="edit-input">
+              <option value="Kunststoff">Kunststoff</option>
+              <option value="Holz">Holz</option>
+              <option value="Kunststoff & Holz">Kunststoff & Holz</option>
+              <option value="Aluminium">Aluminium</option>
+              <option value="Gemischt">Gemischt</option>
+            </select>
+          </td>
+        </tr>
+      </table>
+    </div>
+    
+    <!-- Basement & Underground Garage Table -->
+    <div class="data-table">
+      <table>
+        <tr>
+          <th colspan="4">Keller & Tiefgarage</th>
+        </tr>
+        <tr>
+          <td>Ist ein Keller vorhanden</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.basement.exists ? 'Ja' : 'Nein'}}</ng-container>
+            <label *ngIf="isEditMode" class="toggle-switch">
+              <input type="checkbox" [checked]="editableBuilding!.basement.exists" 
+                     (change)="onCheckboxChange($event, editableBuilding!.basement, 'exists')">
+              <span class="toggle-slider"></span>
+            </label>
+          </td>
+          <td>Ist Keller beheizt</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.basement.heated ? 'Ja' : 'Nein'}}</ng-container>
+            <label *ngIf="isEditMode" class="toggle-switch">
+              <input type="checkbox" [checked]="editableBuilding!.basement.heated" 
+                     (change)="onCheckboxChange($event, editableBuilding!.basement, 'heated')">
+              <span class="toggle-slider"></span>
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <td>Teilunterkellert</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.basement.partialBasement ? 'Ja' : 'Nein'}}</ng-container>
+            <label *ngIf="isEditMode" class="toggle-switch">
+              <input type="checkbox" [checked]="editableBuilding!.basement.partialBasement" 
+                     (change)="onCheckboxChange($event, editableBuilding!.basement, 'partialBasement')">
+              <span class="toggle-slider"></span>
+            </label>
+          </td>
+          <td>Vollunterkellert</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.basement.fullBasement ? 'Ja' : 'Nein'}}</ng-container>
+            <label *ngIf="isEditMode" class="toggle-switch">
+              <input type="checkbox" [checked]="editableBuilding!.basement.fullBasement" 
+                     (change)="onCheckboxChange($event, editableBuilding!.basement, 'fullBasement')">
+              <span class="toggle-slider"></span>
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <td>Gibt es eine Tiefgarage</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.basement.hasUndergroundGarage ? 'Ja' : 'Nein'}}</ng-container>
+            <label *ngIf="isEditMode" class="toggle-switch">
+              <input type="checkbox" [checked]="editableBuilding!.basement.hasUndergroundGarage" 
+                     (change)="onCheckboxChange($event, editableBuilding!.basement, 'hasUndergroundGarage')">
+              <span class="toggle-slider"></span>
+            </label>
+          </td>
+          <td>Ist Tiefgarage belüftet</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.basement.isUndergroundGarageVentilated ? 'Ja' : 'Nein'}}</ng-container>
+            <label *ngIf="isEditMode" class="toggle-switch">
+              <input type="checkbox" [checked]="editableBuilding!.basement.isUndergroundGarageVentilated" 
+                     (change)="onCheckboxChange($event, editableBuilding!.basement, 'isUndergroundGarageVentilated')">
+              <span class="toggle-slider"></span>
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <td>Ist Tiefgarage beheizt</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.basement.isUndergroundGarageHeated ? 'Ja' : 'Nein'}}</ng-container>
+            <label *ngIf="isEditMode" class="toggle-switch">
+              <input type="checkbox" [checked]="editableBuilding!.basement.isUndergroundGarageHeated" 
+                     (change)="onCheckboxChange($event, editableBuilding!.basement, 'isUndergroundGarageHeated')">
+              <span class="toggle-slider"></span>
+            </label>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+    
+    <!-- Photovoltaic Table -->
+    <div class="data-table">
+      <table>
+        <tr>
+          <th colspan="4">Photovoltaik</th>
+        </tr>
+        <tr>
+          <td>Photovoltaik vorhanden</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.photovoltaic.installed ? 'Ja' : 'Nein'}}</ng-container>
+            <label *ngIf="isEditMode" class="toggle-switch">
+              <input type="checkbox" [checked]="editableBuilding!.photovoltaic.installed" 
+                     (change)="onCheckboxChange($event, editableBuilding!.photovoltaic, 'installed')">
+              <span class="toggle-slider"></span>
+            </label>
+          </td>
+          <td>Panel-/Modulfläche</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.photovoltaic.panelArea}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.photovoltaic.panelArea" class="edit-input">
+          </td>
+        </tr>
+        <tr>
+          <td>Installierte Leistung</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.photovoltaic.power}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.photovoltaic.power" class="edit-input">
+          </td>
+          <td>Anzahl Panele</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.photovoltaic.panelCount}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.photovoltaic.panelCount" class="edit-input">
+          </td>
+        </tr>
+      </table>
+    </div>
+    
+    <!-- Consumption Table -->
+    <div class="data-table">
+      <table>
+        <tr>
+          <th colspan="4">Verbrauch</th>
+        </tr>
+        <tr>
+          <td>Stromverbrauch</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.consumption.electricity}}</ng-container>
+            <input *ngIf="isEditMode" type="text" [(ngModel)]="editableBuilding!.consumption.electricity" class="edit-input">
+          </td>
+          <td>Warmwasserverbrauch</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.consumption.hotWater}}</ng-container>
+            <input *ngIf="isEditMode" type="text" [(ngModel)]="editableBuilding!.consumption.hotWater" class="edit-input">
+          </td>
+        </tr>
+        <tr>
+          <td>Heizungs-&Ww.verbrauch</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.consumption.heating}}</ng-container>
+            <input *ngIf="isEditMode" type="text" [(ngModel)]="editableBuilding!.consumption.heating" class="edit-input">
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+    
+    <!-- Previous Renovations Table -->
+    <div class="data-table">
+      <table>
+        <tr>
+          <th colspan="4">Folgende Sanierungen wurden bereits durchgeführt</th>
+        </tr>
+        <!-- Static rows for existing renovations -->
+        <tr *ngFor="let renovation of building.renovations; let i = index">
+          <td>
+            <ng-container *ngIf="!isEditMode">{{renovation.type}}</ng-container>
+            <input *ngIf="isEditMode" type="text" [(ngModel)]="editableBuilding!.renovations[i].type" class="edit-input">
+          </td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{renovation.quantity}}</ng-container>
+            <input *ngIf="isEditMode" type="text" [(ngModel)]="editableBuilding!.renovations[i].quantity" class="edit-input">
+          </td>
+          <td>Wann</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{renovation.year}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.renovations[i].year" class="edit-input">
+          </td>
+        </tr>
+        <!-- Add new renovation row in edit mode -->
+        <tr *ngIf="isEditMode">
+          <td>
+            <input type="text" [(ngModel)]="newRenovation.type" placeholder="Typ" class="edit-input">
+          </td>
+          <td>
+            <input type="text" [(ngModel)]="newRenovation.quantity" placeholder="Menge" class="edit-input">
+          </td>
+          <td>Wann</td>
+          <td>
+            <input type="number" [(ngModel)]="newRenovation.year" placeholder="Jahr" class="edit-input">
+          </td>
+        </tr> 
+        <!-- Add renovation button -->
+        <tr *ngIf="isEditMode">
+          <td colspan="4" class="add-row">
+            <button class="add-button" (click)="addRenovation()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Sanierung hinzufügen
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>

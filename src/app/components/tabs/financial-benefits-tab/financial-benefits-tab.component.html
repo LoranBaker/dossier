@@ -1,0 +1,108 @@
+<!-- financial-benefits-tab/financial-benefits-tab.component.html -->
+<div class="financial-benefits-section">
+  <!-- Energy Savings Table -->
+  <div class="data-table">
+    <table>
+      <tr class="primary-header">
+        <th colspan="4">
+          <h3>Hochrechnung Einnahmen und Ersparnisse in 15 Jahren</h3>
+        </th>
+      </tr>
+      
+      <!-- Energy Cost Savings -->
+      <tr class="section-header">
+        <th colspan="4">Ersparnis Energiekosten p.a.</th>
+      </tr>
+      <tr>
+        <td>Energiekosten über 15 Jahre 0 % Teuerung p.a.</td>
+        <td class="value-column">{{ energyCost15Years | number:'1.0-0' }} €</td>
+        <td class="value-column">{{ energyCostAfter15Years | number:'1.0-0' }} €</td>
+        <td class="value-column highlight-value">{{ energySavings15Years0Percent | number:'1.0-0' }} €</td>
+      </tr>
+      <tr>
+        <td>Energiekosten über 15 Jahre 5 % Teuerung p.a.</td>
+        <td class="value-column">-</td>
+        <td class="value-column">-</td>
+        <td class="value-column highlight-value">-</td>
+      </tr>
+      <tr class="footnote-row">
+        <td colspan="4" class="footnote">
+          angenommene Kosten GAS 1,10 € /m³ und Strom 0,35 € /kWh inkl. mtl. Grundgebühr
+        </td>
+      </tr>
+      
+      <!-- PV Generation -->
+      <tr class="section-header">
+        <th colspan="4">Erzeugter Strom für Abgabe in das Netz p.a.</th>
+      </tr>
+      <tr>
+        <td>Einspeisevergütung über 15 Jahre 0 % Teuerung p.a.*</td>
+        <td class="value-column">{{ pvGenerationBefore | number:'1.0-0' }} €</td>
+        <td class="value-column">{{ pvGenerationAfter | number:'1.0-0' }} € p.a.</td>
+        <td class="value-column highlight-value">{{ pvGenerationValue15Years | number:'1.0-0' }} €</td>
+      </tr>
+      <tr class="footnote-row">
+        <td colspan="4" class="footnote">
+          *angenommene Einspeisevergütung von 7,94 Cent bei Teileinspeisung in das Netz, Überschuß nach Eigenverbrauch
+        </td>
+      </tr>
+      
+      <!-- CO2 Tax Savings -->
+      <tr class="section-header">
+        <th colspan="4">Einsparung CO2-Steuer gesamte Wohnfläche p.a.</th>
+      </tr>
+      <tr>
+        <td>CO2-Steuer über 15 Jahre 0 % Teuerung p.a.</td>
+        <td class="value-column">{{ co2TaxSavingsBefore | number:'1.0-0' }} €</td>
+        <td class="value-column">{{ co2TaxSavingsAfter | number:'1.0-0' }} €</td>
+        <td class="value-column highlight-value">{{ co2TaxSavings15Years0Percent | number:'1.0-0' }} €</td>
+      </tr>
+      <tr>
+        <td>CO2-Steuer über 15 Jahre 5 % Teuerung p.a.</td>
+        <td class="value-column">-</td>
+        <td class="value-column">-</td>
+        <td class="value-column highlight-value">-</td>
+      </tr>
+      <tr class="footnote-row">
+        <td colspan="4" class="footnote">
+          angenommener Preis von 55 € pro Tonne CO2-Emission
+        </td>
+      </tr>
+      
+      <!-- Summary -->
+      <tr>
+        <td>Kosten der Sanierung nach Förderung</td>
+        <td colspan="2"></td>
+        <td class="value-column highlight-negative">{{ costAfterFunding | number:'1.0-0' }} €</td>
+      </tr>
+      <tr>
+        <td>Kosteneinsparungen in 15 Jahren</td>
+        <td colspan="2"></td>
+        <td class="value-column highlight-positive">{{ totalSavings15Years | number:'1.0-0' }} €</td>
+      </tr>
+      <tr class="total-row">
+        <td>Effektive Kosten nach 15 Jahren</td>
+        <td colspan="2"></td>
+        <td class="value-column highlight-result">{{ effectiveCostAfter15Years | number:'1.0-0' }} €</td>
+      </tr>
+    </table>
+  </div>
+  
+  <!-- Property Value Increase Table -->
+  <div class="data-table value-increase-table">
+    <table>
+      <tr>
+        <th>Wertsteigerung der Immobilie in €</th>
+        <th>in %</th>
+        <th>Mietsteigerung der Immobilie in €</th>
+        <th>in %</th>
+      </tr>
+      <tr>
+        <td>ca. {{ propertyValueIncrease | number:'1.0-0' }} €</td>
+        <td>{{ propertyValueIncreasePercent | number:'1.1-1' }}</td>
+        <td>{{ rentIncreaseMonthly | number:'1.0-0' }} €</td>
+        <td>{{ rentIncreasePercent | number:'1.0-0' }}%</td>
+      </tr>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,251 @@
+@use 'sass:color';
+
+// Chart specific colors
+$heute-color: #1976D2; // Blue like in image
+$in-10-jahren-color: #1976D2; // Blue  
+$mehrkosten-color: #D32F2F; // Red like in image
+
+.chart-bars {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 80px;
+  height: 220px;
+  margin: 20px 0 0 0;
+  padding: 0 20px;
+  position: relative;
+
+  .bar {
+    width: 60px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+    
+    // Main bar face (front)
+    .bar-face {
+      width: 60px;
+      position: relative;
+      background: $heute-color;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 12px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    // Right side face (simple isometric)
+    .bar-side {
+      position: absolute;
+      top: 0;
+      left: 100%;
+      width: 15px;
+      background: color.scale($heute-color, $lightness: -20%);
+      transform: skewY(-45deg);
+      transform-origin: left top;
+    }
+
+    // Top face (simple isometric) - Pushed back
+    .bar-top {
+      position: absolute;
+      top: -15px; // Push it up and back
+      left: 15px; // Push it back to align with side depth
+      width: 60px;
+      height: 15px;
+      background: color.scale($heute-color, $lightness: 20%);
+      transform: skewX(-45deg);
+      transform-origin: top left;
+    }
+
+    // First bar - Blue with price
+    &.heute-bar {
+      .bar-face {
+        height: 120px;
+        background: $heute-color;
+      }
+      
+      .bar-side {
+        height: 120px;
+        background: color.scale($heute-color, $lightness: -20%);
+      }
+      
+      .bar-top {
+        background: color.scale($heute-color, $lightness: 20%);
+      }
+    }
+
+    // Second bar - Blue with price
+    &.in-10-jahren-bar {
+      .bar-face {
+        height: 170px;
+        background: $in-10-jahren-color;
+      }
+      
+      .bar-side {
+        height: 170px;
+        background: color.scale($in-10-jahren-color, $lightness: -20%);
+      }
+      
+      .bar-top {
+        background: color.scale($in-10-jahren-color, $lightness: 20%);
+      }
+    }
+
+    // Third bar - Red with price
+    &.mehrkosten-bar {
+      .bar-face {
+        height: 85px;
+        background: $mehrkosten-color;
+      }
+      
+      .bar-side {
+        height: 85px;
+        background: color.scale($mehrkosten-color, $lightness: -20%);
+      }
+      
+      .bar-top {
+        background: color.scale($mehrkosten-color, $lightness: 20%);
+      }
+    }
+  }
+}
+
+// Apple-style Tooltip Styles
+.tooltip-container {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tooltip-content {
+  background: #1976D2; // Default color, will be overridden by Angular style binding
+  border-radius: 12px;
+  padding: 16px 20px;
+  min-width: 200px;
+  max-width: 280px;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.1) 0%, 
+      rgba(255, 255, 255, 0.05) 50%, 
+      rgba(255, 255, 255, 0) 100%);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+}
+
+.tooltip-header {
+  margin-bottom: 12px;
+  
+  h4 {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: white;
+    letter-spacing: -0.2px;
+  }
+  
+  .tooltip-subtitle {
+    margin: 0;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 400;
+    line-height: 1.3;
+  }
+}
+
+.tooltip-body {
+  .tooltip-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: white !important; // CHANGED FROM #007AFF TO WHITE
+    margin-bottom: 8px;
+    line-height: 1.1;
+    letter-spacing: -0.3px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+  
+  .tooltip-description {
+    margin: 0;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.4;
+    font-weight: 400;
+  }
+}
+
+.tooltip-arrow {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  background: #1976D2; // Default color, will be overridden by Angular style binding
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: none;
+  border-left: none;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+// Fix spacing issues
+.modernization-chart {
+  margin-bottom: 0;
+  padding-bottom: 16px;
+  position: relative; // For tooltip positioning context
+}
+
+// Hide empty D3 container
+.d3-chart-container {
+  display: none;
+}
+
+// Dark mode support (optional)
+@media (prefers-color-scheme: dark) {
+  .tooltip-content {
+    background: rgba(44, 44, 46, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+}
+
+// Responsive tooltip adjustments
+@media (max-width: 768px) {
+  .tooltip-content {
+    min-width: 180px;
+    max-width: 240px;
+    padding: 14px 16px;
+  }
+  
+  .tooltip-header h4 {
+    font-size: 14px;
+  }
+  
+  .tooltip-body .tooltip-value {
+    font-size: 18px;
+  }
+}

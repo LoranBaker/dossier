@@ -1,0 +1,107 @@
+<!-- tabs/analysis-tab/analysis-tab.component.html -->
+<div class="analysis-section">
+    <h2>Analyse der Bestandssituation</h2>
+    
+    <div class="analysis-items">
+      <div class="analysis-item">
+        <h3>Heizung</h3>
+        <p>Die Heizungsanlage ist (teilweise) veraltet und weist einen niedrigen Wirkungsgrad auf. Sie verursacht eine hohe CO2-Emission, da sie mit fossilen Brennstoffen betrieben wird.</p>
+      </div>
+      
+      <div class="analysis-item">
+        <h3>Dach</h3>
+        <p>Ein schlecht gedämmtes Dach führt zu hohem Wärmeverlust im Winter und erhöhtem Wärmegewinn im Sommer, was zu höheren Heiz- und Kühlkosten führt und den Komfort im Gebäude beeinträchtigt.</p>
+      </div>
+      
+      <div class="analysis-item">
+        <h3>Kellerdecke</h3>
+        <p>Eine nicht gedämmte Kellerdecke oder Kellerboden verursacht Wärmeverluste an den unbeheizten Kellerbereich oder an das Erdreich darunter und führt zu unangenehmer Fußkälte, was den Wohnkomfort beeinträchtigt und den Energieverbrauch erhöht.</p>
+      </div>
+      
+      <div class="analysis-item">
+        <h3>Fassade</h3>
+        <p>Eine nicht gedämmte Außenfassade verursacht im Winter einen hohen Wärmeverlust und erhöht im Sommer den Wärmegewinn im Gebäude, was zu höheren Heiz- und Kühlkosten führt.</p>
+      </div>
+      
+      <div class="analysis-item">
+        <h3>Fenster</h3>
+        <p>Eine schlechte Verglasung führt zu hohem Wärmeverlust, während undichte Abdichtungen Zugluft verursachen, was zu einem ineffizienten Raumklima und einem erhöhten Energieverbrauch führt.</p>
+      </div>
+      
+      <div class="analysis-item">
+        <h3>Türen</h3>
+        <p>Eine schlechte Außentür führt zu hohem Wärmeverlust, während undichte Abdichtungen Zugluft verursachen, was zu einem ineffizienten Raumklima und einem erhöhten Energieverbrauch führt.</p>
+      </div>
+    </div>
+    
+<div class="modernization-chart">
+    <h3>MODERNISIERUNG BESSER JETZT ALS SPÄTER!</h3>
+    
+    <!-- Chart Legend -->
+    <div class="chart-legend">
+      <div class="legend-item">
+        <div class="legend-color heute"></div>
+        <span>Heute</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color in-10-jahren"></div>
+        <span>In 10 Jahren</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color mehrkosten"></div>
+        <span>Mehrkosten in 10 Jahren</span>
+      </div>
+    </div>
+
+    <!-- Chart Bars with Tooltips -->
+    <div class="chart-bars">
+      <div class="bar heute-bar" 
+           (mouseenter)="onBarHover($event, 'heute')"
+           (mousemove)="onBarMouseMove($event)"
+           (mouseleave)="onBarLeave()">
+        <div class="bar-face">{{ formatCurrency(totalRenovationCosts) }}</div>
+        <div class="bar-side"></div>
+        <div class="bar-top"></div>
+      </div>
+      
+      <div class="bar in-10-jahren-bar"
+           (mouseenter)="onBarHover($event, 'future')"
+           (mousemove)="onBarMouseMove($event)"
+           (mouseleave)="onBarLeave()">
+        <div class="bar-face">{{ formatCurrency(costIn10Years) }}</div>
+        <div class="bar-side"></div>
+        <div class="bar-top"></div>
+      </div>
+      
+      <div class="bar mehrkosten-bar"
+           (mouseenter)="onBarHover($event, 'additional')"
+           (mousemove)="onBarMouseMove($event)"
+           (mouseleave)="onBarLeave()">
+        <div class="bar-face">{{ formatCurrency(additionalCost) }}</div>
+        <div class="bar-side"></div>
+        <div class="bar-top"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Apple-style Tooltip -->
+  <div class="tooltip-container" 
+       [class.visible]="showTooltip"
+       [style.left.px]="tooltipPosition.x"
+       [style.top.px]="tooltipPosition.y"
+       *ngIf="tooltipData">
+    <div class="tooltip-content" 
+         [style.background-color]="tooltipData.color">
+      <div class="tooltip-header">
+        <h4>{{ tooltipData.title }}</h4>
+        <p class="tooltip-subtitle">{{ tooltipData.subtitle }}</p>
+      </div>
+      <div class="tooltip-body">
+        <div class="tooltip-value">{{ tooltipData.value }}</div>
+        <p class="tooltip-description">{{ tooltipData.description }}</p>
+      </div>
+    </div>
+    <div class="tooltip-arrow" 
+         [style.background-color]="tooltipData.color"></div>
+  </div>
+  </div>

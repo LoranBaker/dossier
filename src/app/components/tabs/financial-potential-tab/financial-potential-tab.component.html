@@ -1,0 +1,294 @@
+<!-- financial-potential-tab.component.html -->
+<div class="financial-potential-section">
+  <div class="section-header">
+    <h2>Wirtschaftlichkeitsbetrachtung</h2>
+    <div class="edit-controls">
+      <button *ngIf="!isEditMode" class="edit-button" (click)="toggleEditMode()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+        </svg>
+        Bearbeiten
+      </button>
+      <div *ngIf="isEditMode" class="action-buttons">
+        <button class="cancel-button" (click)="cancelChanges()">Abbrechen</button>
+        <button class="save-button" (click)="saveChanges()">Speichern</button>
+      </div>
+    </div>
+    <div id="saved-message" class="saved-message">Änderungen gespeichert</div>
+  </div>
+  
+  <!-- Financial Data Tables -->
+  <div class="data-table">
+    <table>
+      <!-- Primary Header -->
+      <tr class="table-header primary-header">
+        <th colspan="4">
+          <h3>Wirtschaftlichkeitsbetrachtung Eigennutzer <span class="header-note">(Prognose ohne Inflationsausgleich der Immobilie)</span></h3>
+        </th>
+      </tr>
+      
+      <!-- Costs Section -->
+      <tr class="section-header">
+        <th colspan="4">KOSTEN</th>
+      </tr>
+      
+      <tr>
+        <td>Sanierungskosten gesamt</td>
+        <td>{{displayCosts | currency:'EUR':'symbol':'1.0-0'}}</td>
+        <td></td>
+        <td></td>
+      </tr>
+      
+      <tr>
+        <td>Förderung</td>
+        <td>{{displayFunding | currency:'EUR':'symbol':'1.0-0'}}</td>
+        <td></td>
+        <td></td>
+      </tr>
+      
+      <tr>
+        <td>Effektive Kosten / Eigenanteil</td>
+        <td>{{displayEffectiveCosts | currency:'EUR':'symbol':'1.0-0'}}</td>
+        <td></td>
+        <td></td>
+      </tr>
+      
+      <!-- Income & Savings Section -->
+      <tr class="section-header">
+        <th colspan="4">EINNAHMEN & EINSPARUNGEN</th>
+      </tr>
+
+      <!-- Row for Ersparnis Energiekosten - Not Editable -->
+      <tr>
+        <td>Ersparnis Energiekosten</td>
+        <td>ca. {{totalSavingsFromRenovation | currency:'EUR':'symbol':'1.0-0'}}</td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <!-- Row for Modernisierungsumlage - Not Editable, Automatically calculated as 8% of Effektive Kosten -->
+      <tr>
+        <td>Modernisierungsumlage</td>
+        <td>{{financialData.modernizationLevy | currency:'EUR':'symbol':'1.0-0'}}</td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <!-- Row for CO2-Steuer - Editable -->
+      <tr>
+        <td>Einsparungen CO2-Steuer p.a.</td>
+        <td>
+          <ng-container *ngIf="!isEditMode">{{financialData.co2TaxSavings | currency:'EUR':'symbol':'1.0-0'}}</ng-container>
+          <input *ngIf="isEditMode" type="number" [(ngModel)]="editableFinancialData.co2TaxSavings" class="edit-input" (input)="calculateTotalSavings(); calculateAmortization(); calculateReturnOnEquity()">
+        </td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <!-- Row for PV-Stromproduktion - Editable -->
+      <tr>
+        <td>Einnahmen aus Verkauf PV-Stromproduktion*</td>
+        <td>
+          <ng-container *ngIf="!isEditMode">{{financialData.pvSalesIncome | currency:'EUR':'symbol':'1.0-0'}}</ng-container>
+          <input *ngIf="isEditMode" type="number" [(ngModel)]="editableFinancialData.pvSalesIncome" class="edit-input" (input)="calculateTotalSavings(); calculateAmortization(); calculateReturnOnEquity()">
+        </td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <!-- Row for Total Savings - Not Editable -->
+      <tr>
+        <td>Einnahmen & Einsparungen p.a. gesamt</td>
+        <td>{{financialData.totalSavingsPerYear | currency:'EUR':'symbol':'1.0-0'}}</td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td colspan="4" class="table-note">
+          *Überschuss nach Verbrauch (nicht eigenverbrauchter PV-Strom)
+        </td>
+      </tr>
+      
+      <!-- KPIs Section -->
+      <tr class="section-header">
+        <th colspan="4">KPIs <span class="header-note">(ohne Wertsteigerung der Immobilie)</span></th>
+      </tr>
+      
+      <tr>
+        <td>Eigenkapitalrendite (vor Steuer)</td>
+        <td>{{financialData.returnOnEquityBeforeTax}} %</td>
+        <td></td>
+        <td></td>
+      </tr>
+      
+      <tr>
+        <td>Amortisationszeit in J. (Kosten Sanierung Eigenanteil)</td>
+        <td>{{financialData.amortizationYears}} Jahre</td>
+        <td></td>
+        <td></td>
+      </tr>
+      
+      <tr>
+        <td>Förderquote</td>
+        <td>{{financialData.fundingRate}} %</td>
+        <td></td>
+        <td></td>
+      </tr>
+      
+      <tr>
+        <td>Stranding Zeitpunkt (alt/neu)</td>
+        <td>
+          <ng-container *ngIf="!isEditMode">
+            <div class="value-with-indicator">
+              <span class="old-value">{{financialData.strandingPointOld}}</span>
+              <span class="value-arrow">→</span>
+              <span class="new-value">{{financialData.strandingPointNew}}</span>
+            </div>
+          </ng-container>
+          <div *ngIf="isEditMode" class="input-group">
+            <input type="text" [(ngModel)]="editableFinancialData.strandingPointOld" class="edit-input small-input">
+            <span class="value-arrow">→</span>
+            <input type="text" [(ngModel)]="editableFinancialData.strandingPointNew" class="edit-input small-input">
+          </div>
+        </td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+  </div>
+  
+  <!-- Value Increase Table -->
+  <div class="data-table value-increase-table">
+    <table>
+      <tr class="table-header secondary-header">
+        <th colspan="4">
+          <h3>Werterhöhung</h3>
+        </th>
+      </tr>
+      
+      <tr class="comparison-header">
+        <th>Wert</th>
+        <th>Vorher</th>
+        <th>Nachher</th>
+        <th>Steigerung</th>
+      </tr>
+      
+      <tr>
+        <td>Mieterhöhung je qm ca.</td>
+        <td>
+          <!-- Vorher value -->
+          <ng-container *ngIf="!isEditMode">{{financialData.rentalIncrease.perSqmBefore | currency:'EUR':'symbol':'1.2-2'}}/m²</ng-container>
+          <div *ngIf="isEditMode" class="input-group">
+            <input type="number" [(ngModel)]="editableFinancialData.rentalIncrease.perSqmBefore" class="edit-input">
+            <span>/m²</span>
+          </div>
+        </td>
+        <td>
+          <!-- Nachher value -->
+          <ng-container *ngIf="!isEditMode">{{financialData.rentalIncrease.perSqmAfter | currency:'EUR':'symbol':'1.2-2'}}/m²</ng-container>
+          <div *ngIf="isEditMode" class="input-group">
+            <input type="number" [(ngModel)]="editableFinancialData.rentalIncrease.perSqmAfter" class="edit-input">
+            <span>/m²</span>
+          </div>
+        </td>
+        <td class="highlight-value">
+          <!-- Steigerung -->
+          <ng-container *ngIf="!isEditMode">{{financialData.rentalIncrease.perSqmIncrease | currency:'EUR':'symbol':'1.2-2'}}/m²</ng-container>
+          <div *ngIf="isEditMode" class="input-group">
+            <input type="number" [(ngModel)]="editableFinancialData.rentalIncrease.perSqmIncrease" class="edit-input">
+            <span>/m²</span>
+          </div>
+        </td>
+      </tr>
+      
+      <tr>
+        <td>Mieterhöhung mtl. gesamt ca. (auf 150 m² gerechnet)</td>
+        <td>
+          <!-- Vorher value -->
+          <ng-container *ngIf="!isEditMode">{{financialData.rentalIncrease.totalBefore | currency:'EUR':'symbol':'1.0-0'}}</ng-container>
+          <input *ngIf="isEditMode" type="number" [(ngModel)]="editableFinancialData.rentalIncrease.totalBefore" class="edit-input">
+        </td>
+        <td>
+          <!-- Nachher value -->
+          <ng-container *ngIf="!isEditMode">{{financialData.rentalIncrease.totalAfter | currency:'EUR':'symbol':'1.0-0'}}</ng-container>
+          <input *ngIf="isEditMode" type="number" [(ngModel)]="editableFinancialData.rentalIncrease.totalAfter" class="edit-input">
+        </td>
+        <td class="highlight-value">
+          <!-- Steigerung -->
+          <ng-container *ngIf="!isEditMode">{{financialData.rentalIncrease.totalIncrease | currency:'EUR':'symbol':'1.0-0'}}</ng-container>
+          <input *ngIf="isEditMode" type="number" [(ngModel)]="editableFinancialData.rentalIncrease.totalIncrease" class="edit-input">
+        </td>
+      </tr>
+      
+      <tr>
+        <td>Mietrendite ca.</td>
+        <td>
+          <!-- Vorher value - always non-editable -->
+          {{financialData.rentalIncrease.returnBefore}}%
+        </td>
+        <td>
+          <!-- Nachher value - always non-editable -->
+          {{financialData.rentalIncrease.returnAfter}}%
+        </td>
+        <td class="highlight-value">
+          <!-- Steigerung - always non-editable -->
+          +{{financialData.rentalIncrease.returnIncrease}}%
+        </td>
+      </tr>
+      
+      <tr>
+        <td>Werterhöhung je qm ca.</td>
+        <td>
+          <!-- Vorher value -->
+          <ng-container *ngIf="!isEditMode">{{financialData.rentalIncrease.valueBefore | currency:'EUR':'symbol':'1.0-0'}}/m²</ng-container>
+          <div *ngIf="isEditMode" class="input-group">
+            <input type="number" [(ngModel)]="editableFinancialData.rentalIncrease.valueBefore" class="edit-input">
+            <span>/m²</span>
+          </div>
+        </td>
+        <td>
+          <!-- Nachher value -->
+          <ng-container *ngIf="!isEditMode">{{financialData.rentalIncrease.valueAfter | currency:'EUR':'symbol':'1.0-0'}}/m²</ng-container>
+          <div *ngIf="isEditMode" class="input-group">
+            <input type="number" [(ngModel)]="editableFinancialData.rentalIncrease.valueAfter" class="edit-input">
+            <span>/m²</span>
+          </div>
+        </td>
+        <td class="highlight-value">
+          <!-- Steigerung -->
+          <ng-container *ngIf="!isEditMode">{{financialData.rentalIncrease.valueIncrease | currency:'EUR':'symbol':'1.0-0'}}/m²</ng-container>
+          <div *ngIf="isEditMode" class="input-group">
+            <input type="number" [(ngModel)]="editableFinancialData.rentalIncrease.valueIncrease" class="edit-input">
+            <span>/m²</span>
+          </div>
+        </td>
+      </tr>
+      
+      <tr>
+        <td>Werterhöhung gesamt ca.</td>
+        <td>
+          <!-- Vorher value -->
+          <ng-container *ngIf="!isEditMode">{{financialData.rentalIncrease.totalValueBefore | currency:'EUR':'symbol':'1.0-0'}}</ng-container>
+          <input *ngIf="isEditMode" type="number" [(ngModel)]="editableFinancialData.rentalIncrease.totalValueBefore" class="edit-input">
+        </td>
+        <td>
+          <!-- Nachher value -->
+          <ng-container *ngIf="!isEditMode">{{financialData.rentalIncrease.totalValueAfter | currency:'EUR':'symbol':'1.0-0'}}</ng-container>
+          <input *ngIf="isEditMode" type="number" [(ngModel)]="editableFinancialData.rentalIncrease.totalValueAfter" class="edit-input">
+        </td>
+        <td class="highlight-value">
+          <!-- Steigerung -->
+          <ng-container *ngIf="!isEditMode">{{financialData.rentalIncrease.totalValueIncrease | currency:'EUR':'symbol':'1.0-0'}}</ng-container>
+          <input *ngIf="isEditMode" type="number" [(ngModel)]="editableFinancialData.rentalIncrease.totalValueIncrease" class="edit-input">
+        </td>
+      </tr>
+      
+      <tr>
+        <td colspan="4" class="table-note">
+          *Kosten nach Zuschüssen & Förderungen, vor Steuererstattungen
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

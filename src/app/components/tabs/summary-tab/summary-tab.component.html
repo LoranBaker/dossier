@@ -1,0 +1,107 @@
+<div class="summary-container">
+    <!-- Visual effects for Apple-style glass morphism -->
+    <div class="glass-panel top-right"></div>
+    <div class="glass-panel bottom-left"></div>
+    
+    <h2 class="summary-title">Zusammenfassung</h2>
+    
+    <div class="summary-hero">
+      <div class="summary-icon building-icon">
+        <span class="icon-emoji">🏠</span>
+      </div>
+      <div class="summary-arrow">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M5,12H19M19,12L13,6M19,12L13,18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="summary-icon chart-icon">
+        <span class="icon-emoji">📈</span>
+      </div>
+      <div class="summary-arrow arrow-long">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M5,12H19M19,12L13,6M19,12L13,18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="summary-icon efficient-house-icon">
+        <span class="icon-emoji">💰</span>
+      </div>
+    </div>
+  
+    <div class="summary-comparison">
+      <!-- Current state panel -->
+      <div class="summary-panel summary-panel-current">
+        <div class="energy-class">
+          <span class="energy-label">Energieklasse</span>
+          <span class="energy-badge energy-badge-{{ currentEnergyClass.toLowerCase() }}">{{ currentEnergyClass }}</span>
+        </div>
+        
+        <div class="energy-progress">
+          <div class="progress-bar progress-70"></div>
+        </div>
+        
+        <div class="property-value">
+          <div class="value-label">Immobilienwert ca.</div>
+          <div class="value-amount animated-value">{{ currentPropertyValue | number:'1.0-0' }} EUR</div>
+        </div>
+  
+        <div class="rent-info">
+          <div class="rent-label">Miete vorher: {{ currentRentPerSqm | number:'1.2-2' }} € /m²</div>
+        </div>
+  
+        <ul class="risk-list">
+          <li>Risiko von Wertverlust der Immobilie</li>
+          <li>Risiko der (Re)Finanzierung</li>
+          <li>Nur mit (hohen) Abschlägen vermarktbar</li>
+          <li>Sinkende Marktfähigkeit</li>
+        </ul>
+      </div>
+  
+      <!-- Future state panel -->
+      <div class="summary-panel summary-panel-future">
+        <div class="energy-class">
+          <span class="energy-label">Energieklasse</span>
+          <span class="energy-badge energy-badge-{{ targetEnergyClass.toLowerCase() }}">{{ targetEnergyClass }}</span>
+        </div>
+        
+        <div class="energy-progress">
+          <div class="progress-bar target progress-70"></div>
+        </div>
+        
+        <div class="property-value">
+          <div class="value-label">Immobilienwert</div>
+          <div class="value-amount animated-value">ca. {{ targetPropertyValue | number:'1.0-0' }} EUR</div>
+          <div class="value-increase">Wertsteigerung <span>ca. {{ propertyValueIncrease | number:'1.0-0' }} EUR</span></div>
+        </div>
+  
+        <div class="rent-info">
+          <div class="rent-label">Miete nachher: <span>{{ targetRentPerSqm | number:'1.2-2' }} €/m²</span></div>
+          <div class="rent-increase-euro">Mietsteigerung in €: <span>{{ rentIncreaseEuro | number:'1.2-2' }} € je m²</span></div>
+          <div class="rent-increase-percent">Mietsteigerung in %: <span>{{ rentIncreasePercent | number:'1.1-1' }} %</span></div>
+        </div>
+  
+        <ul class="benefit-list">
+          <li>ESG-Konformität</li>
+          <li>bessere Refinanzierbarkeit</li>
+          <li>Einsparpotenzial</li>
+          <li>besser Marktfähigkeit</li>
+        </ul>
+      </div>
+    </div>
+  
+    <div class="summary-conclusion">
+      <h3>Zusammenfassung der Gebäude- und Modernisierungsanalyse – <span class="company-name">ENVALPRO</span></h3>
+      
+      <p>Aktuell befindet sich das Gebäude in einem Zustand, der hohe Betriebskosten und einen niedrigen Wert zur Folge hat – die Energieklasse F und der entsprechende Modernisierungsstau sprechen für sich.</p>
+      
+      <p>Doch die Lösung ist greifbar: Mit den geplanten energetischen Modernisierungen wird das Gebäude auf Energieklasse B gehoben, was die Betriebskosten drastisch senkt und gleichzeitig den Wert der Immobilie steigert.</p>
+      
+      <p>Dank Förderungen von KfW und BAFA wird die Investition zusätzlich noch wirtschaftlich unterstützt. Das Ergebnis? Ein zukunftsfähiges, effizientes Gebäude, das sich in der heutigen Zeit als wertvolle und nachhaltige Investition beweist!</p>
+      
+      <p>Dies ist unsere <strong>Empfehlung</strong>, sie ist im Sinne von <strong>Potential, Einsparung, Effizienz</strong> und <strong>Wertsteigerung</strong> der wirtschaftlichste Maßnahmenkatalog für Ihre Immobilie. Eine höhere Energieeffizienz ist möglich jedoch wären die Kosten ungleich höher.</p>
+    </div>
+  
+    <div class="summary-footer">
+      <h2 class="future-heading">Die Zukunft Ihrer Immobilie</h2>
+      <div class="company-logo">ENVALPRO</div>
+    </div>
+  </div>

@@ -1,0 +1,213 @@
+<div class="consumption-section">
+    <div class="section-header">
+      <h2>Ihre aktuellen Verbräuche und allgemeine Daten</h2>
+      <div class="edit-controls">
+        <button *ngIf="!isEditMode" class="edit-button" (click)="toggleEditMode()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+          </svg>
+          Bearbeiten
+        </button>
+        <div *ngIf="isEditMode" class="action-buttons">
+          <button class="cancel-button" (click)="cancelChanges()">Abbrechen</button>
+          <button class="save-button" (click)="saveChanges()">Speichern</button>
+        </div>
+      </div>
+      <div id="consumption-saved-message" class="saved-message">Änderungen gespeichert</div>
+    </div>
+    
+    <div class="consumption-data">
+      <table class="data-table">
+        <tr class="table-header">
+          <th colspan="2">AKTUELLE DATEN UND VERBRAUCH</th>
+        </tr>
+        <tr>
+          <td>Heizung in kWh* ca.</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{consumptionData.heating | number}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableConsumptionData!.heating" 
+                   (ngModelChange)="onValueChange()" class="edit-input">
+          </td>
+        </tr>
+        <tr>
+          <td>Warmwasser in kWh* ca.</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{consumptionData.warmWater | number}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableConsumptionData!.warmWater" 
+                   (ngModelChange)="onValueChange()" class="edit-input">
+          </td>
+        </tr>
+        <tr>
+          <td>Strom in kWh* ca.</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{consumptionData.electricity | number}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableConsumptionData!.electricity" 
+                   (ngModelChange)="onValueChange()" class="edit-input">
+          </td>
+        </tr>
+        <tr>
+          <td>Energie in kWh total* ca.</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{consumptionData.totalEnergy | number}}</ng-container>
+            <ng-container *ngIf="isEditMode">{{editableConsumptionData!.totalEnergy | number}}</ng-container>
+          </td>
+        </tr>
+        <tr>
+            <td>Mietpreis in € pro m²</td>
+            <td>
+              <ng-container *ngIf="!isEditMode">{{consumptionData.rentPrice || '-'}}</ng-container>
+              <input *ngIf="isEditMode" type="number" [(ngModel)]="editableConsumptionData!.rentPrice" 
+                     (ngModelChange)="onValueChange()" class="edit-input">
+            </td>
+          </tr>
+          <tr>
+            <td>Marktpreis in € pro m² ca.</td>
+            <td>
+              <ng-container *ngIf="!isEditMode">{{consumptionData.marketPrice | number}}</ng-container>
+              <input *ngIf="isEditMode" type="number" [(ngModel)]="editableConsumptionData!.marketPrice" 
+                     (ngModelChange)="onValueChange()" class="edit-input">
+            </td>
+          </tr>
+        <tr>
+          <td>Energiekosten in €* ca.</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{consumptionData.energyCosts | number}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableConsumptionData!.energyCosts" class="edit-input">
+          </td>
+        </tr>
+        <tr>
+        <td>C02-Emissionen in kg ca.</td>
+        <td>
+          <ng-container *ngIf="!isEditMode">{{consumptionData.co2Emissions | number}}</ng-container>
+          <ng-container *ngIf="isEditMode">{{editableConsumptionData!.co2Emissions | number}}</ng-container>
+        </td>
+      </tr>
+        <tr>
+          <td>Stranded Asset**</td>
+          <td><span class="alert">ja</span></td>
+        </tr>
+      </table>
+      
+      <p class="footnote">*Geschätzte Werte, da keine Angaben</p>
+      <p class="footnote">**Stranded Asset heisst das Ihre Immobilie nicht den Vorgaben der EU /CRREM entspricht und Wertverlust droht!</p>
+    
+    <h3>ESG-Management (road to Paris)</h3>
+      
+    <div class="esg-data">
+        <h4>Emission & Energie</h4>
+        <div class="esg-table">
+          <div class="esg-row">
+            <div class="esg-cell">CO2 - Intensität kg CO2 - Aqu./m2</div>
+            <div class="esg-cell">Emissionen gesamt kg CO2 - Aqu.</div>
+          </div>
+          <div class="esg-row">
+            <div class="esg-cell">
+              <!-- Display calculated CO2 intensity -->
+              {{isEditMode ? editableConsumptionData!.co2Intensity : consumptionData.co2Intensity}}
+            </div>
+            <div class="esg-cell">
+              <!-- Display CO2 emissions from main data -->
+              {{isEditMode ? editableConsumptionData!.co2Emissions : consumptionData.co2Emissions | number}}
+            </div>
+          </div>
+          <div class="esg-row">
+            <div class="esg-cell">Energie-Intensität kWh/m²</div>
+            <div class="esg-cell">Energieverbrauch gesamt kWh</div>
+          </div>
+         <div class="esg-row">
+        <div class="esg-cell">
+          <!-- Display calculated energy intensity -->
+          {{isEditMode ? editableConsumptionData!.energyIntensity : consumptionData.energyIntensity}}
+        </div>
+        <div class="esg-cell">
+          <!-- Display heating + warm water only -->
+          {{((isEditMode ? editableConsumptionData!.heating : consumptionData.heating) || 0) + ((isEditMode ? editableConsumptionData!.warmWater : consumptionData.warmWater) || 0) | number}}
+        </div>
+      </div>
+        </div>
+      </div>
+    
+      <div class="energy-rating">
+        <h4>Energetische Einstufung</h4>
+        <div class="rating-scale">
+            <div class="scale-label" title="0-25 kWh/m²">A+</div>
+            <div class="scale-label" title="25-50 kWh/m²">A</div>
+            <div class="scale-label" title="50-75 kWh/m²">B</div>
+            <div class="scale-label" title="75-100 kWh/m²">C</div>
+            <div class="scale-label" title="100-125 kWh/m²">D</div>
+            <div class="scale-label" title="125-150 kWh/m²">E</div>
+            <div class="scale-label" title="150-175 kWh/m²">F</div>
+            <div class="scale-label" title="175-200 kWh/m²">G</div>
+            <div class="scale-label" title=">200 kWh/m²">H</div>
+            <div class="scale-bar">
+              <div class="marker" [style.left]="energyRatingPosition">
+                <div class="arrow-up"></div>
+                <span class="marker-tooltip">
+                  {{isEditMode ? editableConsumptionData!.energyIntensity : consumptionData.energyIntensity}} kWh/m²
+                </span>
+              </div>
+            </div>
+          </div>
+        
+        <div class="energy-scale-values">
+          <span>0</span>
+          <span>25</span>
+          <span>50</span>
+          <span>75</span>
+          <span>100</span>
+          <span>125</span>
+          <span>150</span>
+          <span>175</span>
+          <span>200</span>
+          <span>&gt;250</span>
+        </div>
+      </div>
+      <div class="co2-tax">
+        <!-- Apple-style segmented control -->
+        <div class="user-type-switch">
+          <div class="toggle-container">
+            <div class="segment-control">
+              <input type="radio" name="user-type" id="eigennutzer" [(ngModel)]="isVermieter" [value]="false" (change)="onUserTypeChange()">
+              <label for="eigennutzer">Eigennutzer</label>
+              
+              <input type="radio" name="user-type" id="vermieter" [(ngModel)]="isVermieter" [value]="true" (change)="onUserTypeChange()">
+              <label for="vermieter">Vermieter</label>
+              
+              <span class="selection"></span>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Eigennutzer View -->
+        <div *ngIf="!isVermieter">
+          <p>CO2 - Abgabe Euro (55 € / Tonne CO2)</p>
+          <p>{{consumptionData.co2Tax}} €/m² (Gesamt: {{consumptionData.co2TaxTotal}} € p.a.)</p>
+        </div>
+      
+        <!-- Vermieter View -->
+        <div *ngIf="isVermieter">
+          <p>CO2 - Abgabe je m² Euro (55 € / Tonne CO2)</p>
+          <p>{{calculateVermieterCO2Tax()}} €/m² (Gesamt: {{calculateVermieterCO2TaxTotal()}} € p.a.)</p>
+        </div>
+      </div>
+      </div>
+
+    <h3>Stranding-Point-Analyse (CRREM-Methodik)</h3>
+    <div class="stranding-data">
+      <div class="stranding-box">
+        <div class="stranding-title">
+          Aktueller Stranding-Zeitpunkt 
+          <ng-container *ngIf="!isEditMode">{{consumptionData.strandingPoint}}</ng-container>
+          <input *ngIf="isEditMode" type="text" [(ngModel)]="editableConsumptionData!.strandingPoint" class="edit-input">
+        </div>
+      </div>
+      <div class="stranding-box">
+        <div class="stranding-title">
+          Stranding Asset Risiko in: 
+          <ng-container *ngIf="!isEditMode">{{consumptionData.strandingRisk}}</ng-container>
+          <input *ngIf="isEditMode" type="number" [(ngModel)]="editableConsumptionData!.strandingRisk" class="edit-input small-input">
+          Jahren (mind.)
+        </div>
+      </div>
+    </div>
+  </div>

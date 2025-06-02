@@ -1,0 +1,304 @@
+<!-- renovation-results-tab.component.html with Apple-inspired design -->
+<div class="renovation-results-section">
+  <div class="section-header">
+    <h2>Ergebnisse unserer Energiesimulation nach Sanierung</h2>
+    <div class="edit-controls">
+      <button *ngIf="!isEditMode" class="edit-button" (click)="toggleEditMode()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+        </svg>
+        Bearbeiten
+      </button>
+      <div *ngIf="isEditMode" class="action-buttons">
+        <button class="cancel-button" (click)="cancelChanges()">Abbrechen</button>
+        <button class="save-button" (click)="saveChanges()">Speichern</button>
+      </div>
+    </div>
+    <div id="renovation-results-saved-message" class="saved-message">Änderungen gespeichert</div>
+  </div>
+  
+  <div class="simulation-intro">
+    <p>Die Ergebnisse der Simulation basieren auf Ihren Angaben und Vergleichen die heutigen- und zukünftigen Kennzahlen.</p>
+  </div>
+  
+  <h3>Übersicht Maßnahmenvorteile</h3>
+  <p class="renovation-subtitle">Eine Renovierung lohnt sich für Sie</p>
+  
+  <!-- Energy Costs Comparison -->
+  <div class="comparison-grid">
+    <div class="comparison-item">
+      <div class="comparison-label">Energiekosten</div>
+      <div class="comparison-current">
+        <div class="label">Heute:</div>
+        <div class="value">{{ currentValues.energyCosts | number }} €</div>
+      </div>
+      <div class="comparison-future">
+        <div class="label">Zukunft:</div>
+        <div class="value" *ngIf="!isEditMode">{{ futureValues.energyCosts | number }} €</div>
+        <div class="value editable-value" *ngIf="isEditMode">
+          <input type="number" [(ngModel)]="editableFutureValues.energyCosts" class="edit-input" /> €
+        </div>
+      </div>
+      <div class="comparison-savings">
+        <div class="label">Jährliches Einsparpotential</div>
+        <div class="value">{{ savingsValues.energyCosts | number }} €</div>
+        <div class="percentage">{{ savingsPercentages.energyCosts }} %</div>
+      </div>
+    </div>
+    
+    <!-- Energy Balance Comparison -->
+    <div class="comparison-item">
+      <div class="comparison-label">Energiebilanz</div>
+      <div class="comparison-current">
+        <div class="label">Heute:</div>
+        <div class="value">{{ currentValues.energyUse | number }} kWh</div>
+      </div>
+      <div class="comparison-future">
+        <div class="label">Zukunft:</div>
+        <div class="value" *ngIf="!isEditMode">{{ futureValues.energyUse | number }} kWh</div>
+        <div class="value editable-value" *ngIf="isEditMode">
+          <input type="number" [(ngModel)]="editableFutureValues.energyUse" class="edit-input" /> kWh
+        </div>
+      </div>
+      <div class="comparison-savings">
+        <div class="label">Jährliches Einsparpotential</div>
+        <div class="value">{{ savingsValues.energyUse | number }} kWh</div>
+        <div class="percentage">{{ savingsPercentages.energyUse }} %</div>
+      </div>
+    </div>
+    
+    <!-- CO2 Emissions Comparison -->
+    <div class="comparison-item">
+      <div class="comparison-label">CO2 – Ausstoß</div>
+      <div class="comparison-current">
+        <div class="label">Heute:</div>
+        <div class="value">{{ currentValues.co2Emissions | number }} kg</div>
+      </div>
+      <div class="comparison-future">
+        <div class="label">Zukunft:</div>
+        <div class="value" *ngIf="!isEditMode">{{ futureValues.co2Emissions | number }} kg</div>
+        <div class="value editable-value" *ngIf="isEditMode">
+          <input type="number" [(ngModel)]="editableFutureValues.co2Emissions" class="edit-input" /> kg
+        </div>
+      </div>
+      <div class="comparison-savings">
+        <div class="label">Jährliches Einsparpotential</div>
+        <div class="value">{{ savingsValues.co2Emissions | number }} kg</div>
+        <div class="percentage">{{ savingsPercentages.co2Emissions }} %</div>
+      </div>
+    </div>
+    
+    <!-- Energy Rating Comparison -->
+    <div class="comparison-item">
+      <div class="comparison-label">Energetische Einstufung</div>
+      <div class="comparison-current">
+        <div class="label">Heute:</div>
+        <div class="value rating-value" *ngIf="!isEditMode">{{ currentValues.energyRating }}</div>
+        <div class="value editable-value" *ngIf="isEditMode">
+          <select [(ngModel)]="editableCurrentValues.energyRating" class="rating-dropdown">
+            <option value="A+">A+</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+            <option value="H">H</option>
+          </select>
+        </div>
+      </div>
+      <div class="comparison-future">
+        <div class="label">Zukunft:</div>
+        <div class="value rating-value" [ngClass]="'rating-' + futureValues.energyRating.toLowerCase()" *ngIf="!isEditMode">
+          {{ futureValues.energyRating }}
+        </div>
+        <div class="value editable-value" *ngIf="isEditMode">
+          <select [(ngModel)]="editableFutureValues.energyRating" class="rating-dropdown">
+            <option value="A+">A+</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+            <option value="H">H</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Cost Estimation -->
+  <div class="cost-estimation">
+    <h3>Kostenschätzung ca. Werte</h3>
+    <div class="cost-grid">
+      <div class="cost-item">
+        <div class="cost-label">Sanierungskosten</div>
+        <div class="cost-value" *ngIf="!isEditMode">{{ editableRenovationCosts.totalCost | number }} €</div>
+        <div class="cost-value editable-value" *ngIf="isEditMode">
+          <input type="number" [(ngModel)]="editableRenovationCosts.totalCost" class="edit-input" /> €
+        </div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-label">Maximale Förderung</div>
+        <div class="cost-value" *ngIf="!isEditMode">{{ editableRenovationCosts.funding | number }} €</div>
+        <div class="cost-value editable-value" *ngIf="isEditMode">
+          <input type="number" [(ngModel)]="editableRenovationCosts.funding" class="edit-input" /> €
+        </div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-label">Ihr Eigenanteil</div>
+        <div class="cost-value" *ngIf="!isEditMode">{{ editableRenovationCosts.ownContribution | number }} €</div>
+        <div class="cost-value editable-value" *ngIf="isEditMode">
+          <input type="number" [(ngModel)]="editableRenovationCosts.ownContribution" class="edit-input" /> €
+        </div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-label">Förderquote</div>
+        <div class="cost-value" *ngIf="!isEditMode">{{ editableRenovationCosts.fundingRate | number:'1.1-1' }} %</div>
+        <div class="cost-value editable-value" *ngIf="isEditMode">
+          <input type="number" [(ngModel)]="editableRenovationCosts.fundingRate" class="edit-input" /> %
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- ESG Management Section -->
+  <h3>ESG-Management (road to Paris)</h3>
+  <p class="section-subtitle">Emission & Energie nach Sanierung</p>
+
+  <div class="esg-data">
+    <div class="esg-table">
+      <div class="esg-row header-row">
+        <div class="esg-cell">CO2 - Intensität kg CO2 - Aqu./m²</div>
+        <div class="esg-cell">Emissionen gesamt kg CO2 - Aqu.</div>
+      </div>
+      <div class="esg-row">
+        <div class="esg-cell">{{ co2Intensity }}</div>
+        <div class="esg-cell">{{ futureValues.co2Emissions }}</div>
+      </div>
+      <div class="esg-row header-row">
+        <div class="esg-cell">Energie-Intensität kWh/m²</div>
+        <div class="esg-cell">Energieverbrauch gesamt kWh</div>
+      </div>
+      <div class="esg-row">
+        <div class="esg-cell">{{ energyIntensity }}</div>
+        <div class="esg-cell">{{ futureValues.energyUse }}</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Energy Rating Visualization -->
+  <div class="energy-rating">
+    <h4>Energetische Einstufung</h4>
+    <div class="rating-scale">
+      <div class="scale-label">A+</div>
+      <div class="scale-label">A</div>
+      <div class="scale-label">B</div>
+      <div class="scale-label">C</div>
+      <div class="scale-label">D</div>
+      <div class="scale-label">E</div>
+      <div class="scale-label">F</div>
+      <div class="scale-label">G</div>
+      <div class="scale-label">H</div>
+      <div class="scale-bar">
+        <div class="marker current-marker">
+          <div class="arrow-up"></div>
+          <span class="marker-tooltip"></span>
+        </div>
+        <div class="marker future-marker">
+          <div class="arrow-up"></div>
+          <span class="marker-tooltip"></span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="energy-scale-values">
+      <span>0</span>
+      <span>25</span>
+      <span>50</span>
+      <span>75</span>
+      <span>100</span>
+      <span>125</span>
+      <span>150</span>
+      <span>175</span>
+      <span>200</span>
+      <span>&gt;250</span>
+    </div>
+    
+    <div class="co2-tax">
+      <!-- Apple-style segmented control for user type -->
+      <div class="user-type-switch">
+        <div class="toggle-container">
+          <div class="segment-control">
+            <input type="radio" name="user-type" id="eigennutzer" [(ngModel)]="isVermieter" [value]="false" (change)="onUserTypeChange()">
+            <label for="eigennutzer">Eigennutzer</label>
+            
+            <input type="radio" name="user-type" id="vermieter" [(ngModel)]="isVermieter" [value]="true" (change)="onUserTypeChange()">
+            <label for="vermieter">Vermieter</label>
+            
+            <span class="selection"></span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Eigennutzer View -->
+      <div *ngIf="!isVermieter">
+        <p>CO2 - Abgabe Euro (55 € / Tonne CO2)</p>
+        <p>{{calculateCO2TaxPerM2()}} €/m² (Gesamt: {{calculateTotalCO2Tax()}} € p.a.)</p>
+      </div>
+      
+      <!-- Vermieter View -->
+      <div *ngIf="isVermieter">
+        <p>CO2 - Abgabe je m² Euro (55 € / Tonne CO2)</p>
+        <p>{{calculateVermieterCO2Tax()}} €</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Stranding Point Analysis - now editable -->
+  <h3>Stranding-Point-Analyse (CRREM-Methodik)</h3>
+  
+  <div class="stranding-data">
+    <div class="stranding-box">
+      <div class="stranding-title">
+        Aktueller Stranding-Zeitpunkt 
+        <span *ngIf="!isEditMode">{{ strandingData.currentStrandingPoint }}</span>
+        <div class="editable-value stranding-input-container" *ngIf="isEditMode">
+          <input type="number" [(ngModel)]="editableStrandingData.currentStrandingPoint" class="edit-input stranding-input" />
+        </div>
+      </div>
+    </div>
+    <div class="stranding-box">
+      <div class="stranding-title">
+        Stranding Asset Risiko in: 
+        <span *ngIf="!isEditMode">{{ strandingData.strandingRisk }} Jahren</span>
+        <div class="editable-value stranding-input-container" *ngIf="isEditMode">
+          <input type="number" [(ngModel)]="editableStrandingData.strandingRisk" class="edit-input stranding-input" /> 
+          <span class="input-suffix">Jahren</span>
+        </div>
+      </div>
+    </div>
+    <div class="stranding-box">
+      <div class="stranding-title">
+        Änderung Stranding-Zeitpunkt 
+        <span *ngIf="!isEditMode">{{ strandingData.strandingPointChange }}</span>
+        <div class="editable-value stranding-input-container" *ngIf="isEditMode">
+          <input type="number" [(ngModel)]="editableStrandingData.strandingPointChange" class="edit-input stranding-input" />
+          <span class="input-suffix">Jahre</span>
+        </div>
+      </div>
+    </div>
+    <div class="stranding-box">
+      <div class="stranding-title">
+        Neuer Stranding-Zeitpunkt 
+        <span *ngIf="!isEditMode">{{ strandingData.newStrandingPoint }}</span>
+        <div class="editable-value stranding-input-container" *ngIf="isEditMode">
+          <input type="number" [(ngModel)]="editableStrandingData.newStrandingPoint" class="edit-input stranding-input" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,102 @@
+<div class="timeline-section">
+  <h2>Ihre Sanierungswünsche und iSFP-Fahrplan für 5 Jahre</h2>
+  
+  <div class="section-header">
+    <div class="edit-controls">
+      <button *ngIf="!isEditMode" class="edit-button" (click)="toggleEditMode()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+        </svg>
+        Bearbeiten
+      </button>
+      <div *ngIf="isEditMode" class="action-buttons">
+        <button class="cancel-button" (click)="cancelChanges()">Abbrechen</button>
+        <button class="save-button" (click)="saveChanges()">Speichern</button>
+      </div>
+    </div>
+    <div id="timeline-saved-message" class="saved-message">Änderungen gespeichert</div>
+  </div>
+  
+  <!-- Add measure controls (visible only in edit mode) -->
+  <div *ngIf="isEditMode" class="add-measure-controls">
+    <div class="add-measure-form">
+      <div class="form-group">
+        <label for="measureSelect">Maßnahme hinzufügen:</label>
+        <select id="measureSelect" class="edit-input" [(ngModel)]="selectedMeasure">
+          <option [ngValue]="null">Maßnahme auswählen</option>
+          <option *ngFor="let measure of getAvailableMeasures()" [value]="measure">
+            {{measure}} ({{getMeasureCost(measure) | currency:'EUR':'symbol':'1.0-0'}})
+          </option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="yearSelect">Jahr:</label>
+        <select id="yearSelect" class="edit-input" [(ngModel)]="selectedYear">
+          <option [ngValue]="null">Jahr auswählen</option>
+          <option *ngFor="let year of availableYears" [value]="year">{{year}}</option>
+        </select>
+      </div>
+      
+      <button class="add-button" [disabled]="!selectedMeasure || !selectedYear" (click)="addMeasureToTimeline()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Hinzufügen
+      </button>
+    </div>
+    
+    <div class="edit-instructions">
+      <p>Um eine Maßnahme zu entfernen, klicken Sie einfach darauf.</p>
+    </div>
+  </div>
+  
+  <div class="timeline">
+    <table class="timeline-table">
+      <thead>
+        <tr>
+          <th *ngFor="let plan of renovationPlan" 
+              [class.selected-year]="selectedYear === plan.year && isEditMode"
+              (click)="selectYear(plan.year)">
+            {{plan.year}}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Only show rows for measures that appear in at least one year -->
+        <tr *ngFor="let measure of getActiveMeasures()">
+          <td *ngFor="let plan of renovationPlan" 
+              [class.active]="plan.measures.includes(measure)"
+              [class.clickable]="isEditMode && plan.measures.includes(measure)"
+              (click)="isEditMode && plan.measures.includes(measure) ? removeMeasureFromTimeline(measure, plan.year) : null">
+            <div *ngIf="plan.measures.includes(measure)" class="measure-box">
+              <div class="measure-name">{{measure}}</div>
+              <div class="measure-cost">
+                Kosten<br>{{getMeasureCost(measure) | currency:'EUR':'symbol':'1.0-0'}}
+              </div>
+              <!-- Remove icon (only visible in edit mode) -->
+              <div *ngIf="isEditMode" class="remove-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td *ngFor="let plan of renovationPlan">
+            <div class="investment">Investition: {{plan.investment | currency:'EUR':'symbol':'1.0-0'}}</div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  
+  <p class="timeline-note">
+    Bei einer Überschreitung der förderfähigen Kosten durch mehrere Maßnahmen an der Gebäudehülle empfiehlt es sich, die Maßnahmen auf mehrere Jahre zu verteilen. PV wird nicht gefördert, hat jedoch höchste Kostenersparnisse!
+  </p>
+</div>

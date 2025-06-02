@@ -1,0 +1,183 @@
+<!-- dossier.component.html -->
+<div class="dossier-container">
+  <!-- Header Section -->
+  <header class="dossier-header">
+    <div class="logo">ENVALPRO</div>
+    <h1 class="title">GEBÄUDEANALYSE DER {{building.address | uppercase}}</h1>
+    <h2 class="subtitle">ENERGIEEFFIZIENZ – FÖRDERUNG - POTENTIAL</h2>
+  </header>
+
+  <!-- Building Image Section -->
+  <div class="building-image">
+    <!-- Show uploaded image if available, otherwise show placeholder with upload option -->
+    <div *ngIf="buildingImageUrl" class="image-container">
+      <img [src]="buildingImageUrl" alt="Gebäudeansicht" class="building-preview">
+      <button class="image-remove-btn" (click)="removeImage()" aria-label="Bild entfernen">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="15" y1="9" x2="9" y2="15"></line>
+          <line x1="9" y1="9" x2="15" y2="15"></line>
+        </svg>
+      </button>
+    </div>
+    
+    <div *ngIf="!buildingImageUrl" class="image-placeholder">
+      <div class="upload-container">
+        <div class="upload-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+        </div>
+        <p class="upload-text">Gebäudeansicht</p>
+        <label for="building-image-upload" class="upload-btn">
+          Bild hochladen
+        </label>
+        <input type="file" id="building-image-upload" accept="image/*" (change)="onImageUpload($event)" class="file-input">
+      </div>
+    </div>
+  </div>
+
+<!-- Navigation Tabs -->
+<div class="tabs-container">
+<button 
+  class="tab-scroll-button tab-scroll-left" 
+  [class.disabled]="isScrolledToStart" 
+  (click)="scrollTabs('left')" 
+  aria-label="Scroll tabs left">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="15 18 9 12 15 6"></polyline>
+  </svg>
+</button>
+
+<div #tabsWrapper class="tabs-wrapper">
+  <div #tabsContent class="tabs" [class.scrolled]="scrolled">
+    <button [class.active]="activeTab === 'overview'" (click)="setActiveTab('overview')">Übersicht</button>
+    <button [class.active]="activeTab === 'buildingData'" (click)="setActiveTab('buildingData')">Gebäudedaten</button>
+    <button [class.active]="activeTab === 'consumption'" (click)="setActiveTab('consumption')">Verbrauch & ESG</button>
+    <button [class.active]="activeTab === 'analysis'" (click)="setActiveTab('analysis')">Bestandsanalyse</button>
+    <button [class.active]="activeTab === 'renovation'" (click)="setActiveTab('renovation')">Sanierungsmaßnahmen</button>
+    <button [class.active]="activeTab === 'timeline'" (click)="setActiveTab('timeline')">iSFP-Fahrplan</button>
+    <button [class.active]="activeTab === 'targetAnalysis'" (click)="setActiveTab('targetAnalysis')">Analyse des Zielzustandes</button>
+    <button [class.active]="activeTab === 'financialPotential'" (click)="setActiveTab('financialPotential')">
+      Finanzielles Potential
+    </button>
+    <button [class.active]="activeTab === 'renovationResults'" (click)="setActiveTab('renovationResults')">Ergebnisse Sanierung</button>
+    <button [class.active]="activeTab === 'financialBenefits'" (click)="setActiveTab('financialBenefits')">
+      Finanzielle Vorteile
+    </button>
+    <button [class.active]="activeTab === 'financingCalculator'" (click)="setActiveTab('financingCalculator')">
+      Finanzierungsrechner
+    </button>
+    <button [class.active]="activeTab === 'summary'" (click)="setActiveTab('summary')">
+      Zusammenfassung
+    </button>
+  </div>
+</div>
+
+<button 
+  class="tab-scroll-button tab-scroll-right" 
+  [class.disabled]="isScrolledToEnd" 
+  (click)="scrollTabs('right')" 
+  aria-label="Scroll tabs right">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="9 18 15 12 9 6"></polyline>
+  </svg>
+</button>
+</div>
+
+  <!-- Tab Content Components using async pipe where appropriate -->
+  <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'overview'">
+    <app-overview-tab></app-overview-tab>
+  </div>
+
+  <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'buildingData'">
+    <app-building-data-tab 
+      [building]="building">
+    </app-building-data-tab>
+  </div>
+
+  <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'consumption'">
+    <app-consumption-tab 
+      [consumptionData]="consumptionData">
+    </app-consumption-tab>
+  </div>
+
+  <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'analysis'">
+    <app-analysis-tab
+      [totalRenovationCosts]="totalCosts">
+    </app-analysis-tab>
+  </div>
+
+  <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'renovation'">
+    <app-renovation-tab 
+      [renovationMeasures]="renovationMeasures"
+      [savingsPotential]="savingsPotential"
+      (totalsChanged)="onRenovationTotalsChanged($event)">
+    </app-renovation-tab>
+  </div>
+
+  <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'timeline'">
+    <app-timeline-tab 
+      [renovationPlan]="renovationPlan"
+      [renovationMeasures]="renovationMeasures">
+    </app-timeline-tab>
+  </div>
+
+  <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'targetAnalysis'">
+    <app-target-analysis-tab
+      [renovationMeasures]="renovationMeasures"
+      [totalSavings]="totalSavings">
+    </app-target-analysis-tab>
+  </div>
+
+  <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'financialPotential'">
+    <app-financial-potential-tab
+    [renovationMeasures]="renovationMeasures"
+    [totalCosts]="totalCosts"
+    [totalFunding]="totalFunding"
+    [totalSavingsFromRenovation]="totalSavings"
+    [consumptionData]="consumptionData">
+  </app-financial-potential-tab>
+  </div>
+  <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'renovationResults'">
+    <app-renovation-results-tab
+      [consumptionData]="consumptionData"
+      [renovationMeasures]="renovationMeasures"
+      [savingsPotential]="savingsPotential">
+    </app-renovation-results-tab>
+  </div>
+  <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'financialBenefits'">
+    <app-financial-benefits-tab
+      [renovationMeasures]="renovationMeasures"
+      [totalCosts]="totalCosts"
+      [totalFunding]="totalFunding">
+    </app-financial-benefits-tab>
+  </div>
+  <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'financingCalculator'">
+    <app-financing-calculator
+    [initialTotalCosts]="totalCosts"
+    [initialTotalFunding]="totalFunding"
+    [initialTotalSavings]="totalSavings">
+  </app-financing-calculator>
+  </div>
+  <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'summary'">
+    <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'summary'">
+      <app-summary-tab
+        [building]="building"
+        [consumptionData]="consumptionData"
+        [renovationMeasures]="renovationMeasures"
+        [savingsPotential]="savingsPotential"
+        [totalCosts]="totalCosts"
+        [totalFunding]="totalFunding"
+        [totalSavings]="totalSavings">
+      </app-summary-tab>
+    </div>
+  </div>
+  <!-- Footer Section -->
+  <footer class="dossier-footer">
+    <div class="footer-logo">ENVALPRO</div>
+    <div class="footer-website">www.envalpro.com</div>
+  </footer>
+</div>
