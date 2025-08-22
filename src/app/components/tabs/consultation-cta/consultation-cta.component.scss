@@ -1,0 +1,616 @@
+// consultation-cta.component.scss
+// Apple-inspired color palette (matching your existing design system)
+$apple-white: hsl(0, 0%, 100%);
+$apple-off-white: hsl(240, 5%, 96%);
+$apple-gray-light: hsl(240, 14%, 93%);
+$apple-gray: hsl(240, 2%, 54%);
+$apple-gray-dark: hsl(240, 1%, 26%);
+$apple-black: hsl(240, 1%, 12%);
+
+$apple-blue: hsl(213, 100%, 45%);
+$apple-blue-hover: hsl(213, 100%, 47%);
+$apple-blue-light-48: hsl(213, 100%, 93%);
+$apple-blue-light-40: hsl(213, 100%, 85%);
+$apple-blue-dark-10: hsl(213, 100%, 35%);
+
+$apple-green: hsl(142, 100%, 40%);
+
+$apple-shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
+$apple-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+$apple-shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.16);
+
+$apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+:host {
+  display: block;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+}
+
+.consultation-cta {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+  background: transparent;
+}
+
+// Header Section
+.cta-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  position: relative;
+}
+
+.main-question {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, $apple-blue, $apple-green);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 1rem 0;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+.header-subtitle {
+  font-size: 1.25rem;
+  color: $apple-gray-dark;
+  font-weight: 500;
+  margin: 0;
+  opacity: 0.8;
+}
+
+// Main CTA Section
+.main-cta-section {
+  margin-bottom: 5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.cta-card {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.9), 
+    rgba(245, 245, 247, 0.8)
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 32px;
+  padding: 4rem 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 25px 80px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, $apple-blue, $apple-green, $apple-blue);
+    border-radius: 32px 32px 0 0;
+  }
+}
+
+.cta-icon {
+  margin: 0 auto 2rem;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $apple-blue, $apple-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 15px 40px rgba(0, 113, 227, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.4);
+  
+  svg {
+    color: white;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  }
+}
+
+.cta-content {
+  .cta-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: $apple-black;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.75px;
+    line-height: 1.2;
+    
+    .cta-subtitle {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: $apple-gray-dark;
+      margin-top: 0.75rem;
+      opacity: 0.9;
+    }
+  }
+  
+  .cta-description {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: $apple-gray-dark;
+    margin: 0 auto;
+    max-width: 600px;
+  }
+}
+
+// Service Section
+.service-section {
+  text-align: center;
+  margin-top: 5rem;
+  position: relative;
+}
+
+.service-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: $apple-black;
+  margin-bottom: 3rem;
+  letter-spacing: -0.5px;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, $apple-blue, $apple-green);
+    border-radius: 2px;
+  }
+}
+
+.service-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  overflow: visible; // ADD this line to prevent clipping
+}
+
+.service-steps-row {
+  display: flex;
+  gap: 1rem;
+  overflow: visible; // ADD this line to prevent clipping
+  
+  &.first-row {
+    justify-content: space-between;
+  }
+  
+  &.second-row {
+    justify-content: center;
+    padding: 0 calc((140px + 1rem) / 2);
+  }
+}
+
+.service-step {
+  --step-color: #{$apple-blue};
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s ease-out forwards;
+  position: relative;
+  min-height: 120px;
+  width: 140px; // Fixed width for all cards
+  max-width: 140px; // Ensure no card exceeds this width
+  flex-shrink: 0; // Prevent cards from shrinking
+  flex-grow: 0; // Prevent cards from growing
+  cursor: pointer;
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.95);
+    z-index: 10;
+    
+    .step-number {
+      transform: scale(1.1);
+    }
+    
+    // ADD this new hover state for tooltip
+   .step-details {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(-10px); // Keep consistent positioning
+      
+      &.step-tooltip-left {
+        transform: translateX(0) translateY(-10px);
+      }
+      
+      &.step-tooltip-right {
+        transform: translateX(0) translateY(-10px);
+      }
+    }
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--step-color);
+    border-radius: 16px 16px 0 0;
+  }
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.85);
+    
+    .step-number {
+      transform: scale(1.1);
+    }
+  }
+  
+  // Individual step colors
+  &:nth-child(1) { --step-color: #007AFF; }
+  &:nth-child(2) { --step-color: #34C759; }
+  &:nth-child(3) { --step-color: #FF9500; }
+  &:nth-child(4) { --step-color: #AF52DE; }
+  &:nth-child(5) { --step-color: #FF2D92; }
+}
+
+// For second row items, we need different nth-child selectors
+.service-steps-row.second-row .service-step {
+  &:nth-child(1) { --step-color: #5AC8FA; } // Step 6
+  &:nth-child(2) { --step-color: #FFCC00; } // Step 7
+  &:nth-child(3) { --step-color: #FF453A; } // Step 8
+  &:nth-child(4) { --step-color: #30B0C7; } // Step 9
+}
+
+.step-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--step-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: $apple-black;
+  text-align: center;
+  line-height: 1.3;
+  letter-spacing: -0.1px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.step-details {
+  position: absolute;
+  bottom: 100%; // CHANGE: Position above the card instead of below
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px); // CHANGE: Move up instead of down
+  width: 320px;
+  max-width: 90vw;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  pointer-events: none;
+  margin-bottom: 0.5rem; // CHANGE: Add margin-bottom instead of margin-top
+  
+  // ADD: Prevent tooltip from going off-screen
+  &.step-tooltip-left {
+    left: 0;
+    transform: translateX(0) translateY(-10px); // CHANGE: Move up
+    
+    &::before {
+      left: 20px; // Position arrow closer to left edge
+    }
+  }
+  
+  &.step-tooltip-right {
+    left: auto;
+    right: 0;
+    transform: translateX(0) translateY(-10px); // CHANGE: Move up
+    
+    &::before {
+      left: auto;
+      right: 20px; // Position arrow closer to right edge
+    }
+  }
+  
+  // CHANGE: Arrow pointing down to the card (was pointing up)
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -8px; // CHANGE: Position at bottom of tooltip
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid rgba(255, 255, 255, 0.98); // CHANGE: Arrow points down
+  }
+  
+  // Colored top border matching the step (stays the same)
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--step-color);
+    border-radius: 16px 16px 0 0;
+  }
+}
+// ADD - New tooltip content styles (completely new section)
+.details-content {
+  position: relative;
+  z-index: 1;
+}
+
+.details-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: $apple-black;
+  margin: 0 0 1rem 0;
+  text-align: left;
+  line-height: 1.3;
+  letter-spacing: -0.2px;
+}
+
+.details-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  
+  li {
+    font-size: 0.875rem;
+    color: $apple-gray-dark;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+    text-align: left;
+    position: relative;
+    padding-left: 1rem;
+    
+    &::before {
+      content: '•';
+      color: var(--step-color);
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .step-details {
+    width: 280px;
+    
+    // Better mobile positioning - keep above
+    &.step-tooltip-left {
+      left: 10px;
+      transform: translateX(0) translateY(-10px);
+    }
+    
+    &.step-tooltip-right {
+      right: 10px;  
+      left: auto;
+      transform: translateX(0) translateY(-10px);
+    }
+  }
+}
+// ADD to existing mobile media queries - tooltip responsive styles
+@media (max-width: 768px) {
+  // ... existing mobile styles ...
+  
+  // ADD these tooltip styles
+  .step-details {
+    width: 260px;
+    padding: 1.25rem;
+  }
+  
+  .details-title {
+    font-size: 0.9rem;
+  }
+  
+  .details-list li {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .step-details {
+    width: 260px;
+    
+    // For very small screens, keep above and centered
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) translateY(-10px) !important;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: calc(100vw - 40px);
+    max-width: 260px;
+    
+    &::before {
+      left: 50% !important;
+      right: auto !important;
+      transform: translateX(-50%);
+      bottom: -8px; // Keep arrow pointing down
+      border-top: 8px solid rgba(255, 255, 255, 0.98);
+      border-bottom: none;
+    }
+  }
+}
+
+// Animations - Simplified
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .main-question {
+    font-size: 2.25rem;
+  }
+  
+  .service-title {
+    font-size: 1.75rem;
+  }
+  
+  .cta-card {
+    padding: 3rem 2rem;
+    margin: 0 1rem;
+  }
+  
+  .cta-content .cta-title {
+    font-size: 1.75rem;
+    
+    .cta-subtitle {
+      font-size: 1.25rem;
+    }
+  }
+  
+  .cta-content .cta-description {
+    font-size: 1.125rem;
+  }
+  
+  .service-steps-row {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    
+    &.first-row {
+      justify-content: center;
+    }
+    
+    &.second-row {
+      max-width: 100%;
+    }
+  }
+  
+  .service-step {
+    width: calc(33.333% - 0.5rem);
+    min-width: 100px;
+    padding: 1.25rem 0.75rem;
+    min-height: 100px;
+  }
+  
+  .step-number {
+    width: 32px;
+    height: 32px;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .step-title {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .main-question {
+    font-size: 1.875rem;
+  }
+  
+  .service-title {
+    font-size: 1.5rem;
+  }
+  
+  .cta-card {
+    padding: 2.5rem 1.5rem;
+    border-radius: 24px;
+  }
+  
+  .cta-icon {
+    width: 80px;
+    height: 80px;
+    
+    svg {
+      width: 50px;
+      height: 50px;
+    }
+  }
+  
+  .service-steps-row {
+    gap: 0.5rem;
+  }
+  
+  .service-step {
+    width: calc(33.333% - 0.33rem);
+    min-width: 90px;
+    padding: 1rem 0.5rem;
+    min-height: 90px;
+    border-radius: 12px;
+  }
+  
+  .step-number {
+    width: 28px;
+    height: 28px;
+    font-size: 0.7rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .step-title {
+    font-size: 0.65rem;
+    line-height: 1.2;
+  }
+  
+  .cta-content .cta-title {
+    font-size: 1.5rem;
+    
+    .cta-subtitle {
+      font-size: 1.125rem;
+    }
+  }
+}

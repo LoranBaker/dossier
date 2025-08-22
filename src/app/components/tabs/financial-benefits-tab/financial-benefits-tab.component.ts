@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RenovationMeasure } from '@models/models';
+import { ConsumptionData, RenovationMeasure } from '@models/models';
 import { FinancialBenefitsService } from '../../../services/financial-benefit-data.service';
 import { Subscription } from 'rxjs';
 
@@ -15,7 +15,8 @@ export class FinancialBenefitsTabComponent implements OnInit, OnDestroy {
   @Input() renovationMeasures: RenovationMeasure[] = [];
   @Input() totalCosts: number = 0;
   @Input() totalFunding: number = 0;
-  
+  @Input() consumptionData!: ConsumptionData;
+  @Input() financialPotentialData: any; 
   // Cost after funding
   costAfterFunding: number = 0;
   
@@ -51,49 +52,73 @@ export class FinancialBenefitsTabComponent implements OnInit, OnDestroy {
   
   constructor(private financialBenefitsService: FinancialBenefitsService) {}
   
-  ngOnInit(): void {
-    // Store the input values in the service
-    this.financialBenefitsService.setRenovationMeasures(this.renovationMeasures);
-    this.financialBenefitsService.setTotalCosts(this.totalCosts);
-    this.financialBenefitsService.setTotalFunding(this.totalFunding);
-    
-    // Subscribe to the data observable to get updates
-    this.subscription.add(
-      this.financialBenefitsService.data$.subscribe(data => {
-        // Set all the component properties from the service data
-        this.costAfterFunding = data.costAfterFunding;
-        
-        // Energy cost savings
-        this.energyCost = data.energyCost;
-        this.energyCost15Years = data.energyCost15Years;
-        this.energyCostAfter15Years = data.energyCostAfter15Years;
-        this.energySavings15Years0Percent = data.energySavings15Years0Percent;
-        
-        // PV electricity generation
-        this.pvGenerationBefore = data.pvGenerationBefore;
-        this.pvGenerationAfter = data.pvGenerationAfter;
-        this.pvGenerationValue15Years = data.pvGenerationValue15Years;
-        
-        // CO2 tax savings
-        this.co2TaxSavingsBefore = data.co2TaxSavingsBefore;
-        this.co2TaxSavingsAfter = data.co2TaxSavingsAfter;
-        this.co2TaxSavings15Years0Percent = data.co2TaxSavings15Years0Percent;
-        
-        // Total savings
-        this.totalSavings15Years = data.totalSavings15Years;
-        this.effectiveCostAfter15Years = data.effectiveCostAfter15Years;
-        
-        // Property value increase
-        this.propertyValueIncrease = data.propertyValueIncrease;
-        this.propertyValueIncreasePercent = data.propertyValueIncreasePercent;
-        
-        // Rent increase
-        this.rentIncreaseMonthly = data.rentIncreaseMonthly;
-        this.rentIncreasePercent = data.rentIncreasePercent;
-      })
-    );
+
+ngOnInit(): void {
+  // Store the input values in the service
+  this.financialBenefitsService.setRenovationMeasures(this.renovationMeasures);
+  this.financialBenefitsService.setTotalCosts(this.totalCosts);
+  this.financialBenefitsService.setTotalFunding(this.totalFunding);
+  this.financialBenefitsService.setConsumptionData(this.consumptionData);
+
+  if (this.financialPotentialData) {
+    if (this.financialPotentialData.pvSalesIncome) {
+      this.financialBenefitsService.setPVSalesIncome(this.financialPotentialData.pvSalesIncome);
+    }
+    if (this.financialPotentialData.co2TaxSavings) {
+      this.financialBenefitsService.setCO2TaxSavings(this.financialPotentialData.co2TaxSavings);
+    }
+    // Add property value and rental increase data
+    if (this.financialPotentialData.propertyValueIncrease !== undefined) {
+      this.financialBenefitsService.setPropertyValueIncrease(
+        this.financialPotentialData.propertyValueIncrease,
+        this.financialPotentialData.propertyValueIncreasePercent || 0
+      );
+    }
+    if (this.financialPotentialData.rentIncreaseMonthly !== undefined) {
+      this.financialBenefitsService.setRentIncrease(
+        this.financialPotentialData.rentIncreaseMonthly,
+        this.financialPotentialData.rentIncreasePercent || 0
+      );
+    }
   }
   
+  // Subscribe to the data observable to get updates
+  this.subscription.add(
+    this.financialBenefitsService.data$.subscribe(data => {
+      // Set all the component properties from the service data
+      this.costAfterFunding = data.costAfterFunding;
+      
+      // Energy cost savings
+      this.energyCost = data.energyCost;
+      this.energyCost15Years = data.energyCost15Years;
+      this.energyCostAfter15Years = data.energyCostAfter15Years;
+      this.energySavings15Years0Percent = data.energySavings15Years0Percent;
+      
+      // PV electricity generation
+      this.pvGenerationBefore = data.pvGenerationBefore;
+      this.pvGenerationAfter = data.pvGenerationAfter;
+      this.pvGenerationValue15Years = data.pvGenerationValue15Years;
+      
+      // CO2 tax savings
+      this.co2TaxSavingsBefore = data.co2TaxSavingsBefore;
+      this.co2TaxSavingsAfter = data.co2TaxSavingsAfter;
+      this.co2TaxSavings15Years0Percent = data.co2TaxSavings15Years0Percent;
+      
+      // Total savings
+      this.totalSavings15Years = data.totalSavings15Years;
+      this.effectiveCostAfter15Years = data.effectiveCostAfter15Years;
+      
+      // Property value increase
+      this.propertyValueIncrease = data.propertyValueIncrease;
+      this.propertyValueIncreasePercent = data.propertyValueIncreasePercent;
+      
+      // Rent increase
+      this.rentIncreaseMonthly = data.rentIncreaseMonthly;
+      this.rentIncreasePercent = data.rentIncreasePercent;
+    })
+  );
+}
+
   ngOnDestroy(): void {
     // Clean up subscriptions when the component is destroyed
     this.subscription.unsubscribe();

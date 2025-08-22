@@ -1,3 +1,26 @@
+export interface HazardClass {
+  name: string;
+  level: 'gering' | 'mittel' | 'hoch';
+}
+
+export interface BuildingValuation {
+  baupreisindex2025: number;
+  minInsuranceValue1914: number; // in Mark
+  maxInsuranceValue1914: number; // in Mark
+  minInsuranceSum: number; // in €
+  maxInsuranceSum: number; // in €
+}
+
+export type SaniertPeriod = 
+  | 'Saniert 1969-1978'
+  | 'Saniert 1979-1983'
+  | 'Saniert 1984-1994'
+  | 'Saniert 1995-2002'
+  | 'Saniert 2003-2009'
+  | 'Saniert 2010-2016'
+  | 'Saniert ab 2017 bis heute'
+  | 'Nicht saniert';
+
 // models/building.model.ts
 export interface Building {
     address: string;
@@ -14,7 +37,6 @@ export interface Building {
     };
     livingSpace: number;
     baseArea: number;
-    retrofittedInsulation: boolean;
     additionalConstruction: boolean;
     commercialSpace: number;
     plotSize: number;
@@ -41,14 +63,18 @@ export interface Building {
         };
       };
       skylights: number;
+      saniert?: SaniertPeriod; // New property for renovation period
     };
     facade: {
       construction: string;
       condition: string;
+      saniert?: SaniertPeriod;
     };
     windows: {
       glazing: string;
       frameMaterial: string;
+      saniert?: SaniertPeriod;
+
     };
     basement: {
       exists: boolean;
@@ -58,6 +84,7 @@ export interface Building {
       hasUndergroundGarage: boolean;
       isUndergroundGarageVentilated: boolean;
       isUndergroundGarageHeated: boolean;
+      saniert?: SaniertPeriod;
     };
     photovoltaic: {
       installed: boolean;
@@ -75,4 +102,6 @@ export interface Building {
       quantity: string;
       year: number;
     }>;
+      hazardClasses: HazardClass[];
+      valuation?: BuildingValuation;
   }

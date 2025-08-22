@@ -1,0 +1,121 @@
+/* Financial Potential Section Print Styles */
+.financial-potential-section {
+  font-size: 10pt !important;
+}
+
+.financial-potential-section h2 {
+  font-size: 1.25rem !important;
+  margin: 0.5rem 0 0.75rem 0 !important;
+  color: #0071e3 !important;
+  line-height: 1.2 !important;
+}
+
+.financial-potential-section h3 {
+  font-size: 1.125rem !important;
+  margin: 0.5rem 0 0.5rem 0 !important;
+  color: #424245 !important;
+  line-height: 1.2 !important;
+}
+
+.financial-potential-section h4 {
+  font-size: 1rem !important;
+  margin: 0.25rem 0 0.5rem 0 !important;
+  color: #1d1d1f !important;
+  line-height: 1.2 !important;
+}
+
+/* Financial tables specific styling */
+.financial-potential-section .data-table table .primary-header th {
+  background: linear-gradient(135deg, #1e3a8a, #1e40af) !important;
+  color: white !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Ensure the h3 title inside the primary header is white */
+.financial-potential-section .data-table table .primary-header th h3 {
+  color: white !important;
+  margin: 0 !important;
+  font-weight: 600 !important;
+}
+
+/* Ensure the header note span is also white */
+.financial-potential-section .data-table table .primary-header th .header-note {
+  color: white !important;
+  font-weight: 400 !important;
+}
+
+.financial-potential-section .data-table table .section-header th {
+  background: #e1f0ff !important;
+  color: #0071e3 !important;
+  font-weight: 700 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.financial-potential-section table th,
+.financial-potential-section table td {
+  font-size: 10pt !important;
+  padding: 0.75rem !important;
+  line-height: 1.3 !important;
+}
+
+.financial-potential-section p {
+  font-size: 10pt !important;
+  line-height: 1.4 !important;
+  margin: 0.5rem 0 !important;
+}
+
+/* Value Increase Table (Werterhöhung) - Dark blue headers like main financial tables */
+.financial-potential-section .value-increase-table table th,
+.financial-potential-section .value-increase-table th {
+  background: linear-gradient(135deg, #1e3a8a, #1e40af) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 9pt !important;
+  padding: 0.75rem !important;
+  text-align: center !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Ensure h3 in value increase table header is white */
+.financial-potential-section .value-increase-table table .secondary-header th h3 {
+  color: white !important;
+  margin: 0 !important;
+  font-weight: 600 !important;
+}
+
+/* Sub-header row (Wert Vorher Nachher Steigerung) - Light blue styling */
+.financial-potential-section .value-increase-table .comparison-header th,
+.financial-potential-section .value-increase-table table .comparison-header th {
+  background: #e1f0ff !important;
+  color: #0071e3 !important;
+  font-weight: 600 !important;
+  font-size: 9pt !important;
+  padding: 0.75rem !important;
+  text-align: center !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Override any existing text color in value increase table headers */
+.financial-potential-section .value-increase-table table th *,
+.financial-potential-section .value-increase-table th * {
+  color: white !important;
+}
+
+/* Override text color for sub-headers specifically */
+.financial-potential-section .value-increase-table .comparison-header th *,
+.financial-potential-section .value-increase-table table .comparison-header th * {
+  color: #0071e3 !important;
+}
+
+.financial-potential-section .value-increase-table table td {
+  background: white !important;
+  color: #1d1d1f !important;
+  font-weight: 600 !important;
+  font-size: 9pt !important;
+  padding: 0.75rem !important;
+  text-align: center !important;
+}

@@ -1,0 +1,225 @@
+/* Financing Calculator Section Print Styles */
+
+/* Financing Calculator - Updated to match standard table page font sizes */
+.financing-calculator-section {
+  font-size: 10pt !important;
+  page-break-inside: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.3 !important;
+}
+
+.financing-calculator-section p {
+  font-size: 10pt !important;
+  line-height: 1.4 !important;
+  margin: 0.5rem 0 !important;
+}
+
+.financing-header {
+  display: block !important;
+  margin-bottom: 1rem !important;
+  page-break-after: avoid !important;
+}
+
+.financing-header h2 {
+  font-size: 1.25rem !important;
+  margin: 0.5rem 0 0.75rem 0 !important;
+  color: #0071e3 !important;
+  line-height: 1.2 !important;
+}
+
+/* Compact bank icons for financing - fit all in one row */
+.financing-calculator-section .bank-icons {
+  display: grid !important;
+  grid-template-columns: repeat(6, 1fr) !important;
+  gap: 0.5rem !important;
+  margin: 1rem 0 !important;
+  page-break-inside: avoid !important;
+}
+
+.financing-calculator-section .bank-icon {
+  text-align: center !important;
+  padding: 0.4rem !important;
+  background: white !important;
+  border: 1px solid #e8e8ed !important;
+  border-radius: 6px !important;
+  min-height: 50px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.financing-calculator-section .bank-icon .icon {
+  font-size: 0.9rem !important;
+  margin-bottom: 0.2rem !important;
+}
+
+.financing-calculator-section .bank-icon .bank-text {
+  font-size: 7pt !important;
+  font-weight: 600 !important;
+  color: #424245 !important;
+  line-height: 1.1 !important;
+}
+
+.financing-data-table {
+  border: 1px solid #e8e8ed !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+  margin: 1rem 0 !important;
+  page-break-inside: auto !important;
+}
+
+.financing-table-section {
+  border-bottom: 1px solid #e8e8ed !important;
+  page-break-inside: avoid !important;
+}
+
+.financing-table-section:last-child {
+  border-bottom: none !important;
+}
+
+.financing-section-title {
+  padding: 0.75rem !important;
+  background: #0c2d6b !important;
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 10pt !important;
+  line-height: 1.2 !important;
+}
+
+.financing-section-note {
+  font-size: 9pt !important;
+  font-weight: normal !important;
+  opacity: 0.9 !important;
+}
+
+.financing-note {
+  padding: 0.5rem 0.75rem !important;
+  background: #f5f5f7 !important;
+  color: #666 !important;
+  font-size: 9pt !important;
+  font-style: italic !important;
+  line-height: 1.3 !important;
+}
+
+.financing-info-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  padding: 0.5rem 0.75rem !important;
+  border-bottom: 1px solid #f0f0f0 !important;
+  font-size: 10pt !important;
+  line-height: 1.3 !important;
+}
+
+.financing-info-row:last-child {
+  border-bottom: none !important;
+}
+
+.financing-highlight-row {
+  background: #f8f9fa !important;
+  font-weight: 600 !important;
+}
+
+.financing-label {
+  flex: 2 !important;
+  color: #424245 !important;
+  font-size: 10pt !important;
+}
+
+.financing-value {
+  flex: 1 !important;
+  text-align: right !important;
+  color: #1d1d1f !important;
+  font-weight: 500 !important;
+  font-size: 10pt !important;
+}
+
+.financing-annual-note {
+  font-size: 9pt !important;
+  color: #666 !important;
+  margin-left: 0.25rem !important;
+}
+
+.financing-total-savings {
+  display: flex !important;
+  background: #0c2d6b !important;
+  color: white !important;
+  align-items: center !important;
+}
+
+.financing-total-value {
+  padding: 0.75rem !important;
+  background: #0c2d6b !important;
+  color: white !important;
+  font-weight: 700 !important;
+  font-size: 10pt !important;
+  text-align: right !important;
+  flex: 1 !important;
+}
+
+.financing-loan-options {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.financing-loan-option {
+  border-bottom: 1px solid #f0f0f0 !important;
+  padding: 0.25rem 0 !important;
+}
+
+.financing-loan-option:last-child {
+  border-bottom: none !important;
+}
+
+.financing-loan-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  padding: 0.5rem 0.75rem !important;
+  font-size: 10pt !important;
+  line-height: 1.3 !important;
+}
+
+.financing-interest-note {
+  font-weight: normal !important;
+  font-size: 9pt !important;
+  color: #666 !important;
+}
+
+.financing-monthly-rate {
+  font-weight: 700 !important;
+  color: #e63946 !important;
+}
+
+.financing-loan-note,
+.financing-rate-note {
+  padding: 0 0.75rem 0.5rem !important;
+  font-size: 8pt !important;
+  font-style: italic !important;
+  color: #666 !important;
+  line-height: 1.2 !important;
+}
+
+.financing-rate-note {
+  text-align: right !important;
+}
+
+.financing-final-note {
+  padding: 0.75rem !important;
+  text-align: center !important;
+  background: white !important;
+  color: #0071e3 !important;
+  font-weight: 600 !important;
+  font-size: 10pt !important;
+  line-height: 1.3 !important;
+  border-top: 1px solid #e8e8ed !important;
+}
+
+/* Financing Calculator table headers */
+.financing-calculator-section .financing-section-title {
+  background: #0c2d6b !important;
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 0.5rem !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}

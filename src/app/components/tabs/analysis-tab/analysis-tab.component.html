@@ -1,4 +1,4 @@
-<!-- tabs/analysis-tab/analysis-tab.component.html -->
+<!-- Updated analysis-tab.component.html -->
 <div class="analysis-section">
     <h2>Analyse der Bestandssituation</h2>
     
@@ -32,76 +32,128 @@
         <h3>Türen</h3>
         <p>Eine schlechte Außentür führt zu hohem Wärmeverlust, während undichte Abdichtungen Zugluft verursachen, was zu einem ineffizienten Raumklima und einem erhöhten Energieverbrauch führt.</p>
       </div>
+      
+      <div class="analysis-item">
+        <h3>Dachgeschossdecke</h3>
+        <p>Eine ungedämmte oder schlecht gedämmte Dachgeschossdecke führt zu erheblichen Wärmeverlusten nach oben, da warme Luft natürlich aufsteigt. Dies erhöht den Energieverbrauch für die Heizung und kann zu ungleichmäßigen Temperaturen in den oberen Stockwerken führen.</p>
+      </div>
+      
+      <div class="analysis-item">
+        <h3>Dachfenster</h3>
+        <p>Alte oder schlecht isolierte Dachfenster verursachen überdurchschnittlich hohe Wärmeverluste und können im Sommer zu Überhitzung der Dachräume führen. Undichte Dachfenster können zudem zu Feuchtigkeitsproblemen und Zugluft beitragen.</p>
+      </div>
+      
+      <div class="analysis-item">
+        <h3>Lüftungsanlage</h3>
+        <p>Das Fehlen einer kontrollierten Wohnraumlüftung führt zu unkontrolliertem Luftaustausch durch manuelles Lüften, was zu hohen Wärmeverlusten führt. Eine Lüftungsanlage mit Wärmerückgewinnung kann die Luftqualität verbessern und gleichzeitig Energie sparen.</p>
+      </div>
     </div>
     
-<div class="modernization-chart">
-    <h3>MODERNISIERUNG BESSER JETZT ALS SPÄTER!</h3>
+    <!-- CO2 Tax Warning Banner -->
+    <div class="co2-warning-banner">
+      <div class="banner-content">
+        <h3 class="banner-title">Kostenexplosion CO2-Steuer bei unsanierten Gebäuden</h3>
+        <div class="banner-main">
+          <span class="cost-amount">2.608 €</span>
+          <span class="cost-period">p.a.</span>
+          <span class="cost-description">werden Sie im Jahre 2040 an CO2-Steuer zahlen</span>
+        </div>
+        <div class="banner-footnote">
+          <span class="exclamation">!</span>
+          <span class="prognosis">(Prognose: 400 €/Tonne statt aktuell 55 €/Ton.)</span>
+          <span class="source">Quelle: eigene Recherche/Institute</span>
+        </div>
+      </div>
+    </div>
     
-    <!-- Chart Legend -->
-    <div class="chart-legend">
-      <div class="legend-item">
-        <div class="legend-color heute"></div>
-        <span>Heute</span>
+    <div class="modernization-chart">
+      <h3>MODERNISIERUNG BESSER JETZT ALS SPÄTER!</h3>
+      
+      <!-- Chart Legend -->
+      <div class="chart-legend">
+        <div class="legend-item">
+          <div class="legend-color heute"></div>
+          <span>Heute</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color in-10-jahren"></div>
+          <span>In 10 Jahren</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color mehrkosten"></div>
+          <span>Mehrkosten in 10 Jahren</span>
+        </div>
       </div>
-      <div class="legend-item">
-        <div class="legend-color in-10-jahren"></div>
-        <span>In 10 Jahren</span>
-      </div>
-      <div class="legend-item">
-        <div class="legend-color mehrkosten"></div>
-        <span>Mehrkosten in 10 Jahren</span>
+
+      <!-- Chart Bars with Tooltips -->
+      <div class="chart-bars">
+        <div class="bar heute-bar" 
+             (mouseenter)="onBarHover($event, 'heute')"
+             (mousemove)="onBarMouseMove($event)"
+             (mouseleave)="onBarLeave()">
+          <div class="bar-face">{{ formatCurrency(totalRenovationCosts) }}</div>
+          <div class="bar-side"></div>
+          <div class="bar-top"></div>
+        </div>
+        
+        <div class="bar in-10-jahren-bar"
+             (mouseenter)="onBarHover($event, 'future')"
+             (mousemove)="onBarMouseMove($event)"
+             (mouseleave)="onBarLeave()">
+          <div class="bar-face">{{ formatCurrency(costIn10Years) }}</div>
+          <div class="bar-side"></div>
+          <div class="bar-top"></div>
+        </div>
+        
+        <!-- Mehrkosten bar with template reference and no hover events -->
+        <div class="bar mehrkosten-bar" 
+             #mehrkostenBar>
+          <div class="bar-face">{{ formatCurrency(additionalCost) }}</div>
+          <div class="bar-side"></div>
+          <div class="bar-top"></div>
+        </div>
       </div>
     </div>
 
-    <!-- Chart Bars with Tooltips -->
-    <div class="chart-bars">
-      <div class="bar heute-bar" 
-           (mouseenter)="onBarHover($event, 'heute')"
-           (mousemove)="onBarMouseMove($event)"
-           (mouseleave)="onBarLeave()">
-        <div class="bar-face">{{ formatCurrency(totalRenovationCosts) }}</div>
-        <div class="bar-side"></div>
-        <div class="bar-top"></div>
+    <!-- Regular hover tooltip (for heute and future bars) -->
+    <div class="tooltip-container" 
+         [class.visible]="showTooltip"
+         [style.left.px]="tooltipPosition.x"
+         [style.top.px]="tooltipPosition.y"
+         *ngIf="tooltipData">
+      <div class="tooltip-content" 
+           [style.background-color]="tooltipData.color">
+        <div class="tooltip-header">
+          <h4>{{ tooltipData.title }}</h4>
+          <p class="tooltip-subtitle">{{ tooltipData.subtitle }}</p>
+        </div>
+        <div class="tooltip-body">
+          <div class="tooltip-value">{{ tooltipData.value }}</div>
+          <p class="tooltip-description">{{ tooltipData.description }}</p>
+        </div>
       </div>
-      
-      <div class="bar in-10-jahren-bar"
-           (mouseenter)="onBarHover($event, 'future')"
-           (mousemove)="onBarMouseMove($event)"
-           (mouseleave)="onBarLeave()">
-        <div class="bar-face">{{ formatCurrency(costIn10Years) }}</div>
-        <div class="bar-side"></div>
-        <div class="bar-top"></div>
-      </div>
-      
-      <div class="bar mehrkosten-bar"
-           (mouseenter)="onBarHover($event, 'additional')"
-           (mousemove)="onBarMouseMove($event)"
-           (mouseleave)="onBarLeave()">
-        <div class="bar-face">{{ formatCurrency(additionalCost) }}</div>
-        <div class="bar-side"></div>
-        <div class="bar-top"></div>
-      </div>
+      <div class="tooltip-arrow" 
+           [style.background-color]="tooltipData.color"></div>
     </div>
-  </div>
 
-  <!-- Apple-style Tooltip -->
-  <div class="tooltip-container" 
-       [class.visible]="showTooltip"
-       [style.left.px]="tooltipPosition.x"
-       [style.top.px]="tooltipPosition.y"
-       *ngIf="tooltipData">
-    <div class="tooltip-content" 
-         [style.background-color]="tooltipData.color">
-      <div class="tooltip-header">
-        <h4>{{ tooltipData.title }}</h4>
-        <p class="tooltip-subtitle">{{ tooltipData.subtitle }}</p>
+    <!-- Always visible tooltip for mehrkosten bar -->
+    <div class="tooltip-container always-visible" 
+         [class.visible]="showMehrkostenTooltip"
+         [style.left.px]="mehrkostenTooltipPosition.x"
+         [style.top.px]="mehrkostenTooltipPosition.y"
+         *ngIf="mehrkostenTooltipData">
+      <div class="tooltip-content" 
+           [style.background-color]="mehrkostenTooltipData.color">
+        <div class="tooltip-header">
+          <h4>{{ mehrkostenTooltipData.title }}</h4>
+          <p class="tooltip-subtitle">{{ mehrkostenTooltipData.subtitle }}</p>
+        </div>
+        <div class="tooltip-body">
+          <div class="tooltip-value">{{ mehrkostenTooltipData.value }}</div>
+          <p class="tooltip-description">{{ mehrkostenTooltipData.description }}</p>
+        </div>
       </div>
-      <div class="tooltip-body">
-        <div class="tooltip-value">{{ tooltipData.value }}</div>
-        <p class="tooltip-description">{{ tooltipData.description }}</p>
-      </div>
+      <div class="tooltip-arrow" 
+           [style.background-color]="mehrkostenTooltipData.color"></div>
     </div>
-    <div class="tooltip-arrow" 
-         [style.background-color]="tooltipData.color"></div>
-  </div>
-  </div>
+</div>

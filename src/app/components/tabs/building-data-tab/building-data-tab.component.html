@@ -52,7 +52,7 @@
           </td>
           <td>Anzahl Wohn-& Gewerbeeinheiten</td>
           <td>
-            <ng-container *ngIf="!isEditMode">{{building.units.total}} (davon {{building.units.commercial}} gewerblich)</ng-container>
+            <ng-container *ngIf="!isEditMode">{{building.units.total}}</ng-container>
             <div *ngIf="isEditMode" class="input-group">
               <input type="number" [(ngModel)]="editableBuilding!.units.total" class="edit-input small-input">
               <span>davon</span>
@@ -111,15 +111,17 @@
             <ng-container *ngIf="!isEditMode">{{building.selfOccupied}}</ng-container>
             <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.selfOccupied" class="edit-input">
           </td>
-          <td>Wurde nachträglich gedämmt</td>
-          <td>
-            <ng-container *ngIf="!isEditMode">{{building.retrofittedInsulation ? 'Ja' : 'Nein'}}</ng-container>
-            <label *ngIf="isEditMode" class="toggle-switch">
-              <input type="checkbox" [checked]="editableBuilding!.retrofittedInsulation" 
-                     (change)="onCheckboxChange($event, editableBuilding!, 'retrofittedInsulation')">
-              <span class="toggle-slider"></span>
-            </label>
-          </td>
+           <td>Gebäudetyp</td>
+        <td>
+          <ng-container *ngIf="!isEditMode">{{building.buildingType}}</ng-container>
+          <select *ngIf="isEditMode" [(ngModel)]="editableBuilding!.buildingType" class="edit-input">
+            <option value="EFH">Einfamilienhaus</option>
+            <option value="ZFH">Zweifamilienhaus</option>
+            <option value="MFH">Mehrfamilienhaus</option>
+            <option value="RH">Reihenhaus</option>
+            <option value="DHH">Doppelhaushälfte</option>
+          </select>
+        </td>
         </tr>
         <tr>
           <td>Selbstgenutzte Wohnfläche</td>
@@ -146,12 +148,17 @@
             <ng-container *ngIf="!isEditMode">{{building.units.commercial}}</ng-container>
             <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.units.commercial" class="edit-input">
           </td>
-          <td>Anzahl Personen im HH</td>
+          <td>Anzahl Personen im Haus</td>
           <td>
             <ng-container *ngIf="!isEditMode">{{building.residents}}</ng-container>
             <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.residents" class="edit-input">
           </td>
         </tr>
+        <td>Gesamtfläche in m²</td>  <!-- ← HERE IS THE NEW FIELD -->
+      <td>
+        <ng-container *ngIf="!isEditMode">{{calculateTotalArea(building)}}</ng-container>
+        <ng-container *ngIf="isEditMode">{{calculateTotalArea(editableBuilding!)}}</ng-container>
+      </td>
       </table>
     </div>
   
@@ -191,15 +198,6 @@
               <option value="Gemischt">Gemischt</option>
             </select>
           </td>
-          <td>Sind Rohre gedämmt</td>
-          <td>
-            <ng-container *ngIf="!isEditMode">{{building.heating.insulatedPipes ? 'Ja' : 'Nein'}}</ng-container>
-            <label *ngIf="isEditMode" class="toggle-switch">
-              <input type="checkbox" [checked]="editableBuilding!.heating.insulatedPipes" 
-                     (change)="onCheckboxChange($event, editableBuilding!.heating, 'insulatedPipes')">
-              <span class="toggle-slider"></span>
-            </label>
-          </td>
         </tr>
       </table>
     </div>
@@ -221,11 +219,6 @@
               <option value="Boiler">Boiler</option>
               <option value="Warmwasserwärmepumpe">Warmwasserwärmepumpe</option>
             </select>
-          </td>
-          <td>Sanierungsjahr</td>
-          <td>
-            <ng-container *ngIf="!isEditMode">{{building.hotWater.renovationYear || 'Nein'}}</ng-container>
-            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.hotWater.renovationYear" class="edit-input" placeholder="Nein">
           </td>
         </tr>
       </table>
@@ -296,11 +289,24 @@
             </div>
           </td>
         </tr>
+          <tr>
+          <td>Sanierungsjahr (anderes als Haus)</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.roof.saniert || 'Nicht saniert'}}</ng-container>
+            <select *ngIf="isEditMode" [(ngModel)]="editableBuilding!.roof.saniert" class="edit-input" (change)="updateSaniertPeriod($event)">
+              <option *ngFor="let option of saniertPeriodOptions" [value]="option.value">
+                {{option.label}}
+              </option>
+            </select>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
       </table>
     </div>
     
     <!-- Facade Table -->
-    <div class="data-table">
+  <div class="data-table">
       <table>
         <tr>
           <th colspan="4">Fassade</th>
@@ -316,14 +322,13 @@
               <option value="Mischbauweise">Mischbauweise</option>
             </select>
           </td>
-          <td>Zustand</td>
+           <td>Sanierungsjahr (anderes als Haus)</td>
           <td>
-            <ng-container *ngIf="!isEditMode">{{building.facade.condition}}</ng-container>
-            <select *ngIf="isEditMode" [(ngModel)]="editableBuilding!.facade.condition" class="edit-input">
-              <option value="solide">solide</option>
-              <option value="Putz mit Rissen">Putz mit Rissen</option>
-              <option value="sanierungsbedürftig">sanierungsbedürftig</option>
-              <option value="neuwertig">neuwertig</option>
+            <ng-container *ngIf="!isEditMode">{{building.facade.saniert || 'Nicht saniert'}}</ng-container>
+            <select *ngIf="isEditMode" [(ngModel)]="editableBuilding!.facade.saniert" class="edit-input" (change)="updateFacadeSaniertPeriod($event)">
+              <option *ngFor="let option of saniertPeriodOptions" [value]="option.value">
+                {{option.label}}
+              </option>
             </select>
           </td>
         </tr>
@@ -358,6 +363,19 @@
               <option value="Gemischt">Gemischt</option>
             </select>
           </td>
+        </tr>
+        <tr>
+          <td>Sanierungsjahr (anderes als Haus)</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.windows.saniert || 'Nicht saniert'}}</ng-container>
+            <select *ngIf="isEditMode" [(ngModel)]="editableBuilding!.windows.saniert" class="edit-input" (change)="updateWindowsSaniertPeriod($event)">
+              <option *ngFor="let option of saniertPeriodOptions" [value]="option.value">
+                {{option.label}}
+              </option>
+            </select>
+          </td>
+          <td></td>
+          <td></td>
         </tr>
       </table>
     </div>
@@ -438,8 +456,15 @@
               <span class="toggle-slider"></span>
             </label>
           </td>
-          <td></td>
-          <td></td>
+          <td>Sanierungsjahr (anderes als Haus)</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.basement.saniert || 'Nicht saniert'}}</ng-container>
+            <select *ngIf="isEditMode" [(ngModel)]="editableBuilding!.basement.saniert" class="edit-input" (change)="updateBasementSaniertPeriod($event)">
+              <option *ngFor="let option of saniertPeriodOptions" [value]="option.value">
+                {{option.label}}
+              </option>
+            </select>
+          </td>
         </tr>
       </table>
     </div>
@@ -545,7 +570,8 @@
           <td>
             <input type="number" [(ngModel)]="newRenovation.year" placeholder="Jahr" class="edit-input">
           </td>
-        </tr> 
+        </tr>
+        <!-- Hazard Classes Template -->
         <!-- Add renovation button -->
         <tr *ngIf="isEditMode">
           <td colspan="4" class="add-row">
@@ -560,4 +586,99 @@
         </tr>
       </table>
     </div>
+    <div class="data-table hazard-classes-section">
+  <table>
+    <tr>
+      <th>Gefahrenklasse</th>
+      <th>Bewertung</th>
+    </tr>
+    <tr *ngFor="let hazardClass of building.hazardClasses; let i = index">
+      <td>{{hazardClass.name}}</td>
+      <td>
+        <ng-container *ngIf="!isEditMode">
+          <div class="hazard-level-container">
+            <div class="hazard-level-bar">
+              <div class="hazard-level-indicator {{getHazardLevelClass(hazardClass.level)}}"></div>
+              <div class="hazard-level-labels">
+                <span class="label-left">gering</span>
+                <span class="label-right">hoch</span>
+              </div>
+            </div>
+            <span class="hazard-level-text" [attr.data-level]="hazardClass.level">{{hazardClass.level}}</span>
+          </div>
+        </ng-container>
+        <select *ngIf="isEditMode && editableBuilding" 
+                [value]="editableBuilding.hazardClasses[i].level" 
+                (change)="updateHazardLevel(i, $event)" 
+                class="edit-input hazard-select">
+          <option value="gering">gering</option>
+          <option value="mittel">mittel</option>
+          <option value="hoch">hoch</option>
+        </select>
+      </td>
+    </tr>
+  </table>
+</div>
+<!-- Building Valuation Table -->
+<div class="data-table">
+  <table>
+    <tr>
+      <th colspan="4">
+        Wiederherstellungswert des Gebäudes
+        <span class="valuation-tooltip-trigger">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <circle cx="12" cy="8" r="0.5" fill="currentColor"></circle>
+          </svg>
+        </span>
+      </th>
+    </tr>
+    <tr>
+      <td>Baupreisindex 2025</td>
+      <td>
+        <ng-container *ngIf="!isEditMode">{{building.valuation?.baupreisindex2025}}</ng-container>
+        <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.valuation!.baupreisindex2025" class="edit-input">
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Min. Versicherungswert 1914</td>
+      <td>
+        <ng-container *ngIf="!isEditMode">{{building.valuation?.minInsuranceValue1914}} Mark</ng-container>
+        <div *ngIf="isEditMode" class="input-group">
+          <input type="number" [(ngModel)]="editableBuilding!.valuation!.minInsuranceValue1914" class="edit-input">
+          <span>Mark</span>
+        </div>
+      </td>
+      <td>Max. Versicherungswert 1914</td>
+      <td>
+        <ng-container *ngIf="!isEditMode">{{building.valuation?.maxInsuranceValue1914}} Mark</ng-container>
+        <div *ngIf="isEditMode" class="input-group">
+          <input type="number" [(ngModel)]="editableBuilding!.valuation!.maxInsuranceValue1914" class="edit-input">
+          <span>Mark</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Min. Versicherungssumme</td>
+      <td>
+        <ng-container *ngIf="!isEditMode">{{building.valuation?.minInsuranceSum}} €</ng-container>
+        <div *ngIf="isEditMode" class="input-group">
+          <input type="number" [(ngModel)]="editableBuilding!.valuation!.minInsuranceSum" class="edit-input">
+          <span>€</span>
+        </div>
+      </td>
+      <td>Max. Versicherungssumme</td>
+      <td>
+        <ng-container *ngIf="!isEditMode">{{building.valuation?.maxInsuranceSum}} €</ng-container>
+        <div *ngIf="isEditMode" class="input-group">
+          <input type="number" [(ngModel)]="editableBuilding!.valuation!.maxInsuranceSum" class="edit-input">
+          <span>€</span>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
   </div>

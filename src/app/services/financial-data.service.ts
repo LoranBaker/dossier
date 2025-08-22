@@ -1,6 +1,7 @@
-// services/financial-data.service.ts
+// services/financial-data.service.ts - Updated with SSR fix
 
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { FinancialData, RentalIncrease } from '../models/financial-data.model';
 import { DossierDataService } from './dossier-data.service';
@@ -12,12 +13,22 @@ export class FinancialDataService {
   private readonly LIVING_SPACE = 150; // m²
   private financialDataSubject = new BehaviorSubject<FinancialData>(this.initFinancialData());
   private editableFinancialDataSubject = new BehaviorSubject<FinancialData>(this.initFinancialData());
+  private amortizationYearsSubject = new BehaviorSubject<number>(0);
+  
+  // Add platform check
+  private isBrowser: boolean;
 
   // Expose as Observables
   financialData$ = this.financialDataSubject.asObservable();
   editableFinancialData$ = this.editableFinancialDataSubject.asObservable();
+  amortizationYears$ = this.amortizationYearsSubject.asObservable();
 
-  constructor(private dossierDataService: DossierDataService) {
+  constructor(
+    private dossierDataService: DossierDataService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+    
     // Initialize financial data based on dossier inputs
     combineLatest([
       this.dossierDataService.totalCosts$,
@@ -48,6 +59,33 @@ export class FinancialDataService {
     });
   }
 
+  // Safe localStorage access methods
+  private safeLocalStorageGet(key: string, defaultValue: any = null): any {
+    if (!this.isBrowser) {
+      return defaultValue;
+    }
+    
+    try {
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : defaultValue;
+    } catch (error) {
+      console.warn(`Error accessing localStorage for key '${key}':`, error);
+      return defaultValue;
+    }
+  }
+
+  private safeLocalStorageSet(key: string, value: any): void {
+    if (!this.isBrowser) {
+      return;
+    }
+    
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.warn(`Error setting localStorage for key '${key}':`, error);
+    }
+  }
+
   private initFinancialData(): FinancialData {
     return {
       totalCosts: 0,
@@ -62,7 +100,7 @@ export class FinancialDataService {
       returnOnEquityBeforeTax: 0,
       amortizationYears: 0,
       fundingRate: 0,
-      strandingPointOld: '2035',
+      strandingPointOld: '2018',
       strandingPointNew: '2050+',
       rentalIncrease: {
         perSqmBefore: 12.50,
@@ -156,7 +194,9 @@ export class FinancialDataService {
 
   calculateAmortization(data: FinancialData): void {
     data.amortizationYears = data.totalSavingsPerYear > 0 ?
-      parseFloat((data.effectiveCosts / data.totalSavingsPerYear).toFixed(1)) : 0.0;
+    parseFloat((data.effectiveCosts / data.totalSavingsPerYear).toFixed(1)) : 0.0;
+    
+    this.amortizationYearsSubject.next(data.amortizationYears);
   }
 
   calculateReturnOnEquity(data: FinancialData): void {
@@ -264,13 +304,12 @@ export class FinancialDataService {
     this.editableFinancialDataSubject.next(data);
   }
 
-  // Custom Values Handling
+  // Custom Values Handling - Updated with safe localStorage access
   private setHasCustomValues(value: boolean): void {
-    localStorage.setItem('hasCustomFinancialValues', JSON.stringify(value));
+    this.safeLocalStorageSet('hasCustomFinancialValues', value);
   }
 
   public getHasCustomValues(): boolean {
-    const stored = localStorage.getItem('hasCustomFinancialValues');
-    return stored ? JSON.parse(stored) : false;
+    return this.safeLocalStorageGet('hasCustomFinancialValues', false);
   }
 }

@@ -19,7 +19,8 @@ export class DossierDataService {
   private renovationPlanSubject = new BehaviorSubject<RenovationPlan[]>(this.initRenovationPlan());
   private savingsPotentialSubject = new BehaviorSubject<SavingsPotential>(this.initSavingsPotential());
   private modernizationCostsSubject = new BehaviorSubject<ModernizationCosts>(this.initModernizationCosts());
-  
+  private foerderboniMeasuresSubject = new BehaviorSubject<any[]>(this.initFoerderboniMeasures());
+
   // Calculated totals
   private totalCostsSubject = new BehaviorSubject<number>(0);
   private totalFundingSubject = new BehaviorSubject<number>(0);
@@ -39,6 +40,7 @@ export class DossierDataService {
   totalFunding$ = this.totalFundingSubject.asObservable();
   totalSavings$ = this.totalSavingsSubject.asObservable();
   buildingImageUrl$ = this.buildingImageUrlSubject.asObservable();
+  foerderboniMeasures$ = this.foerderboniMeasuresSubject.asObservable();
 
   constructor(private http: HttpClient) {
     // Initialize calculated totals
@@ -48,91 +50,111 @@ export class DossierDataService {
 
   // Initialize mock data methods
   private initMockBuilding(): Building {
-    return {
-      address: 'Karlstrasse 22 in 65510 Hünstetten',
-      buildingType: 'EFH',
-      buildingYear: 1994,
-      selfOccupied: 1,
-      ownerStructure: 'Privat',
-      selfUsedLivingSpace: 120,
-      floors: 2,
-      adjacentBuildings: false,
-      units: {
-        total: 5,
-        commercial: 1
-      },
-      livingSpace: 399,
-      baseArea: 147,
-      retrofittedInsulation: false,
-      additionalConstruction: false,
-      commercialSpace: 100,
-      plotSize: 605,
-      residents: 4,
-      heating: {
-        type: 'Gas',
-        surfaces: 'Heizkörper',
-        renovationYear: null,
-        insulatedPipes: false
-      },
-      hotWater: {
-        source: 'Nur über Heizung',
-        renovationYear: null
-      },
-      roof: {
-        form: 'versch. Dachtypen',
-        usage: 'genutzt/beheizt',
-        area: 190,
-        orientation: {
-          direction: 'SSO / ONO',
-          area: {
-            sso: 11.7,
-            ono: 95.4
-          }
-        },
-        skylights: 2
-      },
-      facade: {
-        construction: 'Massiv',
-        condition: 'solide'
-      },
-      windows: {
-        glazing: '2-fach',
-        frameMaterial: 'Kunststoff'
-      },
-      basement: {
-        exists: true,
-        heated: true,
-        partialBasement: false,
-        fullBasement: true,
-        hasUndergroundGarage: false,
-        isUndergroundGarageVentilated: true,
-        isUndergroundGarageHeated: false
-      },
-      photovoltaic: {
-        installed: false,
-        panelArea: 0,
-        power: 0,
-        panelCount: 0
-      },
-      consumption: {
-        electricity: 'Unbekannt',
-        heating: 'Ca. 40.000 kWh*',
-        hotWater: 'unbekannt'
-      },
-      renovations: [
-        {
-          type: 'Fenster & Türen',
-          quantity: '5 Fenster',
-          year: 1990
-        },
-        {
-          type: 'Heizung',
-          quantity: '',
-          year: 1985
+  return {
+    address: 'Karlstrasse 22 in 65510 Hünstetten',
+    buildingType: 'Einfamilienhaus',
+    buildingYear: 1994,
+    selfOccupied: 1,
+    ownerStructure: 'Privat',
+    selfUsedLivingSpace: 120,
+    floors: 2,
+    adjacentBuildings: false,
+    units: {
+      total: 4,
+      commercial: 1
+    },
+    livingSpace: 399,
+    baseArea: 147,
+    additionalConstruction: false,
+    commercialSpace: 100,
+    plotSize: 605,
+    residents: 4,
+    heating: {
+      type: 'Gas',
+      surfaces: 'Heizkörper',
+      renovationYear: null,
+      insulatedPipes: false
+    },
+    hotWater: {
+      source: 'Nur über Heizung',
+      renovationYear: null
+    },
+    roof: {
+      form: 'versch. Dachtypen',
+      usage: 'genutzt/beheizt',
+      area: 190,
+      orientation: {
+        direction: 'SSO / ONO',
+        area: {
+          sso: 11.7,
+          ono: 95.4
         }
-      ]
-    };
-  }
+      },
+      skylights: 2,
+      saniert: 'Saniert 1995-2002'
+    },
+    facade: {
+      construction: 'Massiv',
+      condition: 'solide',
+      saniert: 'Saniert 1995-2002'
+    },
+    windows: {
+      glazing: '2-fach',
+      frameMaterial: 'Kunststoff',
+      saniert: 'Saniert 1995-2002'
+    },
+    basement: {
+      exists: true,
+      heated: true,
+      partialBasement: false,
+      fullBasement: true,
+      hasUndergroundGarage: false,
+      isUndergroundGarageVentilated: true,
+      isUndergroundGarageHeated: false,
+      saniert: 'Saniert 1995-2002'
+    },
+    photovoltaic: {
+      installed: false,
+      panelArea: 0,
+      power: 0,
+      panelCount: 0
+    },
+    consumption: {
+      electricity: 'Unbekannt',
+      heating: 'Ca. 40.000 kWh*',
+      hotWater: 'unbekannt'
+    },
+    renovations: [
+      {
+        type: 'Fenster & Türen',
+        quantity: '5 Fenster',
+        year: 1990
+      },
+      {
+        type: 'Heizung',
+        quantity: '',
+        year: 1985
+      }
+    ],
+    // Add hazard classes data
+    hazardClasses: [
+      { name: 'Hochwassergefahrenklasse', level: 'gering' },
+      { name: 'Starkregengefährenklasse', level: 'gering' },
+      { name: 'Hochwassergefahrenklasse (Sturmflut)', level: 'gering' },
+      { name: 'Sturmgefährenklasse', level: 'gering' },
+      { name: 'Erdbebenrisikozonen', level: 'gering' },
+      { name: 'Erdbewegungsrisikozonen', level: 'gering' },
+      { name: 'Schneelastzone', level: 'gering' }
+    ],
+     valuation: {
+      baupreisindex2025: 2192.4,
+      minInsuranceValue1914: 20000,
+      maxInsuranceValue1914: 30000,
+      minInsuranceSum: 438480,
+      maxInsuranceSum: 657720
+    }
+  };
+}
 
   private initMockConsumptionData(): ConsumptionData {
     return {
@@ -173,7 +195,7 @@ export class DossierDataService {
       details: 'Keine Photovoltaik',
       details1:'Kristallines Modul (20 %)',
       cost: 19500,
-      funding: 'siehe S.13 mögl.Bonus',
+      funding: 'Wird separat geprüft!',
       savings: 2741
     },
     {
@@ -256,46 +278,45 @@ export class DossierDataService {
       funding: 360,
       savings: 0
     },
+    //    {
+    //   type: 'Förderboni',
+    //   description: '',
+    //   description1: '',
+    //   details: '',
+    //   details1:'iSFP-Bonus 5%',
+    //   cost: 0,
+    //   funding: 0,
+    //   savings: 0
+    // },
+  ];
+}
+
+private initFoerderboniMeasures(): any[] {
+  return [
     {
-      type: 'Hydraulischer Abgleich',
-      description: '',
-      description1: '',
-      details: '',
-      details1:'Kosten in Heizung berücksichtigt',
-      cost: 0,
-      funding: 0,
-      savings: 0
+      type: 'Energieberatung',
+      grundlage: '5% (iSFP-Fahrplan)',
+      kosten: '1.500 €',
+      zuschuss: '50% (max. 650 € EFH/ZFH; 850 € MFH)'
     },
     {
-      type: 'Neue Heizkreispumpe',
-      description: '',
-      description1: '',
-      details: '',
-      details1:'Kosten in Heizung berücksichtigt',
-      cost: 0,
-      funding: 0,
-      savings: 0
+      type: 'Fachplanung &Baublgt.',
+      grundlage: 'BEG EM',
+      kosten: '5.000 €',
+      zuschuss: '50% (max. 5tsd € EFH/ZFH; 2tsd € pro WE)'
     },
     {
-      type: 'Voraussetzung bei Heizungstausch',
-      description: '',
-      description1: '',
-      details: '',
-      details1:'',
-      cost: 0,
-      funding: 0,
-      savings: 0
+      type: 'Fachplanung &Baublgt.',
+      grundlage: 'BEG WG 261',
+      kosten: '10.000 €',
+      zuschuss: '50% (max. 10tsd € EFH/ZFH; 4tsd € pro WE)'
     },
-       {
-      type: 'Förderboni',
-      description: '',
-      description1: '',
-      details: '',
-      details1:'iSFP-Bonus 5%',
-      cost: 0,
-      funding: 0,
-      savings: 0
-    },
+    {
+      type: 'ENVALPRO SERVICE',
+      grundlage: 'Leistung siehe Seite X',
+      kosten: '3.000 €*',
+      zuschuss: 'pauschal FULL-SERVICE SORGLOSPAKET'
+    }
   ];
 }
 
@@ -350,6 +371,10 @@ export class DossierDataService {
     // For API: this.http.get<RenovationMeasure[]>(`${this.apiBaseUrl}/measures`).subscribe(...)
     this.renovationMeasuresSubject.next(this.initMockRenovationMeasures());
     this.initializeRenovationFunding();
+  }
+
+    getCurrentFoerderboniMeasures(): any[] {
+    return this.foerderboniMeasuresSubject.getValue();
   }
 
   fetchRenovationPlan(): void {

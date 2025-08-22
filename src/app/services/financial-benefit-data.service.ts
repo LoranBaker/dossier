@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { RenovationMeasure } from '@models/models';
+import { ConsumptionData, RenovationMeasure } from '@models/models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FinancialBenefitsService {
   // Dummy data - with energyCost fields
+    private consumptionData: ConsumptionData | null = null; // ADD THIS LINE
+
   private financialBenefitsData = {
+    
     costAfterFunding: 94925,
     
     // Energy cost savings
@@ -70,7 +73,15 @@ export class FinancialBenefitsService {
     
     this.dataSubject.next(currentData);
   }
+  // Method to set consumption data and update energy costs
+setConsumptionData(consumptionData: ConsumptionData): void {
+  this.consumptionData = consumptionData;
   
+  if (consumptionData && consumptionData.energyCosts) {
+    // Update energy cost from consumption data
+    this.setEnergyCost(consumptionData.energyCosts);
+  }
+}
   // Method to update the energy cost after (editable field)
   setEnergyCostAfter15Years(energyCostAfter15Years: number): void {
     const currentData = this.dataSubject.getValue();
@@ -83,7 +94,7 @@ export class FinancialBenefitsService {
   }
   
   // Helper method to recalculate energy savings
-  private updateEnergySavings(data: any): void {
+   private updateEnergySavings(data: any): void {
     // Calculate 15-year savings (total before - total after)
     data.energySavings15Years0Percent = data.energyCost15Years - data.energyCostAfter15Years;
     
@@ -95,7 +106,42 @@ export class FinancialBenefitsService {
     // Update effective cost after 15 years
     data.effectiveCostAfter15Years = data.costAfterFunding - data.totalSavings15Years;
   }
+  
+  setPVSalesIncome(pvSalesIncome: number): void {
+    const currentData = this.dataSubject.getValue();
+    
+    // Update PV generation after (annual value)
+    currentData.pvGenerationAfter = pvSalesIncome;
+    
+    // Calculate 15-year PV generation value
+    currentData.pvGenerationValue15Years = pvSalesIncome * 15;
+    
+    // Recalculate total savings
+    this.updateEnergySavings(currentData);
+    
+    this.dataSubject.next(currentData);
+    console.log('PV Sales Income updated:', pvSalesIncome, '15-year value:', pvSalesIncome * 15);
+  }
 
+  // ADD METHOD to set CO2 tax savings from financial potential
+  setCO2TaxSavings(co2TaxSavings: number): void {
+    const currentData = this.dataSubject.getValue();
+    
+    // Update CO2 tax savings before (annual value)
+    currentData.co2TaxSavingsBefore = co2TaxSavings;
+    
+    // Calculate 15-year CO2 tax savings
+    currentData.co2TaxSavings15Years0Percent = co2TaxSavings * 15;
+    
+    // CO2 tax savings after renovation should be 0 (no more CO2 emissions)
+    currentData.co2TaxSavingsAfter = 0;
+    
+    // Recalculate total savings
+    this.updateEnergySavings(currentData);
+    
+    this.dataSubject.next(currentData);
+    console.log('CO2 Tax Savings updated:', co2TaxSavings, '15-year value:', co2TaxSavings * 15);
+  }
   // Method to set renovation measures
   setRenovationMeasures(measures: RenovationMeasure[]): void {
     this.renovationMeasuresSubject.next(measures);
@@ -122,6 +168,28 @@ export class FinancialBenefitsService {
     this.updateEnergySavings(currentData); // Recalculate effective cost
     this.dataSubject.next(currentData);
   }
+
+// Method to set property value increase data
+setPropertyValueIncrease(propertyValueIncrease: number, propertyValueIncreasePercent: number): void {
+  const currentData = this.dataSubject.getValue();
+  
+  currentData.propertyValueIncrease = propertyValueIncrease;
+  currentData.propertyValueIncreasePercent = propertyValueIncreasePercent;
+  
+  this.dataSubject.next(currentData);
+  console.log('Property Value Increase updated:', propertyValueIncrease, 'Percent:', propertyValueIncreasePercent);
+}
+
+// Method to set rental increase data
+setRentIncrease(rentIncreaseMonthly: number, rentIncreasePercent: number): void {
+  const currentData = this.dataSubject.getValue();
+  
+  currentData.rentIncreaseMonthly = rentIncreaseMonthly;
+  currentData.rentIncreasePercent = rentIncreasePercent;
+  
+  this.dataSubject.next(currentData);
+  console.log('Rent Increase updated:', rentIncreaseMonthly, 'Percent:', rentIncreasePercent);
+}
 
   // Method to get the current data
   getData(): any {

@@ -1,0 +1,243 @@
+/* Financial Benefits Section Print Styles */
+
+/* Financial Benefits - optimized for full single page with larger top margin */
+.financial-benefits-section {
+  font-size: 10pt !important;
+  page-break-inside: auto !important;
+  margin: 4rem 0 0 0 !important;
+  padding: 0 !important;
+  line-height: 1.4 !important;
+}
+
+.financial-benefits-section h3 {
+  font-size: 12pt !important;
+  margin: 0 !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
+/* Better sized data tables */
+.financial-benefits-section .data-table {
+  margin: 1rem 0 !important;
+  page-break-inside: auto !important;
+}
+
+.financial-benefits-section table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  border: 0px !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+  font-size: 10pt !important;
+  margin: 0 !important;
+}
+
+.financial-benefits-section th,
+.financial-benefits-section td {
+  padding: 0.7rem 0.8rem !important;
+  border-bottom: 1px solid #e8e8ed !important;
+  text-align: left !important;
+  font-size: 10pt !important;
+  line-height: 1.4 !important;
+  vertical-align: top !important;
+}
+
+/* Primary header styling with white text and left alignment */
+.financial-benefits-section .primary-header th {
+  background: linear-gradient(135deg, #1e3a8a, #1e40af) !important;
+  color: white !important;
+  padding: 1rem 0.8rem !important;
+  font-size: 12pt !important;
+  font-weight: 600 !important;
+  text-align: left !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Ensure the h3 title inside the primary header is white and left-aligned */
+.financial-benefits-section .primary-header th h3 {
+  color: white !important;
+  margin: 0 !important;
+  font-weight: 600 !important;
+  text-align: left !important;
+}
+
+/* Section headers */
+.financial-benefits-section .section-header th {
+  background: #e1f0ff !important;
+  color: #0071e3 !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  font-size: 9pt !important;
+  letter-spacing: 0.4px !important;
+  padding: 0.7rem 0.8rem !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Value columns */
+.financial-benefits-section .value-column {
+  text-align: right !important;
+  font-weight: 600 !important;
+  font-size: 10pt !important;
+  white-space: nowrap !important;
+}
+
+/* Footnote rows */
+.financial-benefits-section .footnote-row td {
+  padding: 0.6rem 0.8rem !important;
+  background: #f8f9fa !important;
+  font-style: italic !important;
+  font-size: 9pt !important;
+  color: #666 !important;
+  line-height: 1.4 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Total row styling with blue text on light blue background */
+.financial-benefits-section .total-row td {
+  background: #f0f7ff !important;
+  font-weight: 700 !important;
+  border-top: 2px solid #0071e3 !important;
+  padding: 0.8rem !important;
+  font-size: 10pt !important;
+  color: #0071e3 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Fix for "Effektive Kosten nach 15 Jahren" and similar bottom rows */
+.financial-benefits-section .total-row td,
+.financial-benefits-section .highlight-row td,
+.financial-benefits-section .effective-costs-row td,
+.financial-benefits-section tr:last-child td {
+  color: #0071e3 !important;
+}
+
+/* Ensure any cell with light blue background has blue text */
+.financial-benefits-section td[style*="background: #f0f7ff"],
+.financial-benefits-section td[style*="background-color: #f0f7ff"],
+.financial-benefits-section td[style*="background:#f0f7ff"] {
+  color: #0071e3 !important;
+}
+
+/* Value increase table - better proportioned with no border */
+.financial-benefits-section .value-increase-table {
+  margin: 1.5rem 0 0 0 !important;
+}
+
+.financial-benefits-section .value-increase-table table {
+  background: #f8f9fa !important;
+  border: 0px !important;
+}
+
+.financial-benefits-section .value-increase-table th {
+  background: #0071e3 !important;
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 10pt !important;
+  padding: 0.8rem !important;
+  text-align: center !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.financial-benefits-section .value-increase-table td {
+  background: white !important;
+  font-weight: 600 !important;
+  font-size: 10pt !important;
+  padding: 0.8rem !important;
+  text-align: center !important;
+  color: #0071e3 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Highlight classes for financial benefits */
+.financial-benefits-section .highlight-value {
+  color: #0071e3 !important;
+  font-weight: 700 !important;
+}
+
+.financial-benefits-section .highlight-positive {
+  color: #34c759 !important;
+  font-weight: 700 !important;
+}
+
+.financial-benefits-section .highlight-negative {
+  color: #ff453a !important;
+  font-weight: 700 !important;
+}
+
+.financial-benefits-section .highlight-result {
+  color: #0071e3 !important;
+  font-weight: 700 !important;
+  font-size: 11pt !important;
+}
+
+.financial-benefits-section .data-table table .primary-header th {
+  background: linear-gradient(135deg, #1e3a8a, #1e40af) !important;
+  color: white !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.financial-benefits-section .data-table table .section-header th {
+  background: #e1f0ff !important;
+  color: #0071e3 !important;
+  font-weight: 700 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.financial-benefits-section table th,
+.financial-benefits-section table td {
+  font-size: 11pt !important;
+  padding: 0.9rem !important;
+  line-height: 1.4 !important;
+}
+
+.financial-benefits-section p {
+  font-size: 11pt !important;
+  line-height: 1.5 !important;
+  margin: 0.7rem 0 !important;
+}
+
+/* Value Increase Table (Werterhöhung) - Dark blue headers like main financial tables, no border */
+.financial-benefits-section .value-increase-table table th,
+.financial-benefits-section .value-increase-table th {
+  background: linear-gradient(135deg, #1e3a8a, #1e40af) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 10pt !important;
+  padding: 0.9rem !important;
+  text-align: center !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Sub-header row (Wert Vorher Nachher Steigerung) - Light blue styling */
+.financial-benefits-section .value-increase-table .comparison-header th,
+.financial-benefits-section .value-increase-table table .comparison-header th {
+  background: #e1f0ff !important;
+  color: #0071e3 !important;
+  font-weight: 600 !important;
+  font-size: 10pt !important;
+  padding: 0.9rem !important;
+  text-align: center !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Override any existing text color in value increase table headers */
+.financial-benefits-section .value-increase-table table th *,
+.financial-benefits-section .value-increase-table th * {
+  color: white !important;
+}
+
+/* Override text color for sub-headers specifically */
+.financial-benefits-section .value-increase-table .comparison-header th *,
+.financial-benefits-section .value-increase-table table .comparison-header th * {
+  color: #0071e3 !important;
+}

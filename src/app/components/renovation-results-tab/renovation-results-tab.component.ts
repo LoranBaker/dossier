@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -26,7 +26,16 @@ export class RenovationResultsTabComponent implements OnInit, OnChanges {
   @Input() consumptionData!: ConsumptionData;
   @Input() renovationMeasures!: RenovationMeasure[];
   @Input() savingsPotential!: SavingsPotential;
-  
+  @Input() totalCosts!: number; // Added input for total costs from renovation tab
+  @Input() totalFunding!: number;
+  @Input() co2TaxFromConsumption: { eigennutzerTotal: number; vermieterTotal: number } = { eigennutzerTotal: 0, vermieterTotal: 0 };
+
+    @Output() savingsPercentagesChanged = new EventEmitter<{
+    energyCostSavings: number;
+    energyBalanceSavings: number;
+    co2TaxSavings: number;
+  }>();
+
   isEditMode = false;
   isVermieter = false; // Added for vermieter/eigennutzer switch
   editableConsumptionData: ConsumptionData | null = null;
@@ -120,14 +129,22 @@ export class RenovationResultsTabComponent implements OnInit, OnChanges {
   constructor(private dossierDataService: DossierDataService) { }
 
   ngOnInit(): void {
+     const building = this.dossierDataService.getCurrentBuilding();
+    this.livingSpace = building.livingSpace || 399;
     this.initializeData();
+    
   }
   
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['consumptionData'] || changes['renovationMeasures']) {
-      this.initializeData();
-    }
+  if (changes['consumptionData'] || changes['renovationMeasures'] || 
+      changes['totalCosts'] || changes['totalFunding']) {
+    this.initializeData();
+    //Emit percentages whenever inputs change
+    setTimeout(() => {
+      this.emitSavingsPercentages();
+    }, 0);
   }
+}
   
   initializeData(): void {
     // Get the livingSpace from the building data
@@ -137,7 +154,7 @@ export class RenovationResultsTabComponent implements OnInit, OnChanges {
     // Load current values from consumption data
     this.currentValues = {
       energyCosts: this.consumptionData?.energyCosts || 5930,
-      energyUse: this.consumptionData?.totalEnergy || 45500,
+      energyUse: ((this.consumptionData?.heating || 0) + (this.consumptionData?.warmWater || 0)) || 45500,      
       co2Emissions: this.consumptionData?.co2Emissions || 10826,
       energyRating: this.getEnergyRating(this.consumptionData?.energyIntensity || 197)
     };
@@ -175,13 +192,12 @@ export class RenovationResultsTabComponent implements OnInit, OnChanges {
     this.updateSavingsValues();
     
     // Initialize renovation costs
-    this.editableRenovationCosts = {
-      totalCost: 118750,
-      funding: 23825,
-      ownContribution: 94925,
-      fundingRate: 20.0
-    };
-    
+this.editableRenovationCosts = {
+  totalCost: this.totalCosts || 0,
+  funding: this.totalFunding || 0,
+  ownContribution: (this.totalCosts || 0) - (this.totalFunding || 0), // Auto-calculated: Sanierungskosten - Maximale Förderung
+  fundingRate: this.totalCosts > 0 ? ((this.totalFunding || 0) / this.totalCosts) * 100 : 0
+};
     // Initialize stranding data
     this.strandingData = {
       currentStrandingPoint: this.consumptionData?.strandingPoint || 2018,
@@ -200,24 +216,57 @@ export class RenovationResultsTabComponent implements OnInit, OnChanges {
   }
   
   updateSavingsValues(): void {
-    // Calculate savings values: heute - zukunft
-    this.savingsValues = {
-      energyCosts: this.currentValues.energyCosts - this.futureValues.energyCosts,
-      energyUse: this.currentValues.energyUse - this.futureValues.energyUse,
-      co2Emissions: this.currentValues.co2Emissions - this.futureValues.co2Emissions
-    };
-    
-    // Calculate savings percentages: heute/zukunft
-    this.savingsPercentages = {
-      energyCosts: this.calculateSavingsPercentage(this.currentValues.energyCosts, this.futureValues.energyCosts),
-      energyUse: this.calculateSavingsPercentage(this.currentValues.energyUse, this.futureValues.energyUse),
-      co2Emissions: this.calculateSavingsPercentage(this.currentValues.co2Emissions, this.futureValues.co2Emissions)
-    };
-  }
+  // Calculate savings values: heute - zukunft
+  this.savingsValues = {
+    energyCosts: this.currentValues.energyCosts - this.futureValues.energyCosts,
+    energyUse: this.currentValues.energyUse - this.futureValues.energyUse,
+    co2Emissions: this.currentValues.co2Emissions - this.futureValues.co2Emissions
+  };
   
-  calculateSavingsPercentage(heute: number, zukunft: number): number {
-    if (zukunft === 0) return 0; // Avoid division by zero
-    return Math.round((heute / zukunft) * 100);
+  // Calculate savings percentages: heute/zukunft
+  this.savingsPercentages = {
+    energyCosts: this.calculateSavingsPercentage(this.currentValues.energyCosts, this.futureValues.energyCosts),
+    energyUse: this.calculateSavingsPercentage(this.currentValues.energyUse, this.futureValues.energyUse),
+    co2Emissions: this.calculateSavingsPercentage(this.currentValues.co2Emissions, this.futureValues.co2Emissions)
+  };
+
+  this.emitSavingsPercentages();
+}
+
+private emitSavingsPercentages(): void {
+  const percentagesData = {
+    energyCostSavings: this.savingsPercentages.energyCosts,
+    energyBalanceSavings: this.savingsPercentages.energyUse,
+    co2TaxSavings: this.savingsPercentages.co2Emissions
+  };
+  
+  console.log('Emitting savings percentages:', percentagesData);
+  this.savingsPercentagesChanged.emit(percentagesData);
+}
+
+getRatingPositionFromIntensity(energyIntensity: number): number {
+  if (energyIntensity <= 25) return 11;   // A+
+  if (energyIntensity <= 50) return 22;   // A  
+  if (energyIntensity <= 75) return 33;   // B
+  if (energyIntensity <= 100) return 44;  // C
+  if (energyIntensity <= 125) return 55;  // D
+  if (energyIntensity <= 150) return 66;  // E
+  if (energyIntensity <= 175) return 77;  // F
+  if (energyIntensity <= 200) return 88;  // G
+  return 99; // H
+}
+
+getCurrentEnergyIntensity(): number {
+  if (this.consumptionData && this.consumptionData.energyIntensity) {
+    return this.consumptionData.energyIntensity;
+  }
+  return 197; // Default fallback
+}
+    calculateSavingsPercentage(heute: number, zukunft: number): number {
+    if (heute === 0) return 0; // Avoid division by zero
+    const savingsAmount = heute - zukunft;
+    const savingsPercentage = (savingsAmount / heute) * 100;
+    return Math.round(savingsPercentage);
   }
   
   // Keep this for other percentage calculations
@@ -395,24 +444,27 @@ export class RenovationResultsTabComponent implements OnInit, OnChanges {
     return 95;
   }
   
-  // Calculate total CO2 tax based on CO2 intensity
-  // Formula: 55 * CO2 Intensity / 1000
-  calculateTotalCO2Tax(): number {
-    // Calculate total CO2 tax (55€ per tonne of CO2)
-    const totalCO2Tax = (55 * this.co2Intensity) / 1000;
-    return parseFloat(totalCO2Tax.toFixed(2));
-  }
+// Replace calculateCO2TaxPerM2() method - divide totals by living space
+calculateCO2TaxPerM2(): number {
+  const livingSpace = this.livingSpace || 399;
   
-  // Calculate CO2 tax per square meter
-  // Formula: calculateTotalCO2Tax / livingSpace
-  calculateCO2TaxPerM2(): number {
-    const totalCO2Tax = this.calculateTotalCO2Tax();
-    if (this.livingSpace > 0) {
-      const co2TaxPerM2 = totalCO2Tax / this.livingSpace;
-      return parseFloat(co2TaxPerM2.toFixed(2));
-    }
-    return 0;
+  if (!this.isVermieter) {
+    // 2.42 ÷ 399 = 0.006
+    return parseFloat((this.co2TaxFromConsumption.eigennutzerTotal / livingSpace).toFixed(3));
+  } else {
+    // 1.69 ÷ 399 = 0.004  
+    return parseFloat((this.co2TaxFromConsumption.vermieterTotal / livingSpace).toFixed(3));
   }
+}
+
+// Replace calculateTotalCO2Tax() method - use the totals directly
+calculateTotalCO2Tax(): number {
+  if (!this.isVermieter) {
+    return this.co2TaxFromConsumption.eigennutzerTotal;
+  } else {
+    return this.co2TaxFromConsumption.vermieterTotal;
+  }
+}
   
   // Calculate Vermieter's share of the CO2 tax
   calculateVermieterCO2TaxTotal(): number {

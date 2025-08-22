@@ -1,6 +1,6 @@
 <div class="renovation-section">
   <h2>Übersicht Sanierungsmaßnahmen</h2>
-     
+  
   <div class="section-header">
     <div class="edit-controls">
       <button *ngIf="!isEditMode" class="edit-button" (click)="toggleEditMode()">
@@ -16,7 +16,7 @@
     </div>
     <div id="saved-message" class="saved-message">Änderungen gespeichert</div>
   </div>
-     
+
   <table class="renovation-table">
     <thead>
       <tr>
@@ -25,57 +25,120 @@
         <th>Beschreibung</th>
         <th>Kosten</th>
         <th>Förderungen</th>
-        <th>Einsparungen p.a.</th>
+        <th>Einsparungen p.a.(Energiekosten)</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let measure of renovationMeasures; let i = index">
+      <tr *ngFor="let measure of renovationMeasures; let i = index" 
+          [class.funding-bonus-row]="measure.type === 'Förderboni'">
+        
+        <!-- First column - Measure Type -->
         <td class="measure-type">{{measure.type}}</td>
-        <td>
-          <div class="status">
-            <div class="status-line-1">{{measure.description}}</div>
-            <div class="status-line-2">{{measure.description1}}</div>
-          </div>
-        </td>
-        <td>
-          <div class="description">
-            <div class="description-line-1">{{measure.details}}</div>
-            <div class="description-line-2">{{measure.details1}}</div>
-          </div>
-        </td>
-        <td>
-          <ng-container *ngIf="!isEditMode">{{measure.cost | currency:'EUR':'symbol':'1.0-0'}}</ng-container>
-          <input *ngIf="isEditMode" type="number" [(ngModel)]="editableMeasures[i].cost"
-                 (ngModelChange)="onCostChange(i)" class="edit-input">
-        </td>
-        <td>
-          <ng-container *ngIf="!isEditMode || fixedFundingMeasures.includes(measure.type) || measure.type === 'Photovoltaik'">
-            <span *ngIf="measure.funding !== 'siehe S.13 mögl.Bonus'">{{measure.funding | currency:'EUR':'symbol':'1.0-0'}}</span>
-            <span *ngIf="measure.funding === 'siehe S.13 mögl.Bonus'">{{measure.funding}}</span>
-          </ng-container>
-          <input *ngIf="isEditMode && !fixedFundingMeasures.includes(measure.type) && measure.type !== 'Photovoltaik'"
-                  type="number" [(ngModel)]="editableMeasures[i].funding" class="edit-input" disabled>
-        </td>
-        <td>ca. {{measure.savings | currency:'EUR':'symbol':'1.0-0'}}</td>
+        
+        <!-- Special handling for Förderboni row -->
+        <ng-container *ngIf="measure.type === 'Förderboni'">
+          <!-- Status column - empty for Förderboni -->
+          <td></td>
+          <!-- Description column - empty for Förderboni -->
+          <td></td>
+          <!-- Span across the last 3 columns (Kosten, Förderungen, Einsparungen) -->
+          <td colspan="3" class="funding-bonus-description">
+            <div class="description">
+              <div class="description-line-2">iSFP-Bonus 5%</div>
+            </div>
+          </td>
+        </ng-container>
+        
+        <!-- Regular rows - All columns normally -->
+        <ng-container *ngIf="measure.type !== 'Förderboni'">
+          <td>
+            <div class="status">
+              <div class="status-line-1">{{measure.description}}</div>
+              <div class="status-line-2">{{measure.description1}}</div>
+            </div>
+          </td>
+          <td>
+            <div class="description">
+              <div class="description-line-1">{{measure.details}}</div>
+              <div class="description-line-2">{{measure.details1}}</div>
+            </div>
+          </td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{measure.cost | currency:'EUR':'symbol':'1.0-0'}}</ng-container>
+            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableMeasures[i].cost"
+                   (ngModelChange)="onCostChange(i)" class="edit-input">
+          </td>
+          <td>
+            <ng-container *ngIf="!isEditMode || fixedFundingMeasures.includes(measure.type) || measure.type === 'Photovoltaik'">
+              <span *ngIf="measure.funding !== 'Wird separat geprüft!'">{{measure.funding | currency:'EUR':'symbol':'1.0-0'}}</span>
+              <span *ngIf="measure.funding === 'Wird separat geprüft!'">{{measure.funding}}</span>
+            </ng-container>
+            <input *ngIf="isEditMode && !fixedFundingMeasures.includes(measure.type) && measure.type !== 'Photovoltaik'"
+                   type="number" [(ngModel)]="editableMeasures[i].funding" class="edit-input" disabled>
+          </td>
+          <td>ca. {{measure.savings | currency:'EUR':'symbol':'1.0-0'}}</td>
+        </ng-container>
       </tr>
     </tbody>
-    <tfoot>
+    <!-- <tfoot>
       <tr>
         <td colspan="3">Summe</td>
         <td>ca. {{totalCosts | currency:'EUR':'symbol':'1.0-0'}}</td>
         <td>ca. {{totalFunding | currency:'EUR':'symbol':'1.0-0'}}</td>
         <td>ca. {{totalSavings | currency:'EUR':'symbol':'1.0-0'}}</td>
       </tr>
-    </tfoot>
+    </tfoot> -->
   </table>
-     
+
+  <!-- Förderboni Table -->
+<table class="foerderboni-table">
+  <thead>
+    <tr class="foerderboni-header">
+      <th class="foerderboni-title">Förderboni</th>
+      <th>Grundlage</th>
+      <th>Kosten</th>
+      <th>Zuschuss</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let measure of foerderboniMeasures" class="foerderboni-row">
+      <td class="foerderboni-type">{{measure.type}}</td>
+      <td>{{measure.grundlage}}</td>
+      <td>{{measure.kosten}}</td>
+      <td>{{measure.zuschuss}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Summe Table -->
+<table class="summe-table">
+  <tfoot>
+    <tr class="summe-header">
+      <td>Summe</td>
+      <td>Kosten</td>
+      <td>Förderung</td>
+      <td>Einsparungen p.a.</td>
+    </tr>
+    <tr class="summe-values">
+      <td></td>
+      <td>ca. {{totalCosts | currency:'EUR':'symbol':'1.0-0'}}</td>
+      <td>ca. {{totalFunding | currency:'EUR':'symbol':'1.0-0'}}</td>
+      <td>ca. {{totalSavings | currency:'EUR':'symbol':'1.0-0'}}</td>
+    </tr>
+  </tfoot>
+</table>
+
+<div class="foerderboni-note">
+  *Kosten für hydraulischen Abgleich & neue Heizkreispumpe in Heizung berücksichtigt
+</div>
+<br/>
   <div class="savings-potential">
     <h3>Hohes Einsparpotenzial und niedrigere Steuerbelastung</h3>
     <ul>
       <li>{{savingsPotential.energyCostSavings}}% Einsparpotenzial Ihrer Energiekosten</li>
       <li>{{savingsPotential.energyBalanceSavings}}% Einsparpotenzial Ihrer Energiebilanz</li>
       <li>{{savingsPotential.co2TaxSavings}}% Einsparpotenzial Ihrer C02-Steuer</li>
-      <li>7 Maßnahmen In {{savingsPotential.amortizationYears}} Jahren amortisiert!</li>
+      <li>10 Maßnahmen In {{amortizationYears}} Jahren amortisiert!</li>
     </ul>
   </div>
 </div>

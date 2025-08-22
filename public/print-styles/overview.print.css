@@ -1,0 +1,294 @@
+/* Overview Section Print Styles - Web-like Appearance */
+@media print {
+  
+  /* Overview Section Container */
+  .overview-section {
+    font-size: 10pt !important;
+    page-break-inside: avoid !important;
+    margin: 0 !important;
+    padding: 1rem !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  /* Main Title */
+  .overview-section h2 {
+    font-size: 1.8rem !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    margin: 0 0 1.5rem 0 !important;
+    color: #1d1d1f !important;
+    letter-spacing: -0.025em !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Stats Circles - Maintain web appearance */
+  .overview-section .stats-circles {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1.2rem !important;
+    margin: 1.5rem 0 2rem 0 !important;
+    page-break-inside: avoid !important;
+  }
+
+  .overview-section .stat-circle {
+    aspect-ratio: 1 !important;
+    background: linear-gradient(135deg, #0071e3, #005bb8) !important;
+    border-radius: 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: white !important;
+    padding: 1.2rem !important;
+    text-align: center !important;
+    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3) !important;
+    transform: none !important;
+    transition: none !important;
+    page-break-inside: avoid !important;
+    min-height: 120px !important;
+  }
+
+  .overview-section .circle-value {
+    font-size: 2.2rem !important;
+    font-weight: 700 !important;
+    color: white !important;
+    margin-bottom: 0.6rem !important;
+    letter-spacing: -1px !important;
+    line-height: 1 !important;
+  }
+
+  .overview-section .circle-label {
+    font-size: 0.85rem !important;
+    line-height: 1.3 !important;
+    font-weight: 500 !important;
+    color: white !important;
+    text-align: center !important;
+    margin: 0 !important;
+  }
+
+  /* Two Column Layout - Web-like styling */
+  .overview-section .two-columns {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2rem !important;
+    margin: 2rem 0 !important;
+    page-break-inside: avoid !important;
+  }
+
+  .overview-section .column {
+    background-color: white !important;
+    padding: 1.5rem !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid #e8e8ed !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Column Headers */
+  .overview-section .column h3 {
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    color: #1d1d1f !important;
+    margin-bottom: 1rem !important;
+    letter-spacing: -0.025em !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Column Paragraphs */
+  .overview-section .column p {
+    color: #424245 !important;
+    margin-bottom: 0.8rem !important;
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Benefits List - Styled like web */
+  .overview-section .benefits-list {
+    list-style-type: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .overview-section .benefits-list li {
+    margin-bottom: 0.8rem !important;
+    position: relative !important;
+    padding-left: 1.5rem !important;
+    color: #424245 !important;
+    font-size: 0.9rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .overview-section .benefits-list li:before {
+    content: "" !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0.2rem !important;
+    width: 0.9rem !important;
+    height: 0.9rem !important;
+    background-color: #0071e3 !important;
+    border-radius: 50% !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='none' d='M0 0h24v24H0z'/%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z' fill='white'/%3E%3C/svg%3E") !important;
+    background-size: 0.9rem !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+  }
+
+  /* Benefits Icons Grid - Web-like appearance */
+  .overview-section .benefits-icons {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1rem !important;
+    margin: 2rem 0 !important;
+    page-break-inside: avoid !important;
+  }
+
+  .overview-section .benefit-icon {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 1.2rem !important;
+    background-color: white !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid #e8e8ed !important;
+    page-break-inside: avoid !important;
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .overview-section .benefit-icon .icon {
+    font-size: 2rem !important;
+    margin-bottom: 0.8rem !important;
+    color: #0071e3 !important;
+  }
+
+  .overview-section .benefit-icon .benefit-text {
+    font-weight: 600 !important;
+    color: #1d1d1f !important;
+    font-size: 0.85rem !important;
+    line-height: 1.3 !important;
+    margin: 0 !important;
+  }
+
+  /* Bank Icons - Full width grid to match other sections */
+  .overview-section .bank-icons-container,
+  .overview-section .bank-icons {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
+    gap: 1rem !important;
+    margin: 2rem 0 !important;
+    page-break-inside: avoid !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .overview-section .bank-icon {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 1rem !important;
+    background-color: white !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid #e8e8ed !important;
+    page-break-inside: avoid !important;
+    transition: none !important;
+    transform: none !important;
+    min-height: 90px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .overview-section .bank-icon .icon {
+    width: 50px !important;
+    height: 50px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 0.6rem !important;
+    overflow: hidden !important;
+  }
+
+  .overview-section .bank-icon .icon .bank-logo {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+
+  .overview-section .bank-icon .bank-text {
+    font-weight: 600 !important;
+    color: #424245 !important;
+    font-size: 0.75rem !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+  }
+
+  /* EnvalPro Promise - Styled quote box */
+  .overview-section .envalpro-promise {
+    background: linear-gradient(135deg, #f0f7ff, #e1f0ff) !important;
+    padding: 1.5rem !important;
+    border-radius: 12px !important;
+    border-left: 4px solid #0071e3 !important;
+    margin: 2rem 0 !important;
+    position: relative !important;
+    page-break-inside: avoid !important;
+  }
+
+  .overview-section .envalpro-promise:before {
+    content: '"' !important;
+    position: absolute !important;
+    top: 0.5rem !important;
+    left: 1rem !important;
+    font-size: 3rem !important;
+    color: rgba(0, 113, 227, 0.2) !important;
+    font-family: Georgia, serif !important;
+  }
+
+  .overview-section .envalpro-promise p {
+    position: relative !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    color: #424245 !important;
+    font-weight: 500 !important;
+    margin: 0 !important;
+    padding-left: 2rem !important;
+    text-align: center !important;
+    font-style: italic !important;
+  }
+
+  /* Ensure proper spacing and page fitting */
+  .overview-section > * {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Make sure everything fits on one page */
+  .overview-section {
+    transform: scale(0.95) !important;
+    transform-origin: top center !important;
+    width: 105.26% !important; /* Compensate for scale */
+    margin: 0 -2.63% !important; /* Center the scaled content */
+  }
+
+  /* Hide any overflow */
+  .overview-section * {
+    box-shadow: none !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Ensure colors print correctly */
+  .overview-section .stat-circle,
+  .overview-section .benefit-icon .icon,
+  .overview-section .benefits-list li:before,
+  .overview-section .envalpro-promise {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

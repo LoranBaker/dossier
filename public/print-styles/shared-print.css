@@ -1,0 +1,369 @@
+/* CROSS-BROWSER PRINT NORMALIZATION */
+/* Place this at the very top of your shared-print.css */
+
+
+/* 1. BROWSER DETECTION AND BASE NORMALIZATION */
+/* Reset all browser-specific print behaviors */
+
+* {
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+  color-adjust: exact !important;
+  box-sizing: border-box !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* 2. PAGE SETUP - IDENTICAL ACROSS BROWSERS */
+@page {
+  size: A4 portrait;
+  margin: 20mm;
+  orphans: 2;
+  widows: 2;
+  
+  /* Disable browser headers/footers completely */
+  @top-left-corner { content: none; }
+  @top-left { content: none; }
+  @top-center { content: none; }
+  @top-right { content: none; }
+  @top-right-corner { content: none; }
+  @bottom-left-corner { content: none; }
+  @bottom-left { content: none; }
+  @bottom-center { content: none; }
+  @bottom-right { content: none; }
+  @bottom-right-corner { content: none; }
+}
+
+/* 3. ROOT ELEMENT NORMALIZATION */
+html {
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+  font-size: 16px !important; /* Use px instead of pt for consistency */
+  line-height: 1.4 !important;
+  background: white !important;
+}
+
+/* 4. BODY BASELINE - SAME ACROSS ALL BROWSERS */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'SF Pro Text', sans-serif !important;
+  font-size: 11px !important; /* Use px for better cross-browser consistency */
+  line-height: 1.4 !important;
+  color: #1d1d1f !important;
+  background: white !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+  
+  /* Cross-browser print optimizations */
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+/* 5. TYPOGRAPHY NORMALIZATION - PIXEL-BASED FOR CONSISTENCY */
+h1, h2, h3, h4, h5, h6 {
+  font-family: inherit !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.25px !important;
+  color: #1d1d1f !important;
+  margin: 16px 0 12px 0 !important;
+  padding: 0 !important;
+  page-break-after: avoid !important;
+  break-after: avoid !important;
+  line-height: 1.2 !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+h1 { font-size: 24px !important; }
+h2 { font-size: 20px !important; color: #0071e3 !important; }
+h3 { font-size: 18px !important; color: #424245 !important; }
+h4 { font-size: 16px !important; }
+h5 { font-size: 14px !important; }
+h6 { font-size: 12px !important; }
+
+p {
+  margin: 8px 0 !important;
+  padding: 0 !important;
+  line-height: 1.5 !important;
+  color: #424245 !important;
+  font-size: inherit !important;
+  orphans: 3 !important;
+  widows: 3 !important;
+}
+
+/* 6. LIST NORMALIZATION */
+ul, ol {
+  margin: 12px 0 !important;
+  padding-left: 24px !important;
+  list-style-position: outside !important;
+}
+
+li {
+  margin: 4px 0 !important;
+  padding: 0 !important;
+  line-height: 1.4 !important;
+  color: #424245 !important;
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+}
+
+/* 7. TABLE NORMALIZATION - CRITICAL FOR CROSS-BROWSER CONSISTENCY */
+table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+  margin: 16px 0 !important;
+  background: white !important;
+  font-size: 10px !important; /* Consistent table font size */
+  line-height: 1.3 !important;
+  
+  /* Cross-browser table fixes */
+  table-layout: fixed !important;
+  empty-cells: show !important;
+  border: 1px solid #e8e8ed !important;
+  
+  /* Ensure colors print */
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+th, td {
+  padding: 8px !important;
+  border: 1px solid #e8e8ed !important;
+  text-align: left !important;
+  vertical-align: top !important;
+  font-size: 10px !important;
+  line-height: 1.3 !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  
+  /* Ensure cell colors print */
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+th {
+  font-weight: 600 !important;
+  background: #f5f5f7 !important;
+  color: #1d1d1f !important;
+}
+
+/* 8. GRID LAYOUT NORMALIZATION */
+.print-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+  gap: 12px !important;
+  margin: 16px 0 !important;
+  width: 100% !important;
+  
+  /* Cross-browser grid fixes */
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+  overflow: visible !important;
+}
+
+.print-grid > * {
+  margin: 0 !important;
+  padding: 12px !important;
+  border: 1px solid #e8e8ed !important;
+  border-radius: 6px !important;
+  background: white !important;
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+  overflow: visible !important;
+  font-size: 11px !important;
+  line-height: 1.4 !important;
+}
+
+/* 9. IMAGE NORMALIZATION */
+img {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin: 8px 0 !important;
+  border: none !important;
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+}
+
+/* 10. SECTION CONTAINERS - CONSISTENT PAGE BREAKING */
+.print-section-container {
+  margin: 0 0 16px 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  overflow: visible !important;
+  background: white !important;
+  
+  /* Cross-browser page break control */
+  page-break-inside: auto !important;
+  break-inside: auto !important;
+  page-break-after: auto !important;
+  break-after: auto !important;
+}
+
+.print-section-container.with-page-break:not(:first-child) {
+  page-break-before: always !important;
+  break-before: page !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* 11. SECTION TITLES - CONSISTENT STYLING */
+.print-section-title {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #0071e3 !important;
+  margin: 0 0 24px 0 !important;
+  padding: 0 0 8px 0 !important;
+  border-bottom: 2px solid #0071e3 !important;
+  page-break-after: avoid !important;
+  break-after: avoid !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.5px !important;
+}
+
+/* 12. CHARTS AND VISUAL ELEMENTS */
+.print-chart,
+.chart-container,
+.modernization-chart {
+  margin: 16px 0 !important;
+  padding: 0 !important;
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+  overflow: visible !important;
+  max-height: 300px !important;
+}
+
+.print-chart svg,
+.print-chart canvas,
+.chart-container svg,
+.chart-container canvas {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+}
+
+/* 13. STAT CIRCLES - CONSISTENT ACROSS BROWSERS */
+.stat-circle {
+  background: linear-gradient(135deg, #e1f0ff, #f0f7ff) !important;
+  border: 2px solid #0071e3 !important;
+  border-radius: 8px !important;
+  padding: 16px !important;
+  text-align: center !important;
+  
+  /* Ensure background prints */
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.stat-circle .circle-value {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #0071e3 !important;
+  margin: 0 0 8px 0 !important;
+  line-height: 1.1 !important;
+}
+
+.stat-circle .circle-label {
+  font-size: 11px !important;
+  color: #424245 !important;
+  font-weight: 500 !important;
+  line-height: 1.3 !important;
+  margin: 0 !important;
+}
+
+/* 14. BROWSER-SPECIFIC OVERRIDES */
+
+/* Firefox-specific fixes */
+@-moz-document url-prefix() {
+  body {
+    font-size: 12px !important; /* Slightly larger for Firefox */
+  }
+  
+  .print-section-title {
+    font-size: 22px !important;
+  }
+  
+  h2 { font-size: 21px !important; }
+  h3 { font-size: 19px !important; }
+  
+  table, th, td {
+    font-size: 11px !important;
+  }
+  
+  .stat-circle .circle-value {
+    font-size: 22px !important;
+  }
+}
+
+/* WebKit (Chrome/Safari) specific fixes */
+@media print and (-webkit-min-device-pixel-ratio: 0) {
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  /* Ensure proper scaling in WebKit */
+  .print-container {
+    transform: scale(1) !important;
+    transform-origin: top left !important;
+  }
+}
+
+/* Edge-specific fixes */
+@supports (-ms-ime-align: auto) {
+  body {
+    font-size: 11px !important;
+  }
+}
+
+/* 15. FORCED COLOR PRINTING FOR ALL BACKGROUNDS */
+.primary-header th,
+th.primary-header {
+  background: linear-gradient(135deg, #1e3a8a, #1e40af) !important;
+  color: white !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.section-header th {
+  background: #e1f0ff !important;
+  color: #0071e3 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* 16. ENSURE CONSISTENT SPACING */
+.print-container > * {
+  margin-top: 0 !important;
+}
+
+.print-container > *:not(:last-child) {
+  margin-bottom: 16px !important;
+}
+
+/* 17. PREVENT BROWSER-SPECIFIC SCALING ISSUES */
+@media print {
+  /* Lock in exact sizes to prevent browser scaling */
+  .print-container {
+    width: 170mm !important; /* A4 width minus margins */
+    max-width: 170mm !important;
+    min-width: 170mm !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    transform: none !important;
+    zoom: 1 !important;
+    scale: 1 !important;
+  }
+  
+  /* Disable any browser zoom/scaling */
+  body {
+    zoom: 1 !important;
+    transform: none !important;
+    scale: 1 !important;
+  }
+}

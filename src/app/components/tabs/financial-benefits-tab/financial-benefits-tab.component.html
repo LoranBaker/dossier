@@ -17,7 +17,7 @@
         <td>Energiekosten über 15 Jahre 0 % Teuerung p.a.</td>
         <td class="value-column">{{ energyCost15Years | number:'1.0-0' }} €</td>
         <td class="value-column">{{ energyCostAfter15Years | number:'1.0-0' }} €</td>
-        <td class="value-column highlight-value">{{ energySavings15Years0Percent | number:'1.0-0' }} €</td>
+        <td class="value-column highlight-value tooltip-trigger-simple">{{ energySavings15Years0Percent | number:'1.0-0' }} €</td>
       </tr>
       <tr>
         <td>Energiekosten über 15 Jahre 5 % Teuerung p.a.</td>
@@ -98,10 +98,10 @@
         <th>in %</th>
       </tr>
       <tr>
-        <td>ca. {{ propertyValueIncrease | number:'1.0-0' }} €</td>
-        <td>{{ propertyValueIncreasePercent | number:'1.1-1' }}</td>
-        <td>{{ rentIncreaseMonthly | number:'1.0-0' }} €</td>
-        <td>{{ rentIncreasePercent | number:'1.0-0' }}%</td>
+        <td><strong>ca. {{ propertyValueIncrease | number:'1.0-0' }} € </strong></td>
+        <td><strong>{{ propertyValueIncreasePercent | number:'1.1-1' }}</strong></td>
+        <td><strong>{{ rentIncreaseMonthly | number:'1.0-0' }} €</strong></td>
+        <td><strong>{{ rentIncreasePercent | number:'1.0-0' }}%</strong></td>
       </tr>
     </table>
   </div>

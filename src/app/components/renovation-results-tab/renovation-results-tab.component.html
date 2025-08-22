@@ -131,39 +131,27 @@
   </div>
   
   <!-- Cost Estimation -->
-  <div class="cost-estimation">
-    <h3>Kostenschätzung ca. Werte</h3>
-    <div class="cost-grid">
-      <div class="cost-item">
-        <div class="cost-label">Sanierungskosten</div>
-        <div class="cost-value" *ngIf="!isEditMode">{{ editableRenovationCosts.totalCost | number }} €</div>
-        <div class="cost-value editable-value" *ngIf="isEditMode">
-          <input type="number" [(ngModel)]="editableRenovationCosts.totalCost" class="edit-input" /> €
-        </div>
-      </div>
-      <div class="cost-item">
-        <div class="cost-label">Maximale Förderung</div>
-        <div class="cost-value" *ngIf="!isEditMode">{{ editableRenovationCosts.funding | number }} €</div>
-        <div class="cost-value editable-value" *ngIf="isEditMode">
-          <input type="number" [(ngModel)]="editableRenovationCosts.funding" class="edit-input" /> €
-        </div>
-      </div>
-      <div class="cost-item">
-        <div class="cost-label">Ihr Eigenanteil</div>
-        <div class="cost-value" *ngIf="!isEditMode">{{ editableRenovationCosts.ownContribution | number }} €</div>
-        <div class="cost-value editable-value" *ngIf="isEditMode">
-          <input type="number" [(ngModel)]="editableRenovationCosts.ownContribution" class="edit-input" /> €
-        </div>
-      </div>
-      <div class="cost-item">
-        <div class="cost-label">Förderquote</div>
-        <div class="cost-value" *ngIf="!isEditMode">{{ editableRenovationCosts.fundingRate | number:'1.1-1' }} %</div>
-        <div class="cost-value editable-value" *ngIf="isEditMode">
-          <input type="number" [(ngModel)]="editableRenovationCosts.fundingRate" class="edit-input" /> %
-        </div>
-      </div>
+<div class="cost-estimation">
+  <h3>Kostenschätzung ca. Werte</h3>
+  <div class="cost-grid">
+    <div class="cost-item">
+      <div class="cost-label">Sanierungskosten</div>
+      <div class="cost-value">{{ editableRenovationCosts.totalCost | number }} €</div>
+    </div>
+    <div class="cost-item">
+      <div class="cost-label">Maximale Förderung</div>
+      <div class="cost-value">{{ editableRenovationCosts.funding | number }} €</div>
+    </div>
+    <div class="cost-item">
+      <div class="cost-label">Ihr Eigenanteil</div>
+      <div class="cost-value">{{ editableRenovationCosts.ownContribution | number }} €</div>
+    </div>
+    <div class="cost-item">
+      <div class="cost-label">Förderquote</div>
+      <div class="cost-value">{{ editableRenovationCosts.fundingRate | number:'1.1-1' }} %</div>
     </div>
   </div>
+</div>
   
   <!-- ESG Management Section -->
   <h3>ESG-Management (road to Paris)</h3>
@@ -203,16 +191,19 @@
       <div class="scale-label">F</div>
       <div class="scale-label">G</div>
       <div class="scale-label">H</div>
-      <div class="scale-bar">
-        <div class="marker current-marker">
-          <div class="arrow-up"></div>
-          <span class="marker-tooltip"></span>
-        </div>
-        <div class="marker future-marker">
-          <div class="arrow-up"></div>
-          <span class="marker-tooltip"></span>
-        </div>
+      <!-- REPLACE the .scale-bar section in your existing HTML -->
+    <div class="scale-bar">
+      <div class="marker current-marker" 
+          [style.left.%]="getRatingPositionFromIntensity(getCurrentEnergyIntensity())">
+        <div class="arrow-up"></div>
+        <span class="marker-tooltip">{{ getCurrentEnergyIntensity() }} kWh/m²</span>
       </div>
+      <div class="marker future-marker" 
+          [style.left.%]="getRatingPositionFromIntensity(energyIntensity)">
+        <div class="arrow-up"></div>
+        <span class="marker-tooltip">{{ energyIntensity }} kWh/m²</span>
+      </div>
+    </div>
     </div>
     
     <div class="energy-scale-values">
@@ -245,16 +236,17 @@
       </div>
       
       <!-- Eigennutzer View -->
-      <div *ngIf="!isVermieter">
-        <p>CO2 - Abgabe Euro (55 € / Tonne CO2)</p>
-        <p>{{calculateCO2TaxPerM2()}} €/m² (Gesamt: {{calculateTotalCO2Tax()}} € p.a.)</p>
-      </div>
-      
-      <!-- Vermieter View -->
-      <div *ngIf="isVermieter">
-        <p>CO2 - Abgabe je m² Euro (55 € / Tonne CO2)</p>
-        <p>{{calculateVermieterCO2Tax()}} €</p>
-      </div>
+   <!-- Eigennutzer View -->
+<div *ngIf="!isVermieter">
+  <p>CO2 - Abgabe Euro (55 € / Tonne CO2)</p>
+  <p>{{(calculateCO2TaxPerM2() | number:'1.3-3')}} €/m² (Gesamt: {{(calculateTotalCO2Tax() | number:'1.2-2')}} € p.a.)</p>
+</div>
+
+<!-- Vermieter View -->
+<div *ngIf="isVermieter">
+  <p>CO2 - Abgabe je m² Euro (55 € / Tonne CO2)</p>
+  <p>{{(calculateCO2TaxPerM2() | number:'1.3-3')}} €/m² (Gesamt: {{(calculateTotalCO2Tax() | number:'1.2-2')}} € p.a.)</p>
+</div>
     </div>
   </div>
   

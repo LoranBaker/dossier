@@ -19,32 +19,44 @@
 
   <p>Bitte setzen Sie sich mit unseren Finnazierungsexperten zusammen. Wir helfen Ihnen geren und suchen aus <strong>über 500 Banken</strong> das passende Angebot für Sie heraus.</p>
 
-  <div class="bank-icons">
-    <div class="bank-icon">
-      <div class="icon">🏦</div>
-      <div class="bank-text">Deutsche Bank</div>
+<div class="bank-icons">
+  <div class="bank-icon">
+    <div class="icon">
+      <img src="bank-logos/Deutsche_Bank.png" alt="Deutsche Bank Logo" class="bank-logo">
     </div>
-    <div class="bank-icon">
-      <div class="icon">🏛️</div>
-      <div class="bank-text">Volksbank</div>
-    </div>
-    <div class="bank-icon">
-      <div class="icon">💰</div>
-      <div class="bank-text">DSL Bank</div>
-    </div>
-    <div class="bank-icon">
-      <div class="icon">💳</div>
-      <div class="bank-text">DKB</div>
-    </div>
-    <div class="bank-icon">
-      <div class="icon">📊</div>
-      <div class="bank-text">BW Bank</div>
-    </div>
-    <div class="bank-icon">
-      <div class="icon">🔐</div>
-      <div class="bank-text">Sparkasse</div>
-    </div>
+    <div class="bank-text">Deutsche Bank</div>
   </div>
+  <div class="bank-icon">
+    <div class="icon">
+      <img src="bank-logos/Volksbank.png" alt="Volksbank Logo" class="bank-logo">
+    </div>
+    <div class="bank-text">Volksbank</div>
+  </div>
+  <div class="bank-icon">
+    <div class="icon">
+      <img src="bank-logos/DSL_Bank.png" alt="DSL Bank Logo" class="bank-logo">
+    </div>
+    <div class="bank-text">DSL Bank</div>
+  </div>
+  <div class="bank-icon">
+    <div class="icon">
+      <img src="bank-logos/DKB.png" alt="DKB Logo" class="bank-logo">
+    </div>
+    <div class="bank-text">DKB</div>
+  </div>
+  <div class="bank-icon">
+    <div class="icon">
+      <img src="bank-logos/BW_Bank.png" alt="BW Bank Logo" class="bank-logo">
+    </div>
+    <div class="bank-text">BW Bank</div>
+  </div>
+  <div class="bank-icon">
+    <div class="icon">
+      <img src="bank-logos/Sparkasse.png" alt="Sparkasse Logo" class="bank-logo">
+    </div>
+    <div class="bank-text">Sparkasse</div>
+  </div>
+</div>
 
   <div class="financing-data-table">
     <div class="financing-table-section">
@@ -93,8 +105,9 @@
           <div class="financing-info-row">
             <div class="financing-label">Ersparnis</div>
             <div class="financing-value">
-              {{ monthlySavings | currency:'EUR':'symbol':'1.0-0' }}
+              
               <span class="financing-annual-note">({{ annualSavings | currency:'EUR':'symbol':'1.0-0' }} p.a.)</span>
+              <strong> {{ monthlySavings | currency:'EUR':'symbol':'1.0-0' }}</strong>
             </div>
           </div>
         </div>
@@ -109,8 +122,8 @@
           <div class="financing-info-row">
             <div class="financing-label">Modernisierungsumlage (für 12,5 Jahre)</div>
             <div class="financing-value">
-              {{ modernisierungsumlage | currency:'EUR':'symbol':'1.0-0' }}
               <span class="financing-annual-note">({{ modernisierungsumlage * 12 | currency:'EUR':'symbol':'1.0-0' }} p.a.)</span>
+              {{ modernisierungsumlage | currency:'EUR':'symbol':'1.0-0' }}
             </div>
           </div>
           
@@ -128,18 +141,19 @@
           <div class="financing-info-row">
             <div class="financing-label">CO2-Steuer Ersparnis</div>
             <div class="financing-value">
+              <span class="financing-annual-note">({{ co2TaxSavingsAnnual | currency:'EUR':'symbol':'1.0-0' }} p.a.) </span>
               <span *ngIf="!isEditing">{{ co2TaxSavings | currency:'EUR':'symbol':'1.0-0' }}</span>
               <div *ngIf="isEditing" class="financing-input-group">
                 <input type="number" class="financing-edit-input" [(ngModel)]="editData.co2TaxSavings">
                 <span>€</span>
               </div>
-              <span class="financing-annual-note">({{ co2TaxSavingsAnnual | currency:'EUR':'symbol':'1.0-0' }} p.a.)</span>
+              
             </div>
           </div>
           
           <div class="financing-info-row">
             <div class="financing-label">Summe weitere Ersparnisse</div>
-            <div class="financing-value">{{ additionalSavingsTotal | currency:'EUR':'symbol':'1.0-0' }}</div>
+            <div class="financing-value"><strong>{{ additionalSavingsTotal | currency:'EUR':'symbol':'1.0-0' }}</strong></div>
           </div>
         </div>
       </div>
@@ -149,7 +163,7 @@
       <div class="financing-section-title">Summe alle Ersparnisse & Einnahmen mtl.</div>
       <div class="financing-total-value">+{{ totalSavingsMonthly | currency:'EUR':'symbol':'1.0-0' }}</div>
     </div>
-    
+    <br>
     <div class="financing-table-section">
       <div class="financing-section-title">Wunschfinanzierung <span class="financing-section-note">(Konditionsbeispiel ohne KfW-Kredit)</span></div>
       <div class="financing-note">(bei nur 10% Eigenkap. und ohne mögl. KfW-Kredit u. Tilgungszuschuss berechnet)</div>
@@ -179,7 +193,7 @@
             </div>
           </div>
           
-          <div class="financing-loan-option">
+          <!-- <div class="financing-loan-option">
             <div class="financing-loan-details">
               <div class="financing-loan-row">
                 <div class="financing-label">Monatliche Rate für Darlehen <span class="financing-interest-note">(mit 4,9% Zinsen berechnet)*</span></div>
@@ -200,9 +214,9 @@
               <div class="financing-loan-note">*Kondition können je nach Alter, Bonität, Bank und Situation abweichen</div>
               <div class="financing-rate-note">*(Rate ohne Ersparnisse, Einnahmen & Umlagen)</div>
             </div>
-          </div>
+          </div> -->
           
-          <div class="financing-loan-option">
+          <!-- <div class="financing-loan-option">
             <div class="financing-loan-details">
               <div class="financing-loan-row">
                 <div class="financing-label">Monatliche Rate für Darlehen <span class="financing-interest-note">(mit 4,9% Zinsen berechnet)*</span></div>
@@ -223,7 +237,7 @@
               <div class="financing-loan-note">*Kondition können je nach Alter, Bonität, Bank und Situation abweichen</div>
               <div class="financing-rate-note">*(Rate ohne Ersparnisse, Einnahmen & Umlagen)</div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

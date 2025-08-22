@@ -29,12 +29,20 @@ export class TimelineTabComponent implements OnInit {
   // All unique measure types
   allMeasureTypes: string[] = [];
   
+  private excludedMeasures = [
+  'Hydraulischer Abgleich',
+  'Neue Heizkreispumpe', 
+  'Voraussetzung bei Heizungstausch',
+  'Förderboni'
+];
+
   ngOnInit() {
     // Extract all available years from renovation plan
-    this.availableYears = this.renovationPlan.map(plan => plan.year);
-    
-    // Extract all unique measure types from renovation measures
-    this.allMeasureTypes = [...new Set(this.renovationMeasures.map(measure => measure.type))];
+     this.availableYears = this.renovationPlan.map(plan => plan.year);
+  
+  // Extract all unique measure types from renovation measures (excluding specific measures)
+  const allTypes = [...new Set(this.renovationMeasures.map(measure => measure.type))];
+  this.allMeasureTypes = allTypes.filter(type => !this.excludedMeasures.includes(type));
     
     console.log('Timeline component initialized');
     console.log('Available years:', this.availableYears);

@@ -1,0 +1,527 @@
+/* consumption.print.css - Print styles for consumption section */
+
+/* Define Apple color variables for print */
+:root {
+  --apple-black: #1d1d1f;
+  --apple-blue: #0071e3;
+  --apple-blue-dark-10: #005bb8;
+  --apple-blue-light-48: rgba(0, 113, 227, 0.48);
+  --apple-blue-light-30: rgba(0, 113, 227, 0.3);
+  --apple-white: #ffffff;
+  --apple-off-white: #fbfbfd;
+  --apple-gray: #86868b;
+  --apple-gray-dark: #515154;
+  --apple-gray-light: #d2d2d7;
+  --apple-green: #30d158;
+  --apple-green-light-10: rgba(48, 209, 88, 0.9);
+  --apple-yellow: #ffcc02;
+  --apple-yellow-light-10: rgba(255, 204, 2, 0.9);
+  --apple-orange: #ff9500;
+  --apple-orange-light-10: rgba(255, 149, 0, 0.9);
+  --apple-red: #ff3b30;
+  --apple-red-dark-5: #e6342a;
+  --apple-red-dark-15: #cc2e24;
+  --apple-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --apple-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --apple-transition: all 0.3s ease;
+}
+
+/* Consumption section base styles - tighter overall spacing */
+.consumption-section {
+  font-family: 'Inter', sans-serif;
+  color: var(--apple-black);
+  background-color: var(--apple-white);
+  padding: 0 !important;
+  margin: 0 !important;
+  page-break-inside: auto;
+  font-size: 10pt !important;
+  line-height: 1.3 !important;
+}
+
+.consumption-section h2 {
+  font-size: 1.2rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.25px !important;
+  color: #0071e3 !important;
+  text-align: center !important;
+  margin: 0 0 1rem 0 !important;
+  line-height: 1.2 !important;
+  page-break-after: avoid !important;
+}
+
+/* Section headers with light blue background like building data */
+.consumption-section h3 {
+  background: #e6f3ff !important;
+  color: #0071e3 !important;
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  margin: 12pt 0 0 0 !important;
+  padding: 8pt !important;
+  border-radius: 8px !important;
+  text-align: center !important;
+  line-height: 1.2 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.consumption-section h4 {
+  background: #e6f3ff !important;
+  color: #0071e3 !important;
+  font-size: 11pt !important;
+  font-weight: 700 !important;
+  margin: 8pt 0 6pt 0 !important;
+  padding: 6pt 8pt !important;
+  border-radius: 6px !important;
+  text-align: left !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Section header */
+.section-header {
+  margin-bottom: 18pt;
+  page-break-after: avoid;
+}
+
+.section-header h2 {
+  margin-bottom: 6pt;
+}
+
+/* Consumption data table */
+.consumption-data {
+  margin-bottom: 12pt !important;
+  page-break-inside: avoid;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 8pt;
+  page-break-inside: avoid;
+}
+
+.data-table tr.table-header th {
+  background: #e6f3ff !important;
+  color: #0071e3 !important;
+  padding: 1rem !important;
+  text-align: left;
+  font-weight: 700 !important;
+  font-size: 11pt !important;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.data-table tr {
+  background-color: var(--apple-white);
+  page-break-inside: avoid;
+}
+
+.data-table tr:hover {
+  background-color: var(--apple-blue-light-48);
+}
+
+.data-table td {
+  padding: 0.75rem 1rem !important;
+  font-size: 10pt !important;
+  border-bottom: 1px solid var(--apple-gray-light);
+  vertical-align: top;
+}
+
+.data-table td:first-child {
+  font-weight: 500;
+  color: var(--apple-black);
+}
+
+.data-table td:last-child {
+  font-weight: 500;
+  color: var(--apple-gray-dark);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table .alert {
+  color: var(--apple-red);
+  font-weight: 700;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Footnotes - compact spacing */
+.footnote {
+  font-size: 7.5pt;
+  color: var(--apple-gray);
+  margin-top: 4pt !important;
+  margin-bottom: 2pt !important;
+  padding-left: 8pt;
+  position: relative;
+  page-break-inside: avoid;
+}
+
+.footnote:before {
+  content: "*";
+  position: absolute;
+  left: 0;
+  color: var(--apple-gray);
+}
+
+/* ESG data section */
+.esg-data {
+  margin-bottom: 10pt !important;
+  page-break-inside: avoid;
+}
+
+.esg-table {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  page-break-inside: avoid;
+}
+
+.esg-row {
+  display: flex;
+  page-break-inside: avoid;
+}
+
+.esg-row:nth-child(even) {
+  background-color: var(--apple-off-white);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.esg-row:nth-child(odd) {
+  background-color: var(--apple-white);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.esg-cell {
+  flex: 1;
+  padding: 0.75rem 1rem !important;
+  border-bottom: 1px solid var(--apple-gray-light);
+  font-size: 10pt !important;
+}
+
+.esg-cell:first-child {
+  font-weight: 500;
+  color: var(--apple-black);
+}
+
+.esg-cell:last-child {
+  font-weight: 500;
+  color: var(--apple-gray-dark);
+  border-left: 1px solid var(--apple-gray-light);
+}
+
+.esg-row:last-child .esg-cell {
+  border-bottom: none;
+}
+
+/* Energy rating section */
+.energy-rating {
+  margin: 10pt 0 8pt 0 !important;
+  page-break-inside: avoid;
+}
+
+/* Energy rating header - match building data style */
+.energy-rating h4 {
+  background: #e6f3ff !important;
+  color: #0071e3 !important;
+  font-weight: 700 !important;
+  font-size: 10pt !important;
+  padding: 8pt 12pt !important;
+  margin: 18pt 0 12pt 0 !important;
+  border-radius: 6px !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.rating-scale {
+  display: flex;
+  position: relative;
+  margin: 8pt 0 16pt !important;
+  border-radius: 6px;
+  overflow: visible;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  page-break-inside: avoid;
+}
+
+.scale-label {
+  flex: 1;
+  text-align: center;
+  padding: 6pt 0;
+  font-weight: 600;
+  font-size: 8pt;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.scale-label:nth-child(1) { 
+  background-color: var(--apple-green); 
+  color: white; 
+}
+.scale-label:nth-child(2) { 
+  background-color: var(--apple-green-light-10); 
+  color: white; 
+}
+.scale-label:nth-child(3) { 
+  background-color: var(--apple-yellow); 
+  color: black;
+}
+.scale-label:nth-child(4) { 
+  background-color: var(--apple-yellow-light-10); 
+  color: black;
+}
+.scale-label:nth-child(5) { 
+  background-color: var(--apple-orange); 
+  color: black;
+}
+.scale-label:nth-child(6) { 
+  background-color: var(--apple-orange-light-10); 
+  color: black;
+}
+.scale-label:nth-child(7) { 
+  background-color: var(--apple-red); 
+  color: white; 
+}
+.scale-label:nth-child(8) { 
+  background-color: var(--apple-red-dark-5); 
+  color: white; 
+}
+.scale-label:nth-child(9) { 
+  background-color: var(--apple-red-dark-15); 
+  color: white; 
+}
+
+.scale-bar {
+  position: absolute;
+  bottom: -16pt !important;
+  left: 0;
+  right: 0;
+  height: 16pt !important;
+}
+
+/* Marker styling for print */
+.marker {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  z-index: 10;
+  page-break-inside: avoid;
+}
+
+.arrow-up {
+  width: 0; 
+  height: 0; 
+  border-left: 6pt solid transparent;
+  border-right: 6pt solid transparent;
+  border-bottom: 9pt solid var(--apple-red);
+  margin: 0 auto 3pt auto;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.marker::after {
+  content: "Aktuell";
+  display: block;
+  background-color: var(--apple-black);
+  color: white;
+  padding: 3pt 6pt;
+  border-radius: 6pt;
+  font-weight: 600;
+  font-size: 7pt;
+  text-align: center;
+  white-space: nowrap;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.marker-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 6pt;
+  background-color: var(--apple-white);
+  color: var(--apple-black);
+  padding: 3pt 6pt;
+  border-radius: 3pt;
+  font-size: 7pt;
+  border: 1px solid var(--apple-gray-light);
+  white-space: nowrap;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Energy scale values */
+.energy-scale-values {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8pt !important;
+  margin-bottom: 8pt !important;
+  padding: 0 3pt;
+}
+
+.energy-scale-values span {
+  font-size: 7pt;
+  color: var(--apple-gray);
+}
+
+/* CO2 tax section */
+.co2-tax {
+  margin-top: 12pt !important;
+  text-align: center;
+  background-color: var(--apple-off-white);
+  padding: 6pt !important;
+  border-radius: 8px;
+  page-break-inside: avoid;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.co2-tax p {
+  margin: 2pt 0 !important;
+  font-size: 9pt;
+}
+
+.co2-tax p:last-child {
+  font-weight: 600;
+  color: var(--apple-black);
+  font-size: 10pt !important;
+}
+
+/* User type switch */
+.user-type-switch {
+  margin-bottom: 8pt !important;
+  page-break-inside: avoid;
+}
+
+.toggle-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12pt;
+}
+
+.segment-control {
+  position: relative;
+  display: flex;
+  background-color: var(--apple-gray-light);
+  border-radius: 6pt;
+  overflow: hidden;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.segment-control input[type="radio"] {
+  display: none;
+}
+
+.segment-control label {
+  padding: 6pt 12pt;
+  font-size: 8pt;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--apple-transition);
+  position: relative;
+  z-index: 2;
+}
+
+.segment-control input[type="radio"]:checked + label {
+  color: var(--apple-white);
+}
+
+.selection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-color: var(--apple-blue);
+  border-radius: 6pt;
+  transition: var(--apple-transition);
+  z-index: 1;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Stranding data section - compact spacing for end of page */
+.stranding-data {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150pt, 1fr));
+  gap: 8pt !important;
+  margin-top: 8pt !important;
+  page-break-inside: avoid;
+}
+
+.stranding-box {
+  background-color: var(--apple-white);
+  border-radius: 8px;
+  padding: 6pt !important;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--apple-blue-light-30);
+  page-break-inside: avoid;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.stranding-title {
+  font-weight: 600;
+  color: var(--apple-red);
+  font-size: 10pt;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Input fields for edit mode (if present in print) */
+.edit-input {
+  border: 1px solid var(--apple-gray-light);
+  border-radius: 3pt;
+  padding: 2pt 4pt;
+  font-size: 8pt;
+  width: 60pt;
+}
+
+.small-input {
+  width: 36pt;
+  text-align: center;
+  margin-right: 3pt;
+}
+
+/* Print-specific adjustments */
+@media print {
+  .consumption-section {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  /* Ensure page breaks work correctly */
+  .consumption-data,
+  .esg-data,
+  .energy-rating,
+  .stranding-data {
+    page-break-inside: avoid;
+    orphans: 3;
+    widows: 3;
+  }
+  
+  /* Hide any remaining interactive elements */
+  .edit-controls,
+  .action-buttons,
+  .edit-button,
+  .cancel-button,
+  .save-button,
+  .saved-message {
+    display: none !important;
+  }
+  
+  /* Ensure colors print correctly */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

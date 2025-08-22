@@ -150,6 +150,7 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 .building-image {
   margin: 0;
   position: relative;
+  width: 100%;
   
   .image-placeholder {
     width: 100%;
@@ -214,14 +215,16 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
   .image-container {
     width: 100%;
-    height: 400px;
     position: relative;
     overflow: hidden;
+    // Remove fixed height to allow image to determine its own height based on aspect ratio
     
     .building-preview {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto; // Changed from 100% to auto
+      max-height: 600px; // Optional: set a maximum height to prevent extremely tall images
+      object-fit: contain; // Changed from cover to contain to show full image
+      display: block; // Ensure no inline spacing
       transition: transform 0.5s ease;
       
       &:hover {
@@ -245,6 +248,7 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
       transition: $apple-transition;
       opacity: 0;
+      z-index: 10; // Ensure button stays on top
       
       &:hover {
         background-color: rgba($apple-red, 0.9);
@@ -257,6 +261,8 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
 }
+
+
 
 /* Financial Potential Tab Styles */
 /* Additional styles for the Financial Potential section to match Building Data */
@@ -1192,106 +1198,181 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   .energy-rating {
     margin: 3rem 0;
     
-    .rating-scale {
-      display: flex;
-      position: relative;
-      margin: 2rem 0 4rem;
-      border-radius: 8px;
-      overflow: visible;
-      box-shadow: $apple-shadow-sm;
-      
-      .scale-label {
-        flex: 1;
-        text-align: center;
-        padding: 1rem 0;
-        font-weight: 600;
-        font-size: 0.9rem;
-        transition: $apple-transition;
-        
-        &:nth-child(1) { background-color: $apple-green; color: white; }
-        &:nth-child(2) { background-color: $apple-green-light-10; color: white; }
-        &:nth-child(3) { background-color: $apple-yellow; }
-        &:nth-child(4) { background-color: $apple-yellow-light-10; }
-        &:nth-child(5) { background-color: $apple-orange; }
-        &:nth-child(6) { background-color: $apple-orange-light-10; }
-        &:nth-child(7) { background-color: $apple-red; color: white; }
-        &:nth-child(8) { background-color: $apple-red-dark-5; color: white; }
-        &:nth-child(9) { background-color: $apple-red-dark-15; color: white; }
-      }
-      
-      .scale-bar {
-        position: absolute;
-        bottom: -40px;
-        left: 0;
-        right: 0;
-        height: 40px;
-        
-        // Current marker (E rating)
-        .current-marker {
-          position: absolute;
-          left: 66%; // Position for E rating
-          top: 0;
-          transform: translateX(-50%);
-          z-index: 10;
-          
-          .arrow-up {
-            width: 0; 
-            height: 0; 
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-bottom: 12px solid $apple-red;
-            margin: 0 auto 5px auto;
-          }
-          
-          &::after {
-            content: "Aktuell";
-            display: block;
-            background-color: $apple-black;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-align: center;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-            white-space: nowrap;
-          }
-        }
-        
-        // Future marker (A rating)
-        .future-marker {
-          position: absolute;
-          left: 22%; // Position for A rating
-          top: 0;
-          transform: translateX(-50%);
-          z-index: 10;
-          
-          .arrow-up {
-            width: 0; 
-            height: 0; 
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-bottom: 12px solid $apple-green;
-            margin: 0 auto 5px auto;
-          }
-          
-          &::after {
-            content: "In Zukunft";
-            display: block;
-            background-color: $apple-green;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-align: center;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-            white-space: nowrap;
-          }
-        }
-      }
+.rating-scale {
+  display: flex;
+  position: relative;
+  margin: 2rem 0 4rem;
+  border-radius: 8px;
+  overflow: visible;
+  box-shadow: $apple-shadow-sm;
+  
+  .scale-label {
+    flex: 1;
+    text-align: center;
+    padding: 1rem 0;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: $apple-transition;
+    
+    &:nth-child(1) { background-color: $apple-green; color: white; }
+    &:nth-child(2) { background-color: $apple-green-light-10; color: white; }
+    &:nth-child(3) { background-color: $apple-yellow; }
+    &:nth-child(4) { background-color: $apple-yellow-light-10; }
+    &:nth-child(5) { background-color: $apple-orange; }
+    &:nth-child(6) { background-color: $apple-orange-light-10; }
+    &:nth-child(7) { background-color: $apple-red; color: white; }
+    &:nth-child(8) { background-color: $apple-red-dark-5; color: white; }
+    &:nth-child(9) { background-color: $apple-red-dark-15; color: white; }
+  }
+  
+.scale-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -45px; // Moved "Aktuell" slightly further up
+  bottom: -45px; // Moved "In Zukunft" slightly further down
+  
+  // Marker base styles
+  .marker {
+    position: absolute;
+    transform: translateX(-50%);
+    z-index: 10;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    // Tooltip styling
+    .marker-tooltip {
+      position: absolute;
+      left: 50%;
+      background-color: $apple-white;
+      color: $apple-black;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid $apple-gray-light;
+      white-space: nowrap;
+      font-weight: 500;
+      z-index: 20;
     }
     
+    // Show tooltip on hover
+    &:hover {
+      .marker-tooltip {
+        opacity: 1;
+      }
+    }
+  }
+  
+  // Current marker - ABOVE the chart (slightly further)
+  .current-marker {
+    top: 0;
+    
+    // Label above arrow
+    &::before {
+      content: "Aktuell";
+      display: block;
+      background-color: $apple-black;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      white-space: nowrap;
+      margin-bottom: 4px; // Increased gap between label and arrow
+    }
+    
+    // Down arrow pointing to chart
+    .arrow-up {
+      width: 0; 
+      height: 0; 
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 12px solid $apple-red;
+      border-bottom: none;
+      margin: 0 auto;
+    }
+    
+    // Tooltip above the marker
+    .marker-tooltip {
+      bottom: 100%;
+      margin-bottom: 4px;
+      transform: translateX(-50%);
+      
+      &::before {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 10px;
+        height: 10px;
+        background-color: $apple-white;
+        border-bottom: 1px solid $apple-gray-light;
+        border-right: 1px solid $apple-gray-light;
+        transform: translateX(-50%) rotate(45deg);
+      }
+    }
+  }
+  
+  // Future marker - BELOW the chart (slightly further)
+  .future-marker {
+    bottom: 0;
+    top: auto;
+    
+    // Up arrow pointing to chart
+    .arrow-up {
+      width: 0; 
+      height: 0; 
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 12px solid $apple-green;
+      border-top: none;
+      margin: 0 auto; // Increased gap between arrow and label
+    }
+    
+    // Label below arrow
+    &::after {
+      content: "In Zukunft";
+      display: block;
+      background-color: $apple-green;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      white-space: nowrap;
+      margin-top: 4px;
+    }
+    
+    // Tooltip below the marker
+    .marker-tooltip {
+      top: 100%;
+      margin-top: 8px;
+      transform: translateX(-50%);
+      
+      &::before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: 50%;
+        width: 10px;
+        height: 10px;
+        background-color: $apple-white;
+        border-top: 1px solid $apple-gray-light;
+        border-left: 1px solid $apple-gray-light;
+        transform: translateX(-50%) rotate(45deg);
+      }
+    }
+  }
+}
+}
     .energy-scale-values {
       display: flex;
       justify-content: space-between;
@@ -1448,49 +1529,46 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   // Stranding data with updated boxes
-  .stranding-data {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
+ .stranding-data {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+  
+  .stranding-box {
+    background-color: $apple-white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: $apple-shadow-sm;
+    transition: $apple-transition;
+    border: 2px solid $apple-blue-light-30;
     
-    .stranding-box {
-      background-color: $apple-white;
-      border-radius: 12px;
-      padding: 1.5rem;
-      text-align: center;
-      box-shadow: $apple-shadow-sm;
-      transition: $apple-transition;
-      border: 2px solid $apple-blue-light-30;
+    &:hover {
+      box-shadow: $apple-shadow;
+      transform: translateY(-5px);
+    }
+    
+    .stranding-title {
+      font-weight: 600;
+      font-size: 1.125rem;
       
-      &:hover {
-        box-shadow: $apple-shadow;
-        transform: translateY(-5px);
-      }
-      
-      .stranding-title {
-        font-weight: 600;
-        font-size: 1.125rem;
-        
-        // Different colors for different boxes
-        &:nth-child(1) {
-          color: $apple-red;
-        }
-        
-        &:nth-child(2) {
-          color: $apple-red;
-        }
-        
-        &:nth-child(3) {
-          color: $apple-green;
-        }
-        
-        &:nth-child(4) {
-          color: $apple-green;
-        }
-      }
+      // Remove the old nth-child selectors and replace with specific targeting
+    }
+    
+    // Negative values (red) - first two boxes
+    &:nth-child(1) .stranding-title,
+    &:nth-child(2) .stranding-title {
+      color: $apple-red;
+    }
+    
+    // Positive values (blue) - last two boxes  
+    &:nth-child(3) .stranding-title,
+    &:nth-child(4) .stranding-title {
+      color: $apple-blue;
     }
   }
+}
   
   // Responsive adjustments
   @media (max-width: 768px) {
@@ -1768,6 +1846,8 @@ td .edit-input {
     }
   }
 }
+
+
 
 /* Additional styles for the new features in editable tables */
 
@@ -2751,7 +2831,7 @@ select.edit-input {
   .data-table {
     margin-bottom: 3rem;
     border-radius: 12px;
-    overflow: hidden;
+    overflow: visible;
     box-shadow: $apple-shadow-sm;
     
     table {
@@ -2793,6 +2873,113 @@ select.edit-input {
     }
   }
 }
+/* Building Valuation Tooltip Styles */
+.valuation-tooltip-trigger {
+  position: relative;
+  cursor: help;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.5rem;
+  
+  svg {
+    width: 16px;
+    height: 16px;
+    stroke: $apple-blue;
+    fill: none;
+    opacity: 0.6;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    circle:last-child {
+      fill: $apple-blue;
+      stroke: none;
+    }
+  }
+  
+  &:hover svg {
+    opacity: 1;
+    transform: scale(1.1);
+    stroke: $apple-blue-dark-10;
+    
+    circle:last-child {
+    fill: $apple-blue-dark-10;
+    }
+  }
+  
+  // Your existing tooltip styles remain the same...
+  &:hover::after {
+    content: "Der Wiederherstellungswert spielt eine zentrale Rolle in der Immobilien- und Versicherungswelt – und zwar aus mehreren Gründen \A\A 1. Grundlage für die Gebäudeversicherung\A• Die Versicherung orientiert sich am Wert, den es kosten würde, ein Gebäude nach einem\A  Totalschaden originalgetreu wiederaufzubauen.\A• Nur mit einem korrekt ermittelten Wert bist du ausreichend abgesichert – sonst droht im Ernstfall eine Unterversicherung.\A\A 2. Inflationsunabhängige Bewertung\A• Anders als Marktpreise schwankt der Wiederherstellungswert nicht mit Angebot & Nachfrage, sondern orientiert sich an den realen Baukosten.\A• Besonders wichtig bei älteren Immobilien – dort ist der Verkaufswert oft niedriger als die Wiederherstellungskosten.";
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    color: #1d1d1f;
+    padding: 20px 24px;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.5;
+    width: 450px;
+    text-align: left;
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.15),
+      0 4px 12px rgba(0, 0, 0, 0.08);
+    z-index: 9999;
+    white-space: pre-line;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    letter-spacing: -0.01em;
+    animation: tooltipSlideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  &:hover::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 12px solid #f8fafc;
+    z-index: 10000;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    animation: tooltipSlideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+}
+/* Responsive adjustments for valuation tooltip */
+@media (max-width: 768px) {
+  .valuation-tooltip-trigger:hover::after {
+    width: 340px;
+    font-size: 0.8rem;
+    padding: 16px 20px;
+    left: -150px;
+    transform: translateY(-100%);
+  }
+  
+  .valuation-tooltip-trigger:hover::before {
+    left: calc(-150px + 170px);
+    transform: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .valuation-tooltip-trigger:hover::after {
+    width: 300px;
+    left: -130px;
+    font-size: 0.75rem;
+    padding: 14px 18px;
+    transform: translateY(-100%);
+  }
+  
+  .valuation-tooltip-trigger:hover::before {
+    left: calc(-130px + 150px);
+  }
+}
+
 
 /* Consumption tab styles */
 .consumption-section {
@@ -3542,7 +3729,23 @@ select.edit-input {
       }
     }
   }
-  
+  .funding-bonus-row {
+  .funding-bonus-description {
+    text-align: center;
+    font-weight: 700;
+    color: $apple-blue;
+    
+    .description {
+      .description-line-2 {
+        color: $apple-blue;
+        font-weight: 700;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+}
   .savings-potential {
     background-color: $apple-off-white;
     padding: 2rem;
@@ -3697,80 +3900,356 @@ select.edit-input {
   }
 }
 
-/* Target Analysis Tab */
+/* Target Analysis Tab Styles */
 .target-analysis-section {
+  margin-bottom: 3rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  color: $apple-black;
+  
   h2 {
     font-size: 2rem;
     font-weight: 700;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.5px;
     color: $apple-black;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
     text-align: center;
+  }
+
+  /* Edit Controls - Consistent with app styling */
+  .target-analysis-edit-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  
+  .target-analysis-edit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: $apple-white;
+    color: $apple-blue;
+    border: 1px solid $apple-blue;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: $apple-transition;
+    font-family: inherit;
+    
+    svg {
+      stroke: $apple-blue;
+      transition: $apple-transition;
+    }
+    
+    &:hover {
+      background-color: $apple-blue-light-48;
+      transform: translateY(-2px);
+      box-shadow: $apple-shadow-sm;
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+  
+  .target-analysis-action-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .target-analysis-cancel-button {
+    background-color: $apple-white;
+    color: $apple-gray-dark;
+    border: 1px solid $apple-gray-light;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: $apple-transition;
+    font-family: inherit;
+    
+    &:hover {
+      background-color: $apple-gray-light;
+      transform: translateY(-2px);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+  
+  .target-analysis-save-button {
+    background-color: $apple-blue;
+    color: $apple-white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: $apple-transition;
+    font-family: inherit;
+    
+    &:hover {
+      background-color: $apple-blue-hover;
+      transform: translateY(-2px);
+      box-shadow: $apple-shadow-sm;
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+  
+  .target-analysis-saved-message {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background-color: $apple-green;
+    color: white;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    pointer-events: none;
+    box-shadow: $apple-shadow;
+    font-family: inherit;
+    white-space: nowrap;
+    z-index: 100;
+    
+    &.show {
+      opacity: 1;
+      transform: translateY(0);
+      animation: fadeInMessage 0.3s ease forwards;
+    }
+    
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      right: 20px;
+      width: 16px;
+      height: 16px;
+      background-color: $apple-green;
+      transform: rotate(45deg);
+      border-radius: 2px;
+    }
+  }
+
+  /* Edit Mode Instructions */
+  .edit-instructions {
+    margin-bottom: 2rem;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, $apple-blue-light-48, $apple-blue-light-45);
+    border-radius: 12px;
+    border: 1px solid $apple-blue-light-30;
+    
+    p {
+      margin: 0;
+      font-size: 1rem;
+      color: $apple-blue-dark-10;
+      font-weight: 500;
+      text-align: center;
+      
+      &::before {
+        content: "ℹ️";
+        margin-right: 0.75rem;
+        font-size: 1.125rem;
+      }
+    }
   }
 }
 
-/* Measure Cards */
+/* Measure Cards - Improved Layout */
 .target-measures {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 24px;
   margin-bottom: 48px;
   
   .measure-card {
     background-color: $apple-white;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     display: flex;
     flex-direction: column;
-    height: 100%;
+    padding: 0;
+    height: auto;
+    min-height: 180px;
+    position: relative;
+    cursor: default;
+    border: 2px solid transparent;
+    overflow: hidden;
     
     &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.12);
+      transform: translateY(-6px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     }
     
+    /* Edit mode styling */
+    &.editing {
+      cursor: pointer;
+      user-select: none;
+      
+      &:hover {
+        border-color: $apple-blue;
+        background: linear-gradient(135deg, $apple-white, $apple-blue-light-48);
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 16px 32px rgba(0, 113, 227, 0.18);
+      }
+      
+      &:active {
+        transform: translateY(-6px) scale(1.01);
+        transition: all 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+    }
+    
+    /* Icon Header Section */
     .measure-icon {
-      padding: 20px;
+      width: 100%;
+      height: 80px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: hsla(210, 100%, 95%, 1);
-      height: 120px;
+      flex-shrink: 0;
+      position: relative;
       
       svg {
-        width: 60px;
-        height: 60px;
-        stroke: hsla(210, 100%, 50%, 1);
+        width: 48px;
+        height: 48px;
+        stroke-width: 1.5;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        z-index: 2;
+        position: relative;
       }
       
-      &.heating-icon svg { stroke: hsl(210, 100%, 50%); }
-      &.basement-icon svg { stroke: hsl(250, 60%, 60%); }
-      &.roof-icon svg { stroke: hsl(0, 70%, 60%); }
-      &.facade-icon svg { stroke: hsl(30, 80%, 55%); }
-      &.window-icon svg { stroke: hsl(200, 80%, 55%); }
-      &.door-icon svg { stroke: hsl(280, 60%, 55%); }
-      &.solar-icon svg { stroke: hsl(140, 60%, 50%); }
+      /* Background overlay for better contrast */
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0.1;
+        z-index: 1;
+      }
+      
+      /* Icon colors with improved gradients and patterns */
+      &.heating-icon {
+        background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #ffa726 100%);
+        color: white;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 60%);
+        }
+      }
+      
+      &.basement-icon {
+        background: linear-gradient(135deg, #8b4513 0%, #a0522d 50%, #cd853f 100%);
+        color: white;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent 60%);
+        }
+      }
+      
+      &.roof-icon {
+        background: linear-gradient(135deg, #dc143c 0%, #e91e63 50%, #f06292 100%);
+        color: white;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 60%);
+        }
+      }
+      
+      &.facade-icon {
+        background: linear-gradient(135deg, #4682b4 0%, #5a9fd4 50%, #81c784 100%);
+        color: white;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 60%);
+        }
+      }
+      
+      &.window-icon {
+        background: linear-gradient(135deg, #20b2aa 0%, #48d1cc 50%, #80cbc4 100%);
+        color: white;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 60%);
+        }
+      }
+      
+      &.ventilation-icon {
+        background: linear-gradient(135deg, #32cd32 0%, #90ee90 50%, #a5d6a7 100%);
+        color: white;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent 60%);
+        }
+      }
+      
+      &.attic-floor-icon {
+        background: linear-gradient(135deg, #9370db 0%, #ba55d3 50%, #ce93d8 100%);
+        color: white;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 60%);
+        }
+      }
+      
+      &.skylight-icon {
+        background: linear-gradient(135deg, #ffa500 0%, #ffb84d 50%, #ffcc80 100%);
+        color: white;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 60%);
+        }
+      }
+      
+      &.solar-icon {
+        background: linear-gradient(135deg, #ffd700 0%, #ffed4a 50%, #fff176 100%);
+        color: #2c2c2c;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 60%);
+        }
+        
+        svg {
+          filter: drop-shadow(0 2px 4px rgba(44, 44, 44, 0.15));
+        }
+      }
     }
     
+    /* Content Section */
     .measure-content {
-      padding: 20px;
-      flex-grow: 1;
+      flex: 1;
+      padding: 24px;
       display: flex;
       flex-direction: column;
       
       h3 {
-        font-size: 1.25rem;
+        font-size: 1.375rem;
         font-weight: 600;
         color: $apple-black;
-        margin-bottom: 12px;
-        letter-spacing: -0.01em;
+        margin-bottom: 16px;
+        letter-spacing: -0.02em;
+        line-height: 1.3;
       }
       
       p {
-        color: hsla(0, 0%, 30%, 1);
-        font-size: 0.95rem;
+        color: $apple-gray-dark;
+        font-size: 1rem;
         line-height: 1.6;
         margin: 0;
         flex-grow: 1;
@@ -3781,6 +4260,215 @@ select.edit-input {
         }
       }
     }
+    
+    /* Edit toggle indicator - Better positioning */
+    .edit-toggle-indicator {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, $apple-green 0%, #2dd4bf 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);
+      opacity: 0;
+      transform: scale(0.6) rotate(-180deg);
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      z-index: 20;
+      pointer-events: none;
+      border: 3px solid white;
+    }
+    
+    &.editing .edit-toggle-indicator {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+    
+    &.editing:hover .edit-toggle-indicator {
+      transform: scale(1.1) rotate(0deg);
+      box-shadow: 0 6px 16px rgba(52, 199, 89, 0.4);
+    }
+  }
+}
+
+/* Measurement Controls */
+.measurement-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: $apple-off-white;
+  border-radius: 12px;
+  border: 1px solid $apple-gray-light;
+}
+
+.measurement-stats {
+  .visible-count {
+    font-size: 0.9rem;
+    color: $apple-gray-dark;
+    font-weight: 500;
+  }
+}
+
+.add-measurement-controls {
+  position: relative;
+}
+
+.add-back-dropdown {
+  position: relative;
+  
+  &.open .dropdown-arrow {
+    transform: rotate(180deg);
+  }
+}
+
+.add-back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: $apple-white;
+  color: $apple-blue;
+  border: 1px solid $apple-blue;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: $apple-transition;
+  font-family: inherit;
+  
+  &:hover {
+    background-color: $apple-blue-light-48;
+    transform: translateY(-1px);
+    box-shadow: $apple-shadow-sm;
+  }
+  
+  .dropdown-arrow {
+    transition: transform 0.3s ease;
+  }
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background-color: $apple-white;
+  border: 1px solid $apple-gray-light;
+  border-radius: 12px;
+  box-shadow: $apple-shadow;
+  min-width: 220px;
+  max-width: 300px;
+  z-index: 1000;
+  overflow: hidden;
+  animation: dropdownFadeIn 0.2s ease-out;
+}
+
+.dropdown-header {
+  padding: 0.75rem 1rem;
+  background-color: $apple-off-white;
+  border-bottom: 1px solid $apple-gray-light;
+  
+  span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $apple-gray-dark;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: $apple-transition;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: $apple-black;
+  
+  &:hover {
+    background-color: $apple-blue-light-48;
+    color: $apple-blue;
+    
+    svg {
+      stroke: $apple-blue;
+    }
+  }
+  
+  &.show-all {
+    font-weight: 600;
+    color: $apple-green;
+    
+    &:hover {
+      background-color: rgba($apple-green, 0.1);
+      color: $apple-green;
+      
+      svg {
+        stroke: $apple-green;
+      }
+    }
+  }
+  
+  svg {
+    flex-shrink: 0;
+    stroke: $apple-gray;
+    transition: $apple-transition;
+  }
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: $apple-gray-light;
+  margin: 0.5rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .measurement-controls {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .measurement-stats {
+    text-align: center;
+  }
+  
+  .add-measurement-controls {
+    align-self: center;
+  }
+  
+  .dropdown-menu {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 250px;
+  }
+}
+
+/* Animation */
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -4134,6 +4822,138 @@ select.edit-input {
   background-color: #f5f5f7; /* Apple off-white */
 }
 
+/* Make sure table container doesn't clip tooltips */
+.financial-benefits-section .data-table {
+  overflow: visible !important; /* Allow tooltip to extend outside */
+}
+
+.financial-benefits-section .data-table table {
+  overflow: visible !important; /* Allow tooltip to extend outside */
+}
+
+/* Always Visible Tooltip - Add this to your SCSS file */
+
+.tooltip-trigger-simple {
+  position: relative;
+  cursor: help;
+  
+  /* Remove the :hover pseudo-selector to make it always visible */
+  &::after {
+    content: "66.343 €\A\AWürden Sie in 15 Jahren mehr\AEinnehmen und Einsparen\A(0% Kostensteigerung p.a.)\A\A*ohne Wertsteigerung Ihrer Immobilie";
+    position: absolute;
+    bottom: calc(100% + 15px); /* Position above the cell with some spacing */
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #34c759, #30d158);
+    color: white;
+    padding: 12px 16px; /* Reduced padding */
+    border-radius: 12px; /* Smaller border radius */
+    font-size: 0.8rem; /* Smaller font */
+    font-weight: 500;
+    line-height: 1.4; /* Tighter line height */
+    width: 240px; /* Smaller width */
+    text-align: left;
+    box-shadow: 
+      0 12px 24px rgba(52, 199, 89, 0.3), /* Smaller shadow */
+      0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 9999; /* Very high z-index to appear above everything */
+    white-space: pre-line;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    
+    /* Apple-style animation - now always visible */
+    opacity: 1;
+    
+    /* Text styling within tooltip */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    letter-spacing: -0.01em;
+  }
+  
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: calc(100% + 3px); /* Position just above the cell */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent; /* Smaller arrow */
+    border-right: 8px solid transparent;
+    border-top: 8px solid #34c759;
+    z-index: 10000; /* Higher than tooltip */
+    filter: drop-shadow(0 1px 2px rgba(52, 199, 89, 0.3)); /* Smaller shadow */
+    
+    /* Always visible */
+    opacity: 1;
+  }
+  
+  /* Optional: Add a subtle hover effect to make it interactive */
+  &:hover::after {
+    transform: translateX(-50%) scale(1.05);
+    box-shadow: 
+      0 16px 32px rgba(52, 199, 89, 0.4),
+      0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:hover::before {
+    filter: drop-shadow(0 2px 4px rgba(52, 199, 89, 0.4));
+  }
+}
+
+/* Alternative approach - if you want to make it toggleable */
+.tooltip-trigger-simple.always-show {
+  &::after,
+  &::before {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+}
+
+/* If you need to override the existing hover-only behavior specifically */
+.financial-benefits-section .tooltip-trigger-simple {
+  &::after,
+  &::before {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Keep the hover enhancement */
+  &:hover::after {
+    transform: translateX(-50%) scale(1.05);
+  }
+}
+
+/* Responsive adjustments for always visible tooltip */
+@media (max-width: 768px) {
+  .tooltip-trigger-simple::after {
+    width: 200px;
+    font-size: 0.75rem;
+    padding: 10px 14px;
+    left: -75px;
+    transform: none;
+  }
+  
+  .tooltip-trigger-simple::before {
+    left: calc(-75px + 100px);
+    transform: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .tooltip-trigger-simple::after {
+    width: 180px;
+    left: -65px;
+    font-size: 0.7rem;
+    padding: 8px 12px;
+  }
+  
+  .tooltip-trigger-simple::before {
+    left: calc(-65px + 90px);
+  }
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 // Apple-inspired color palette with HSL values from main file
@@ -4193,6 +5013,143 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     line-height: 1.6;
   }
   
+
+/* Fixed Building Model Section - Full Width */
+.building-model-section {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  height: 500px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 0; /* Remove border radius for true full width */
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+  /* Loading State */
+  .model-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: $apple-off-white;
+    
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid $apple-gray-light;
+      border-top: 3px solid $apple-blue;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
+    }
+    
+    p {
+      margin: 0;
+      font-size: 16px;
+      color: $apple-gray;
+      font-weight: 500;
+    }
+  }
+  
+  /* 3D Model Viewer Container - Full Width */
+  .model-viewer-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    
+    app-simple3d-model {
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+  
+  /* No Model Available */
+  .no-model-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .no-model-placeholder {
+      text-align: center;
+      
+      .no-model-icon {
+        color: $apple-gray;
+        margin-bottom: 16px;
+        opacity: 0.6;
+        
+        svg {
+          width: 64px;
+          height: 64px;
+        }
+      }
+      
+      h3 {
+        margin: 0 0 8px 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: $apple-gray-dark;
+      }
+      
+      p {
+        margin: 0 0 20px 0;
+        color: $apple-gray;
+        font-size: 14px;
+      }
+      
+      .retry-button {
+        background-color: $apple-white;
+        color: $apple-blue;
+        border: 1px solid $apple-blue;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: $apple-transition;
+        
+        &:hover {
+          background-color: $apple-blue-light-48;
+          transform: translateY(-2px);
+          box-shadow: $apple-shadow-sm;
+        }
+      }
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .building-model-section {
+    height: 400px; /* Slightly smaller on mobile */
+  }
+  
+  .tab-content {
+    padding: 2rem 1rem;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
   // Bank icons grid similar to benefits-icons in main scss
   // Bank icons grid styling (global level)
 .bank-icons {
@@ -4218,8 +5175,25 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .icon {
-      font-size: 2.5rem;
+      // Fixed dimensions for icon container
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-bottom: 1rem;
+      overflow: hidden;
+      
+      // Styling for the bank logo images
+      .bank-logo {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        // Ensure logos don't exceed container
+        display: block;
+      }
     }
     
     .bank-text {
@@ -4229,6 +5203,7 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
 }
+
 
 // Responsive adjustments
 @media (max-width: 768px) {
@@ -4610,6 +5585,611 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
+/* Print Button Styles - Enhanced version for dossier.component.scss */
+.print-section {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; // Spacing between buttons
+
+  .print-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    border: none;
+    border-radius: 16px;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $apple-transition;
+    box-shadow: $apple-shadow-lg;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    min-width: 160px;
+    color: $apple-white;
+    
+    // Default button (Kunde) - Original blue
+    background: linear-gradient(135deg, $apple-blue, $apple-blue-dark-10);
+    
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 32px rgba(0, 113, 227, 0.3);
+    }
+    
+    &:active {
+      transform: translateY(-1px);
+    }
+    
+    svg {
+      stroke: $apple-white;
+      transition: $apple-transition;
+    }
+    
+    .print-text {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+      letter-spacing: -0.25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.125rem;
+      
+      .print-icon {
+        font-size: 1.1em;
+      }
+      
+      .print-label {
+        font-size: 0.9em;
+        font-weight: 500;
+        opacity: 0.9;
+      }
+    }
+  }
+
+  // First button (Kunde) - Keep original blue
+  .print-button:nth-child(1) {
+    background: linear-gradient(135deg, $apple-blue, $apple-blue-dark-10);
+    margin-top: 0;
+    
+    &:hover {
+      background: linear-gradient(135deg, $apple-blue-hover, $apple-blue);
+      box-shadow: 0 16px 32px rgba(0, 113, 227, 0.3);
+    }
+  }
+
+  // Second button (LV-Verz.) - Light blue
+  .print-button:nth-child(2) {
+    background: linear-gradient(135deg, #4A90E2, #357ABD);
+    margin-top: 0.5rem; // Top margin for staggered effect
+    
+    &:hover {
+      background: linear-gradient(135deg, #5BA0F2, #4A90E2);
+      box-shadow: 0 16px 32px rgba(74, 144, 226, 0.3);
+    }
+  }
+
+  // Third button (Bank) - Dark blue
+  .print-button:nth-child(3) {
+    background: linear-gradient(135deg, #1e3a5f, #0f2540);
+    margin-top: 1rem; // Larger top margin for more staggered effect
+    
+    &:hover {
+      background: linear-gradient(135deg, #2d4a6f, #1e3a5f);
+      box-shadow: 0 16px 32px rgba(30, 58, 95, 0.4);
+    }
+  }
+}
+
+/* Alternative staggered layout - uncomment if you prefer this approach */
+/*
+.print-section {
+  .print-button {
+    // Add progressive top margins
+    &:nth-child(1) { margin-top: 0; }
+    &:nth-child(2) { margin-top: 0.75rem; }
+    &:nth-child(3) { margin-top: 1.5rem; }
+  }
+}
+*/
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .print-section {
+    bottom: 1rem;
+    right: 1rem;
+    
+    .print-button {
+      min-width: 140px;
+      padding: 0.875rem 1.25rem;
+      font-size: 0.9rem;
+      
+      &:nth-child(2) { margin-top: 0.375rem; }
+      &:nth-child(3) { margin-top: 0.75rem; }
+    }
+  }
+}
+
+/* Print-specific styles */
+@media print {
+  .print-section {
+    display: none; // Hide print buttons when printing
+  }
+  
+  /* Page setup */
+  @page {
+    size: A4;
+    margin: 1.5cm;
+    orphans: 3;
+    widows: 3;
+  }
+}
+
+/* Print-specific styles */
+@media print {
+  .print-section {
+    display: none; // Hide print buttons when printing
+  }
+  
+  /* Page setup */
+  @page {
+    size: A4;
+    margin: 1.5cm;
+    orphans: 3;
+    widows: 3;
+  }
+}
+
+/* Print-specific styles */
+@media print {
+  /* Page setup */
+  @page {
+    size: A4;
+    margin: 1.5cm;
+    orphans: 3;
+    widows: 3;
+  }
+  
+  /* Base styling - keep component appearance */
+  body {
+    margin: 0;
+    padding: 0;
+    line-height: 1.4;
+    font-size: 11pt;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+    background: white;
+    color: #1d1d1f;
+  }
+  
+  /* Hide navigation and interactive elements only */
+  .tabs-container,
+  .print-section,
+  .image-remove-btn,
+  .upload-container,
+  .edit-controls,
+  .action-buttons,
+  .edit-button,
+  .cancel-button,
+  .save-button,
+  .saved-message,
+  .add-button,
+  .remove-icon,
+  .tab-scroll-button,
+  .tabs-wrapper,
+  .upload-btn,
+  .file-input,
+  .add-measure-controls {
+    display: none !important;
+  }
+  
+  /* Keep container styling but optimize for print */
+  .dossier-container,
+  .print-container {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background-color: white !important;
+  }
+  
+  /* Section containers - one per page */
+  .print-section-container {
+    page-break-before: always;
+    page-break-inside: avoid;
+    margin: 0;
+    padding: 1rem;
+    min-height: 90vh;
+  }
+  
+  .print-section-container:first-child {
+    page-break-before: auto;
+  }
+  
+  /* Section titles - keep styling */
+  .print-section-container h1 {
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: #0071e3 !important;
+    margin: 0 0 1.5rem 0 !important;
+    padding-bottom: 0.5rem !important;
+    border-bottom: 3px solid #0071e3 !important;
+    letter-spacing: -0.5px !important;
+  }
+  
+  /* Keep component styling */
+  .tab-content {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Header styling - keep brand appearance */
+  .dossier-header {
+    background: linear-gradient(to right, #e1f0ff, #f0f7ff) !important;
+    border-bottom: none !important;
+    padding: 2rem !important;
+    margin-bottom: 1rem !important;
+    border-radius: 12px !important;
+    text-align: center !important;
+  }
+  
+  .dossier-header .logo {
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    color: #0071e3 !important;
+    margin-bottom: 1rem !important;
+    letter-spacing: -0.5px !important;
+  }
+  
+  .dossier-header .title {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #1d1d1f !important;
+    margin-bottom: 0.5rem !important;
+    letter-spacing: -0.5px !important;
+  }
+  
+  .dossier-header .subtitle {
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    color: #424245 !important;
+    margin-bottom: 0 !important;
+  }
+  
+  /* Building image */
+  .building-image {
+    margin: 0 0 1.5rem 0 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    max-height: 300px !important;
+  }
+  
+  .building-image img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 12px !important;
+  }
+  
+  /* Typography - keep hierarchy */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.25px !important;
+    color: #1d1d1f !important;
+  }
+  
+  h2 { 
+    font-size: 1.5rem !important; 
+    margin: 1.5rem 0 1rem 0 !important;
+    color: #0071e3 !important;
+  }
+  h3 { 
+    font-size: 1.25rem !important; 
+    margin: 1rem 0 0.75rem 0 !important;
+    color: #424245 !important;
+  }
+  h4 { 
+    font-size: 1.125rem !important; 
+    margin: 0.75rem 0 0.5rem 0 !important;
+  }
+  
+  /* Paragraphs */
+  p {
+    margin: 0.5rem 0 !important;
+    line-height: 1.5 !important;
+    color: #424245 !important;
+    orphans: 3 !important;
+    widows: 3 !important;
+  }
+  
+  /* Tables - keep styled appearance */
+  .data-table,
+  .renovation-table,
+  .timeline-table,
+  .financing-data-table {
+    page-break-inside: avoid !important;
+    margin: 1rem 0 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid #e8e8ed !important;
+  }
+  
+  .data-table table,
+  .renovation-table,
+  .timeline-table,
+  .financing-data-table table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+  }
+  
+  th, td {
+    padding: 0.75rem !important;
+    border-bottom: 1px solid #e8e8ed !important;
+    font-size: 0.9rem !important;
+    line-height: 1.4 !important;
+    text-align: left !important;
+  }
+  
+  th {
+    background: #f5f5f7 !important;
+    font-weight: 600 !important;
+    color: #1d1d1f !important;
+    font-size: 0.85rem !important;
+  }
+  
+  /* Primary headers */
+  .table-header.primary-header th {
+    background: linear-gradient(135deg, #1e3a8a, #1e40af) !important;
+    color: white !important;
+    padding: 1rem !important;
+  }
+  
+  /* Section headers */
+  .section-header th {
+    background: #e1f0ff !important;
+    color: #0071e3 !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    font-size: 0.8rem !important;
+    letter-spacing: 0.5px !important;
+  }
+  
+  /* Cards and grids - maintain styled appearance */
+  .stats-circles,
+  .benefits-icons,
+  .comparison-grid,
+  .cost-grid,
+  .stranding-data,
+  .analysis-items,
+  .target-measures,
+  .eco-comparison {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+    gap: 1rem !important;
+    margin: 1.5rem 0 !important;
+  }
+  
+  .stat-circle,
+  .benefit-icon,
+  .comparison-item,
+  .cost-item,
+  .stranding-box,
+  .analysis-item,
+  .measure-card,
+  .eco-card {
+    padding: 1rem !important;
+    border-radius: 8px !important;
+    border: 1px solid #e8e8ed !important;
+    page-break-inside: avoid !important;
+    background: white !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  /* Stat circles - special styling */
+  .stat-circle {
+    background: linear-gradient(135deg, #e1f0ff, #f0f7ff) !important;
+    text-align: center !important;
+    border: 2px solid #0071e3 !important;
+  }
+  
+  .stat-circle .circle-value {
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: #0071e3 !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .stat-circle .circle-label {
+    font-size: 0.9rem !important;
+    color: #424245 !important;
+    font-weight: 500 !important;
+  }
+  
+  /* Lists */
+  ul, ol {
+    margin: 0.75rem 0 !important;
+    padding-left: 1.5rem !important;
+  }
+  
+  li {
+    margin: 0.5rem 0 !important;
+    line-height: 1.4 !important;
+    color: #424245 !important;
+  }
+  
+  /* Benefit lists with checkmarks */
+  .benefits-list li:before {
+    content: "✓" !important;
+    color: #0071e3 !important;
+    font-weight: 700 !important;
+    margin-right: 0.5rem !important;
+  }
+  
+  /* Two column layouts */
+  .two-columns {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2rem !important;
+    margin: 1.5rem 0 !important;
+  }
+  
+  .column {
+    padding: 1.5rem !important;
+    background: #f9f9fb !important;
+    border-radius: 12px !important;
+    border: 1px solid #e8e8ed !important;
+  }
+  
+  /* Charts and visual elements */
+  .energy-rating,
+  .rating-scale,
+  .modernization-chart,
+  .d3-chart-container {
+    margin: 1.5rem 0 !important;
+    page-break-inside: avoid !important;
+  }
+  
+  svg, canvas {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* Energy scale styling */
+  .rating-scale .scale-label {
+    padding: 0.75rem !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    color: white !important;
+  }
+  
+  /* Summary specific styling */
+  .summary-container {
+    background: #f9f9fb !important;
+    border-radius: 16px !important;
+    padding: 2rem !important;
+    margin: 0 !important;
+    border: 1px solid #e8e8ed !important;
+  }
+  
+  .summary-hero {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 2rem !important;
+    margin: 2rem 0 !important;
+  }
+  
+  .summary-icon {
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 2rem !important;
+    border: 2px solid #e8e8ed !important;
+  }
+  
+  .summary-comparison {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2rem !important;
+    margin: 2rem 0 !important;
+  }
+  
+  .summary-panel-current,
+  .summary-panel-future {
+    padding: 1.5rem !important;
+    border-radius: 12px !important;
+    border: 2px solid #e8e8ed !important;
+    background: white !important;
+  }
+  
+  .summary-panel-current {
+    border-left: 4px solid #ff453a !important;
+  }
+  
+  .summary-panel-future {
+    border-left: 4px solid #34c759 !important;
+  }
+  
+  /* Footer */
+  .dossier-footer {
+    margin-top: 2rem !important;
+    padding: 1rem !important;
+    border-top: 2px solid #e8e8ed !important;
+    font-size: 0.9rem !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    background: #f5f5f7 !important;
+    border-radius: 8px !important;
+  }
+  
+  .footer-logo {
+    font-weight: 700 !important;
+    color: #0071e3 !important;
+  }
+  
+  .footer-website {
+    color: #86868b !important;
+  }
+  
+  /* Prevent awkward breaks */
+  .comparison-item,
+  .measure-card,
+  .analysis-item,
+  .cost-item,
+  .stranding-box {
+    break-inside: avoid !important;
+  }
+  
+  /* Hide truly empty sections */
+  .tab-content:empty {
+    display: none !important;
+  }
+  
+  /* Value highlighting */
+  .highlight-value {
+    color: #0071e3 !important;
+    font-weight: 600 !important;
+  }
+  
+  .highlight-positive {
+    color: #34c759 !important;
+    font-weight: 600 !important;
+  }
+  
+  .highlight-negative {
+    color: #ff453a !important;
+    font-weight: 600 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .print-section {
+    bottom: 1rem;
+    right: 1rem;
+    
+    .print-button {
+      padding: 0.75rem 1.25rem;
+      font-size: 0.9rem;
+      min-width: 120px;
+      
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
 /* Timeline table enhancements */
 .timeline-table {
   th.selected-year {
@@ -4748,4 +6328,275 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
 .tab-content {
   animation: fadeIn 0.4s ease-out;
+}
+
+/* Enhanced Hazard Classes Styles with Apple Design */
+.hazard-classes-section {
+  margin-top: 2rem;
+  
+  .section-header {
+    margin-bottom: 1rem;
+    
+    h3 {
+      color: #0071e3;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 0;
+      padding: 0.5rem 0;
+      border-bottom: 2px solid #0071e3;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+      letter-spacing: -0.25px;
+    }
+  }
+  
+  /* Make table full width and Apple-styled */
+  .data-table {
+    width: 100%;
+    margin-bottom: 3rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    background-color: white;
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed; /* Ensures consistent column widths */
+      
+      th, td {
+        padding: 1rem 1.5rem;
+        text-align: left;
+        border-bottom: 1px solid #e8e8ed;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+      }
+      
+      th {
+        background-color: #f5f5f7;
+        color: #0071e3;
+        font-weight: 600;
+        font-size: 0.95rem;
+        
+        &:first-child {
+          width: 40%;
+        }
+        
+        &:last-child {
+          width: 60%;
+        }
+      }
+      
+      td {
+        font-size: 0.95rem;
+        color: #424245;
+        vertical-align: middle;
+        
+        &:first-child {
+          font-weight: 500;
+          color: #1d1d1f;
+        }
+      }
+      
+      tr:last-child td {
+        border-bottom: none;
+      }
+      
+      tr {
+        background-color: white;
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+          background-color: #f9f9fb;
+        }
+      }
+    }
+  }
+}
+
+/* Apple-inspired hazard level bars */
+.hazard-level-container {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.hazard-level-bar {
+  position: relative;
+  width: 200px;
+  height: 8px;
+  background: linear-gradient(to right, 
+    #34c759 0%, 
+    #34c759 33%, 
+    #ffcc00 33%, 
+    #ffcc00 66%, 
+    #ff453a 66%, 
+    #ff453a 100%
+  );
+  border-radius: 6px;
+  overflow: visible;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  
+  .hazard-level-indicator {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 20px;
+    background: #1d1d1f;
+    border: 2px solid white;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2;
+    
+    &:hover {
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    &.hazard-level-low {
+      left: 16.5%; /* Positioned in green area */
+    }
+    
+    &.hazard-level-medium {
+      left: 50%;
+      transform: translate(-50%, -50%);
+      
+      &:hover {
+        transform: translate(-50%, -50%) scale(1.1);
+      }
+    }
+    
+    &.hazard-level-high {
+      right: 16.5%; /* Positioned in red area */
+    }
+  }
+  
+  .hazard-level-labels {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #86868b;
+    margin-top: 8px;
+    font-weight: 500;
+    
+    .label-left {
+      margin-left: 8px;
+      color: #34c759;
+    }
+    
+    .label-right {
+      margin-right: 8px;
+      color: #ff453a;
+    }
+  }
+}
+
+.hazard-level-text {
+  font-weight: 600;
+  color: #1d1d1f;
+  min-width: 60px;
+  font-size: 0.95rem;
+  text-transform: capitalize;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  
+  /* Color coding for text */
+  &[data-level="gering"] {
+    color: #34c759;
+  }
+  
+  &[data-level="mittel"] {
+    color: #ffcc00;
+  }
+  
+  &[data-level="hoch"] {
+    color: #ff453a;
+  }
+}
+
+.hazard-select {
+  width: 120px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e8e8ed;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1d1d1f;
+  background-color: white;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2386868b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 12px;
+  padding-right: 2.5rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:focus {
+    outline: none;
+    border-color: #0071e3;
+    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  }
+  
+  &:hover {
+    border-color: #0071e3;
+    background-color: #f9f9fb;
+  }
+  
+  option {
+    font-weight: 500;
+    padding: 0.5rem;
+    color: #1d1d1f;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hazard-level-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .hazard-level-bar {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .hazard-classes-section .data-table table th,
+  .hazard-classes-section .data-table table td {
+    padding: 0.75rem 1rem;
+  }
+  
+  .hazard-classes-section .data-table table th {
+    &:first-child {
+      width: 35%;
+    }
+    
+    &:last-child {
+      width: 65%;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .hazard-level-bar {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .hazard-level-text {
+    margin-top: 0.5rem;
+  }
+  
+  .hazard-select {
+    width: 100%;
+    max-width: 150px;
+  }
 }

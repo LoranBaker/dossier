@@ -1,0 +1,194 @@
+/* Screenshots First Page Print Styles - 4 Rows Layout - One Screenshot Per Row - LARGER PHOTOS */
+
+/* Hide any map overlays that might appear over screenshots */
+.screenshots-first-page .map-container,
+.screenshots-first-page .leaflet-container,
+.screenshots-first-page [class*="map"],
+.screenshots-first-page [id*="map"] {
+  display: none !important;
+  position: absolute !important;
+  left: -9999px !important;
+  visibility: hidden !important;
+}
+
+/* Main screenshots container */
+.screenshots-first-page {
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+  margin: 0.5rem 0 !important;
+  width: 100% !important;
+  overflow: visible !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+  position: relative !important;
+}
+
+/* Title styling - compact */
+.screenshots-first-page h2 {
+  font-size: 1rem !important;
+  margin-bottom: 0.5rem !important;
+  color: #0071e3 !important;
+  text-align: center !important;
+  font-weight: 700 !important;
+  page-break-after: avoid !important;
+}
+
+/* Container for all screenshot rows - VERTICAL STACK */
+.screenshots-first-page > div {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Individual screenshot row container - ONE PER ROW - COMPACT FOR SINGLE PAGE */
+.screenshots-first-page > div > div {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  text-align: center !important;
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+  margin: 0 auto 0.5rem auto !important;
+  padding: 0.5rem !important;
+  background: #f9f9fb !important;
+  border-radius: 4px !important;
+  border: 1px solid #e8e8ed !important;
+  box-sizing: border-box !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+  position: relative !important;
+  overflow: visible !important;
+  clear: both !important;
+}
+
+/* Screenshot images - LARGE BUT COMPACT FOR SINGLE PAGE */
+.screenshots-first-page img {
+  display: block !important;
+  width: 90% !important;
+  max-width: 90% !important;
+  height: auto !important;
+  margin: 0.5rem auto !important;
+  border-radius: 6px !important;
+  border: 1px solid #e8e8ed !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+  position: relative !important;
+  z-index: 10 !important;
+  max-height: 200px !important;
+  object-fit: contain !important;
+}
+
+/* Screenshot labels - compact spacing */
+.screenshots-first-page p {
+  font-size: 0.8rem !important;
+  margin: 0.2rem 0 0 0 !important;
+  color: #1d1d1f !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  width: 100% !important;
+  position: relative !important;
+  z-index: 10 !important;
+  display: block !important;
+}
+
+/* Print media query for A4 optimization - LARGER PHOTOS */
+@media print {
+  .screenshots-first-page {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    max-width: 210mm !important;
+    margin: 0.5rem auto !important;
+  }
+  
+  .screenshots-first-page > div > div {
+    max-width: 200mm !important;
+    margin: 0 auto 0.3rem auto !important;
+    padding: 0.3rem !important;
+  }
+  
+  .screenshots-first-page img {
+    max-width: 180mm !important;
+    width: 180mm !important;
+    max-height: 60mm !important;
+    margin: 0.3rem auto !important;
+  }
+  
+  /* Compact title on print */
+  .screenshots-first-page h2 {
+    font-size: 0.9rem !important;
+    margin-bottom: 0.3rem !important;
+  }
+  
+  /* Compact labels on print */
+  .screenshots-first-page p {
+    font-size: 0.7rem !important;
+    margin: 0.1rem 0 0 0 !important;
+  }
+}
+
+/* Firefox specific adjustments - LARGER PHOTOS */
+@-moz-document url-prefix() {
+  .screenshots-first-page {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  
+  .screenshots-first-page > div > div {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 auto 0.5rem auto !important;
+  }
+  
+  .screenshots-first-page img {
+    max-width: 90% !important;
+    width: 90% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 0.5rem auto !important;
+  }
+}
+
+/* Chrome and Safari specific adjustments - LARGER PHOTOS */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  .screenshots-first-page {
+    -webkit-print-color-adjust: exact !important;
+  }
+  
+  .screenshots-first-page > div > div {
+    -webkit-print-color-adjust: exact !important;
+    display: block !important;
+    width: 100% !important;
+  }
+  
+  .screenshots-first-page img {
+    max-width: 90% !important;
+    width: 90% !important;
+    margin: 0.5rem auto !important;
+  }
+}
+
+/* Ensure consistent spacing and alignment across all browsers */
+.screenshots-first-page * {
+  box-sizing: border-box !important;
+}
+
+/* Force single column layout - prevent any floating or inline-block issues */
+.screenshots-first-page > div > div {
+  clear: both !important;
+  float: none !important;
+  display: block !important;
+}
+
+/* Ensure no flexbox issues */
+.screenshots-first-page,
+.screenshots-first-page > div,
+.screenshots-first-page > div > div {
+  display: block !important;
+  flex: none !important;
+  flex-direction: unset !important;
+  align-items: unset !important;
+  justify-content: unset !important;
+}

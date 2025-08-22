@@ -1,0 +1,490 @@
+/* Analysis Section Print Styles - Enhanced Sizes for Single Page */
+
+/* Base section styling */
+.analysis-section {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 12pt !important;
+  line-height: 1.5 !important;
+  color: #1d1d1f !important;
+  page-break-inside: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Main title */
+.analysis-section h2 {
+  font-size: 1.6rem !important;
+  font-weight: 700 !important;
+  color: #0071e3 !important;
+  text-align: center !important;
+  margin: 0 0 1.4rem 0 !important;
+  line-height: 1.2 !important;
+  page-break-after: avoid !important;
+}
+
+/* Analysis grid - compact 3-column layout */
+.analysis-section .analysis-items {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 1.3rem !important;
+  margin: 0 0 1.4rem 0 !important;
+  page-break-inside: avoid !important;
+}
+
+/* Individual analysis cards - enhanced size */
+.analysis-section .analysis-item {
+  background: white !important;
+  border: 1px solid #e8e8ed !important;
+  border-radius: 10px !important;
+  padding: 1.3rem !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  page-break-inside: avoid !important;
+  text-align: left !important;
+  min-height: 140px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Analysis card titles */
+.analysis-section .analysis-item h3 {
+  font-size: 11pt !important;
+  font-weight: 600 !important;
+  color: #1d1d1f !important;
+  margin: 0 0 0.8rem 0 !important;
+  line-height: 1.3 !important;
+}
+
+/* Analysis card descriptions */
+.analysis-section .analysis-item p {
+  font-size: 9pt !important;
+  color: #424245 !important;
+  margin: 0 !important;
+  line-height: 1.5 !important;
+  flex-grow: 1 !important;
+}
+
+/* CO2 Warning Banner */
+.co2-warning-banner {
+  position: relative !important;
+  background: linear-gradient(135deg, #D32F2F 0%, #B71C1C 100%) !important;
+  margin: 1.2rem 0 !important;
+  overflow: hidden !important;
+  box-shadow: 0 3px 8px rgba(211, 47, 47, 0.3) !important;
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%) !important;
+  page-break-inside: avoid !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.banner-content {
+  padding: 1.4rem 3rem 1.4rem 2rem !important;
+  color: white !important;
+  position: relative !important;
+  z-index: 2 !important;
+  padding-right: 3.5rem !important;
+}
+
+.banner-title {
+  font-size: 13pt !important;
+  font-weight: 700 !important;
+  margin: 0 0 1rem 0 !important;
+  color: white !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.3px !important;
+  line-height: 1.2 !important;
+}
+
+.banner-main {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 0.6rem !important;
+  margin-bottom: 0.8rem !important;
+  flex-wrap: wrap !important;
+}
+
+.cost-amount {
+  font-size: 22pt !important;
+  font-weight: 900 !important;
+  color: white !important;
+}
+
+.cost-period {
+  font-size: 14pt !important;
+  font-weight: 600 !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.cost-description {
+  font-size: 12pt !important;
+  font-weight: 500 !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+  line-height: 1.5 !important;
+}
+
+.banner-footnote {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  font-size: 9pt !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  line-height: 1.4 !important;
+  flex-wrap: wrap !important;
+}
+
+.exclamation {
+  font-size: 11pt !important;
+  font-weight: 700 !important;
+  color: #FFD54F !important;
+}
+
+.prognosis {
+  font-weight: 500 !important;
+  font-style: italic !important;
+}
+
+.source {
+  font-weight: 400 !important;
+  opacity: 0.8 !important;
+}
+
+/* Modernization Chart Section */
+.modernization-chart {
+  margin: 1.2rem 0 0 0 !important;
+  page-break-inside: avoid !important;
+  position: relative !important;
+}
+
+.modernization-chart h3 {
+  font-size: 12pt !important;
+  font-weight: 700 !important;
+  color: #1d1d1f !important;
+  text-align: center !important;
+  margin: 0 0 1.2rem 0 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Chart Legend */
+.chart-legend {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 2rem !important;
+  margin-bottom: 1.2rem !important;
+  flex-wrap: wrap !important;
+}
+
+.legend-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  font-size: 9pt !important;
+  font-weight: 500 !important;
+  color: #424245 !important;
+}
+
+.legend-color {
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 3px !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.legend-color.heute {
+  background: #1976D2 !important;
+}
+
+.legend-color.in-10-jahren {
+  background: #1976D2 !important;
+}
+
+.legend-color.mehrkosten {
+  background: #D32F2F !important;
+}
+
+/* Chart Bars Container */
+.chart-bars {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-end !important;
+  gap: 6rem !important;
+  height: 180px !important;
+  margin: 1.4rem 0 !important;
+  padding: 0 2rem !important;
+  position: relative !important;
+  page-break-inside: avoid !important;
+}
+
+/* Individual Bars */
+.bar {
+  width: 50px !important;
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+/* Bar Face (Front) */
+.bar-face {
+  width: 50px !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 9pt !important;
+  text-align: center !important;
+  border-radius: 4px !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+  line-height: 1.3 !important;
+  padding: 4px !important;
+}
+
+/* Bar Side (3D Effect) */
+.bar-side {
+  position: absolute !important;
+  top: 0 !important;
+  left: 100% !important;
+  width: 10px !important;
+  transform: skewY(-45deg) !important;
+  transform-origin: left top !important;
+  border-radius: 0 4px 4px 0 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Bar Top (3D Effect) */
+.bar-top {
+  position: absolute !important;
+  top: -10px !important;
+  left: 10px !important;
+  width: 50px !important;
+  height: 10px !important;
+  transform: skewX(-45deg) !important;
+  transform-origin: top left !important;
+  border-radius: 4px 4px 0 0 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Bar Heights and Colors */
+.heute-bar .bar-face {
+  height: 100px !important;
+  background: #1976D2 !important;
+}
+
+.heute-bar .bar-side {
+  height: 100px !important;
+  background: #1565C0 !important;
+}
+
+.heute-bar .bar-top {
+  background: #42A5F5 !important;
+}
+
+.in-10-jahren-bar .bar-face {
+  height: 140px !important;
+  background: #1976D2 !important;
+}
+
+.in-10-jahren-bar .bar-side {
+  height: 140px !important;
+  background: #1565C0 !important;
+}
+
+.in-10-jahren-bar .bar-top {
+  background: #42A5F5 !important;
+}
+
+.mehrkosten-bar .bar-face {
+  height: 75px !important;
+  background: #D32F2F !important;
+}
+
+.mehrkosten-bar .bar-side {
+  height: 75px !important;
+  background: #C62828 !important;
+}
+
+.mehrkosten-bar .bar-top {
+  background: #EF5350 !important;
+}
+
+/* Always Visible Tooltip for Print */
+.tooltip-container.always-visible {
+  position: absolute !important;
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  visibility: visible !important;
+  z-index: 999 !important;
+  pointer-events: none !important;
+}
+
+/* Tooltip Content */
+.tooltip-content {
+  border-radius: 8px !important;
+  padding: 0.8rem 1.2rem !important;
+  min-width: 140px !important;
+  max-width: 200px !important;
+  color: white !important;
+  font-family: 'Inter', sans-serif !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  position: relative !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.tooltip-header {
+  margin-bottom: 0.6rem !important;
+}
+
+.tooltip-header h4 {
+  margin: 0 0 0.3rem 0 !important;
+  font-size: 10pt !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  color: white !important;
+  letter-spacing: -0.1px !important;
+}
+
+.tooltip-subtitle {
+  margin: 0 !important;
+  font-size: 8pt !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-weight: 400 !important;
+  line-height: 1.3 !important;
+}
+
+.tooltip-body .tooltip-value {
+  font-size: 13pt !important;
+  font-weight: 700 !important;
+  color: white !important;
+  margin-bottom: 0.3rem !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.2px !important;
+}
+
+.tooltip-description {
+  margin: 0 !important;
+  font-size: 8pt !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  line-height: 1.4 !important;
+  font-weight: 400 !important;
+}
+
+.tooltip-arrow {
+  position: absolute !important;
+  bottom: -5px !important;
+  left: 50% !important;
+  transform: translateX(-50%) rotate(45deg) !important;
+  width: 10px !important;
+  height: 10px !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-top: none !important;
+  border-left: none !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Position tooltip above mehrkosten bar */
+.mehrkosten-bar + .tooltip-container.always-visible {
+  left: 50% !important;
+  transform: translateX(-50%) translateY(-100%) !important;
+  top: -1.2rem !important;
+}
+
+/* Hide regular hover tooltips in print */
+.tooltip-container:not(.always-visible) {
+  display: none !important;
+}
+
+/* Banner pattern overlay */
+.co2-warning-banner::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%) !important;
+  z-index: 1 !important;
+}
+
+/* Hide interactive elements */
+.analysis-section .edit-controls,
+.analysis-section .edit-button,
+.analysis-section .action-buttons,
+.analysis-section .saved-message,
+.analysis-section .add-button,
+.analysis-section .remove-icon,
+.analysis-section .user-type-switch {
+  display: none !important;
+}
+
+/* Ensure proper page breaks */
+@media print {
+  .analysis-section {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  /* Prevent orphans and widows */
+  .analysis-items {
+    orphans: 3 !important;
+    widows: 3 !important;
+  }
+  
+  /* Keep chart elements together */
+  .modernization-chart,
+  .co2-warning-banner {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  
+  /* Override any conflicting styles */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+/* Compact layout adjustments for single page fit */
+.analysis-section .analysis-items .analysis-item:nth-child(n+7) {
+  margin-top: -0.2rem !important;
+}
+
+/* Reduce spacing for bottom elements */
+.modernization-chart {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Position the always-visible tooltip specifically for mehrkosten bar */
+.chart-bars .mehrkosten-bar {
+  position: relative !important;
+}
+
+/* Create tooltip positioning context */
+.analysis-section .chart-bars::after {
+  content: '' !important;
+  position: absolute !important;
+  top: -3.5rem !important;
+  right: 0 !important;
+  width: 160px !important;
+  height: 2.5rem !important;
+  pointer-events: none !important;
+}
+
+/* Tooltip colors matching bars */
+.tooltip-content[style*="#D32F2F"] {
+  background: #D32F2F !important;
+}
+
+.tooltip-arrow[style*="#D32F2F"] {
+  background: #D32F2F !important;
+}

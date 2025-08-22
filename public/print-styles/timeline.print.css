@@ -1,0 +1,75 @@
+/* Timeline Section Print Styles */
+.timeline-section {
+  font-size: 10pt !important;
+}
+
+.timeline-section h2 {
+  font-size: 1.25rem !important;
+  margin: 0.5rem 0 0.75rem 0 !important;
+  color: #0071e3 !important;
+  line-height: 1.2 !important;
+}
+
+.timeline-section h3 {
+  font-size: 1.125rem !important;
+  margin: 0.5rem 0 0.5rem 0 !important;
+  color: #424245 !important;
+  line-height: 1.2 !important;
+}
+
+.timeline-section h4 {
+  font-size: 1rem !important;
+  margin: 0.25rem 0 0.5rem 0 !important;
+  color: #1d1d1f !important;
+  line-height: 1.2 !important;
+}
+
+/* Timeline table headers */
+.timeline-section .timeline-table th {
+  background: linear-gradient(135deg, #34c759, #30d158) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 10pt !important;
+  padding: 0.75rem !important;
+  text-align: center !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.timeline-section table th,
+.timeline-section table td {
+  font-size: 10pt !important;
+  padding: 0.75rem !important;
+  line-height: 1.3 !important;
+}
+
+.timeline-section p {
+  font-size: 10pt !important;
+  line-height: 1.4 !important;
+  margin: 0.5rem 0 !important;
+}
+
+/* Timeline table special handling */
+.timeline-table {
+  page-break-inside: auto;
+}
+
+.timeline-table th,
+.timeline-table td {
+  padding: 0.5rem 0.25rem;
+  font-size: 8pt;
+  vertical-align: top;
+}
+
+.measure-box {
+  background: linear-gradient(135deg, #0071e3, #005bb8);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 7pt;
+  text-align: center;
+  min-height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

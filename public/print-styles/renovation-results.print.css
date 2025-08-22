@@ -1,0 +1,409 @@
+/* Renovation Results Section Print Styles */
+
+/* Force 4 comparison cards in one row for renovation results */
+.renovation-results-section .comparison-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 0.5rem !important;
+  margin: 1rem 0 !important;
+  page-break-inside: avoid !important;
+}
+
+.renovation-results-section .comparison-item {
+  padding: 0.5rem !important;
+  border: 1px solid #e8e8ed !important;
+  border-radius: 6px !important;
+  background: white !important;
+  page-break-inside: avoid !important;
+  font-size: 8pt !important;
+}
+
+.renovation-results-section .comparison-label {
+  padding: 0.3rem !important;
+  background: #f0f7ff !important;
+  color: #0071e3 !important;
+  font-weight: 600 !important;
+  font-size: 8pt !important;
+  margin-bottom: 0.3rem !important;
+  border-radius: 3px !important;
+  text-align: center !important;
+}
+
+.renovation-results-section .comparison-current,
+.renovation-results-section .comparison-future,
+.renovation-results-section .comparison-savings {
+  padding: 0.3rem !important;
+  border-bottom: 1px solid #f0f0f0 !important;
+  font-size: 7pt !important;
+  text-align: center !important;
+}
+
+.renovation-results-section .comparison-current .label,
+.renovation-results-section .comparison-future .label,
+.renovation-results-section .comparison-savings .label {
+  font-size: 6pt !important;
+  color: #666 !important;
+  margin-bottom: 0.1rem !important;
+}
+
+.renovation-results-section .comparison-current .value,
+.renovation-results-section .comparison-future .value,
+.renovation-results-section .comparison-savings .value {
+  font-weight: 600 !important;
+  font-size: 7pt !important;
+}
+
+.renovation-results-section .percentage {
+  font-size: 6pt !important;
+  color: #0071e3 !important;
+  font-weight: 600 !important;
+}
+
+/* Renovation Results - compact styling */
+.renovation-results-section {
+  font-size: 9pt !important;
+}
+
+.renovation-results-section h2 {
+  font-size: 1.25rem !important;
+  margin: 1rem 0 0.75rem 0 !important;
+}
+
+.renovation-results-section h3 {
+  font-size: 1.125rem !important;
+  margin: 0.75rem 0 0.5rem 0 !important;
+}
+
+.renovation-results-section h4 {
+  font-size: 1rem !important;
+  margin: 0.5rem 0 0.5rem 0 !important;
+}
+
+.renovation-results-section p {
+  margin: 0.5rem 0 !important;
+  font-size: 9pt !important;
+  line-height: 1.4 !important;
+}
+
+/* Compact comparison grid for renovation results */
+.comparison-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  gap: 0.75rem !important;
+  margin: 1rem 0 !important;
+}
+
+.comparison-item {
+  padding: 0.75rem !important;
+  border: 1px solid #e8e8ed !important;
+  border-radius: 6px !important;
+  background: white !important;
+  page-break-inside: avoid !important;
+}
+
+.comparison-label {
+  padding: 0.5rem !important;
+  background: #f0f7ff !important;
+  color: #0071e3 !important;
+  font-weight: 600 !important;
+  font-size: 9pt !important;
+  margin-bottom: 0.5rem !important;
+  border-radius: 4px !important;
+}
+
+.comparison-current,
+.comparison-future,
+.comparison-savings {
+  padding: 0.5rem !important;
+  border-bottom: 1px solid #f0f0f0 !important;
+  font-size: 9pt !important;
+}
+
+.comparison-current .label,
+.comparison-future .label,
+.comparison-savings .label {
+  font-size: 8pt !important;
+  color: #666 !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.comparison-current .value,
+.comparison-future .value,
+.comparison-savings .value {
+  font-weight: 600 !important;
+  font-size: 9pt !important;
+}
+
+/* Energy rating - Fix marker positioning to match website exactly */
+.renovation-results-section .energy-rating {
+  margin: 3rem 0 !important;
+  page-break-inside: avoid !important;
+}
+
+.renovation-results-section .rating-scale {
+  display: flex !important;
+  position: relative !important;
+  margin: 2rem 0 6rem !important;
+  border-radius: 8px !important;
+  overflow: visible !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  page-break-inside: avoid !important;
+  height: 50px !important;
+}
+
+.renovation-results-section .scale-label {
+  flex: 1 !important;
+  text-align: center !important;
+  padding: 1rem 0 !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  transition: all 0.3s ease !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Apple-style energy rating colors - exact match */
+.renovation-results-section .scale-label:nth-child(1) { 
+  background-color: #30d158 !important; 
+  color: white !important; 
+}
+.renovation-results-section .scale-label:nth-child(2) { 
+  background-color: rgba(48, 209, 88, 0.9) !important; 
+  color: white !important; 
+}
+.renovation-results-section .scale-label:nth-child(3) { 
+  background-color: #ffcc02 !important; 
+  color: black !important;
+}
+.renovation-results-section .scale-label:nth-child(4) { 
+  background-color: rgba(255, 204, 2, 0.9) !important; 
+  color: black !important;
+}
+.renovation-results-section .scale-label:nth-child(5) { 
+  background-color: #ff9500 !important; 
+  color: black !important;
+}
+.renovation-results-section .scale-label:nth-child(6) { 
+  background-color: rgba(255, 149, 0, 0.9) !important; 
+  color: black !important;
+}
+.renovation-results-section .scale-label:nth-child(7) { 
+  background-color: #ff3b30 !important; 
+  color: white !important; 
+}
+.renovation-results-section .scale-label:nth-child(8) { 
+  background-color: #e6342a !important; 
+  color: white !important; 
+}
+.renovation-results-section .scale-label:nth-child(9) { 
+  background-color: #cc2e24 !important; 
+  color: white !important; 
+}
+
+.renovation-results-section .scale-bar {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: -60px !important;
+  bottom: -60px !important;
+  height: 170px !important;
+}
+
+/* Simplified marker approach - use CSS-only markers */
+.renovation-results-section .scale-bar {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: -60px !important;
+  bottom: -60px !important;
+  height: 170px !important;
+}
+
+/* Create markers using CSS only - positioned at fixed locations for now */
+.renovation-results-section .scale-bar::before {
+  content: "Aktuell: 174 kWh/m²" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 70% !important;
+  transform: translateX(-50%) !important;
+  background-color: #1d1d1f !important;
+  color: white !important;
+  padding: 8px 12px !important;
+  border-radius: 12px !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+  z-index: 20 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.renovation-results-section .scale-bar::after {
+  content: "In Zukunft: 44 kWh/m²" !important;
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 20% !important;
+  transform: translateX(-50%) !important;
+  background-color: #30d158 !important;
+  color: white !important;
+  padding: 8px 12px !important;
+  border-radius: 12px !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+  z-index: 20 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Add arrows using additional pseudo-elements */
+.renovation-results-section .rating-scale::before {
+  content: "" !important;
+  position: absolute !important;
+  top: -45px !important;
+  left: 70% !important;
+  transform: translateX(-50%) !important;
+  width: 0 !important;
+  height: 0 !important;
+  border-left: 10px solid transparent !important;
+  border-right: 10px solid transparent !important;
+  border-top: 15px solid #ff3b30 !important;
+  z-index: 15 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.renovation-results-section .rating-scale::after {
+  content: "" !important;
+  position: absolute !important;
+  bottom: -45px !important;
+  left: 20% !important;
+  transform: translateX(-50%) !important;
+  width: 0 !important;
+  height: 0 !important;
+  border-left: 10px solid transparent !important;
+  border-right: 10px solid transparent !important;
+  border-bottom: 15px solid #30d158 !important;
+  z-index: 15 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Hide any existing marker elements that might conflict */
+.renovation-results-section .marker,
+.renovation-results-section .current-marker,
+.renovation-results-section .future-marker {
+  display: none !important;
+}
+
+/* Tooltip styling - matching website */
+.renovation-results-section .marker .marker-tooltip {
+  position: absolute !important;
+  left: 50% !important;
+  background-color: white !important;
+  color: #1d1d1f !important;
+  padding: 6px 10px !important;
+  border-radius: 6px !important;
+  font-size: 0.75rem !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #d2d2d7 !important;
+  white-space: nowrap !important;
+  font-weight: 500 !important;
+  z-index: 20 !important;
+  transform: translateX(-50%) !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Tooltip positioning for current marker (above) */
+.renovation-results-section .current-marker .marker-tooltip {
+  bottom: 100% !important;
+  margin-bottom: 8px !important;
+}
+
+/* Tooltip positioning for future marker (below) */
+.renovation-results-section .future-marker .marker-tooltip {
+  top: 100% !important;
+  margin-top: 8px !important;
+}
+
+/* Show tooltip on hover */
+.renovation-results-section .marker:hover .marker-tooltip {
+  opacity: 1 !important;
+}
+
+/* Energy scale values - more space for markers */
+.renovation-results-section .energy-scale-values {
+  display: flex !important;
+  justify-content: space-between !important;
+  margin-top: 4rem !important;
+  margin-bottom: 2rem !important;
+  padding: 0 5px !important;
+}
+
+.renovation-results-section .energy-scale-values span {
+  font-size: 0.8rem !important;
+  color: #86868b !important;
+}
+
+/* Cost estimation - compact */
+.cost-estimation {
+  background: #f8f9fa !important;
+  border-radius: 8px !important;
+  padding: 1rem !important;
+  margin: 1rem 0 !important;
+  page-break-inside: avoid !important;
+}
+
+.cost-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+  gap: 0.75rem !important;
+}
+
+.cost-item {
+  background: white !important;
+  border-radius: 6px !important;
+  padding: 0.75rem !important;
+  border: 1px solid #e8e8ed !important;
+}
+
+.cost-label {
+  font-size: 8pt !important;
+  color: #666 !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.cost-value {
+  font-size: 10pt !important;
+  font-weight: 700 !important;
+  color: #0071e3 !important;
+}
+
+/* Stranding data - compact */
+.stranding-data {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 0.75rem !important;
+  margin: 1rem 0 !important;
+}
+
+.stranding-box {
+  padding: 0.75rem !important;
+  text-align: center !important;
+  background: white !important;
+  border: 1px solid #e8e8ed !important;
+  border-radius: 6px !important;
+  page-break-inside: avoid !important;
+}
+
+.stranding-title {
+  font-size: 10pt !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.5rem !important;
+}

@@ -1,0 +1,284 @@
+/* Building Data Section Print Styles - Multiple Table Layout Support */
+@media print {
+  
+  /* Building Data Section Container */
+  .building-data-section {
+    font-size: 10pt !important;
+    page-break-inside: auto !important;
+    margin: 0 !important;
+    padding: 1rem !important;
+  }
+
+  /* Main Title - Blue and centered like website */
+  .building-data-section h2 {
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    margin: 0 0 1.5rem 0 !important;
+    color: #0071e3 !important;
+    line-height: 1.2 !important;
+    page-break-after: avoid !important;
+    letter-spacing: -0.25px !important;
+  }
+
+  /* Sub-heading for Objekt */
+  .building-data-section h3 {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    margin: 0 0 1.5rem 0 !important;
+    color: #1d1d1f !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Data Table Container - Clean like website */
+  .building-data-section .data-table {
+    margin-bottom: 1.5rem !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid #e8e8ed !important;
+    page-break-inside: avoid !important;
+    background: white !important;
+    width: 100% !important;
+  }
+
+  /* Table Styling - Match website exactly */
+  .building-data-section .data-table table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+    border-spacing: 0 !important;
+    font-size: 10pt !important;
+    line-height: 1.4 !important;
+    background: white !important;
+    table-layout: fixed !important;
+  }
+
+  /* SECTION HEADERS - Full width blue headers (Heizung, Warmwasser, etc.) */
+  .building-data-section .data-table table th[colspan] {
+    background: #e6f3ff !important;
+    color: #0071e3 !important;
+    font-weight: 700 !important;
+    font-size: 11pt !important;
+    padding: 1rem !important;
+    text-align: left !important;
+    border: none !important;
+    width: 100% !important;
+    
+    /* Force color printing */
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* COLUMN HEADERS - The "Eigenschaft Wert Eigenschaft Wert" row AND Gefahrenklasse table */
+  .building-data-section .data-table table tr:first-child th:not([colspan]),
+  .building-data-section .hazard-classes-section table th,
+  .building-data-section .data-table table th:not([colspan]) {
+    background: #e6f3ff !important;
+    color: #0071e3 !important;
+    font-weight: 600 !important;
+    font-size: 10pt !important;
+    padding: 0.75rem 1rem !important;
+    text-align: center !important;
+    border-bottom: 1px solid #e8e8ed !important;
+    
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Four-column layout for main building data table */
+  .building-data-section .data-table:first-of-type table th,
+  .building-data-section .data-table:first-of-type table td {
+    width: 25% !important;
+  }
+
+  /* Two-column layout for section tables (Heizung, Warmwasser, etc.) */
+  .building-data-section .data-table:not(:first-of-type) table td:nth-child(1),
+  .building-data-section .data-table:not(:first-of-type) table td:nth-child(3) {
+    width: 30% !important;
+  }
+  
+  .building-data-section .data-table:not(:first-of-type) table td:nth-child(2),
+  .building-data-section .data-table:not(:first-of-type) table td:nth-child(4) {
+    width: 20% !important;
+  }
+
+  /* Table Data Cells - Clean white background like website */
+  .building-data-section .data-table table td {
+    font-size: 10pt !important;
+    padding: 0.75rem 1rem !important;
+    border-bottom: 1px solid #e8e8ed !important;
+    vertical-align: top !important;
+    color: #424245 !important;
+    background: white !important;
+    text-align: left !important;
+    
+    /* Clean text wrapping */
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* Property name columns (1st and 3rd columns) - Bold like website */
+  .building-data-section .data-table table td:nth-child(1),
+  .building-data-section .data-table table td:nth-child(3) {
+    font-weight: 500 !important;
+    color: #1d1d1f !important;
+  }
+
+  /* Value columns (2nd and 4th columns) - Regular weight */
+  .building-data-section .data-table table td:nth-child(2),
+  .building-data-section .data-table table td:nth-child(4) {
+    font-weight: 400 !important;
+    color: #424245 !important;
+  }
+
+  /* Remove borders from last elements */
+  .building-data-section .data-table table tr:last-child td {
+    border-bottom: none !important;
+  }
+
+  /* No alternating row colors - keep clean white like website */
+  .building-data-section .data-table table tr:nth-child(even) td {
+    background: white !important;
+  }
+
+  /* Special handling for Hazard Classes table headers */
+  .building-data-section .hazard-classes-section table {
+    table-layout: auto !important;
+  }
+
+  .building-data-section .hazard-classes-section table th {
+    background: #e6f3ff !important;
+    color: #0071e3 !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .building-data-section .hazard-classes-section table th:first-child {
+    width: 40% !important;
+  }
+
+  .building-data-section .hazard-classes-section table th:last-child {
+    width: 60% !important;
+  }
+
+  /* Hazard level container styling for print */
+  .hazard-level-container {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+  }
+
+  .hazard-level-bar {
+    width: 120px !important;
+    height: 6px !important;
+    background: linear-gradient(to right, #34c759 0%, #34c759 33%, #ffcc00 33%, #ffcc00 66%, #ff453a 66%, #ff453a 100%) !important;
+    border-radius: 3px !important;
+    position: relative !important;
+    
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .hazard-level-indicator {
+    position: absolute !important;
+    width: 8px !important;
+    height: 12px !important;
+    background: #1d1d1f !important;
+    border-radius: 4px !important;
+    top: -3px !important;
+  }
+
+  .hazard-level-indicator.hazard-level-low {
+    left: 16% !important;
+  }
+
+  .hazard-level-indicator.hazard-level-medium {
+    left: 46% !important;
+  }
+
+  .hazard-level-indicator.hazard-level-high {
+    left: 76% !important;
+  }
+
+  .hazard-level-text {
+    font-weight: 600 !important;
+    font-size: 10pt !important;
+    text-transform: capitalize !important;
+  }
+
+  .hazard-level-labels {
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    font-size: 8pt !important;
+    margin-top: 4px !important;
+  }
+
+  /* Valuation table specific styling - Use same light blue as others */
+  .building-data-section .data-table:last-of-type table th {
+    background: #e6f3ff !important;
+    color: #0071e3 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide interactive elements */
+  .building-data-section .edit-controls,
+  .building-data-section .edit-button,
+  .building-data-section .action-buttons,
+  .building-data-section .saved-message,
+  .building-data-section .add-button,
+  .building-data-section .add-row,
+  .building-data-section .toggle-switch,
+  .building-data-section .edit-input,
+  .building-data-section .input-group,
+  .building-data-section select {
+    display: none !important;
+  }
+
+  /* Ensure proper page breaks */
+  .building-data-section .data-table {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Clean table borders - minimal like website */
+  .building-data-section .data-table table {
+    border: 1px solid #e8e8ed !important;
+  }
+
+  .building-data-section .data-table table th,
+  .building-data-section .data-table table td {
+    border-left: none !important;
+    border-right: none !important;
+  }
+
+  /* Value highlighting if used */
+  .building-data-section .data-table table .highlight-value {
+    color: #0071e3 !important;
+    font-weight: 600 !important;
+  }
+
+  /* Override any conflicting styles from shared CSS */
+  .building-data-section * {
+    box-sizing: border-box !important;
+  }
+
+  /* Special styling for tooltip triggers */
+  .valuation-tooltip-trigger {
+    display: none !important;
+  }
+
+  /* Clean spacing between tables */
+  .building-data-section .data-table + .data-table {
+    margin-top: 1.5rem !important;
+  }
+}

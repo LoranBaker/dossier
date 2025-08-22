@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ConsumptionData } from '@models/models';
@@ -14,7 +14,8 @@ import { Building } from '@models/building.model';
 export class ConsumptionTabComponent implements OnInit {
   @Input() consumptionData!: ConsumptionData;
   @Input() building!: Building;
-  
+  @Output() co2TaxDataChanged = new EventEmitter<{ eigennutzerTotal: number; vermieterTotal: number }>();
+
   isEditMode = false;
   editableConsumptionData: ConsumptionData | null = null;
   
@@ -101,7 +102,19 @@ export class ConsumptionTabComponent implements OnInit {
       this.editableConsumptionData = null;
       this.showSavedMessage();
     }
+    this.co2TaxDataChanged.emit(this.getCO2TaxData());
   }
+
+  // ADD this method - passes the existing total calculations
+getCO2TaxData(): { eigennutzerTotal: number; vermieterTotal: number } {
+  const co2TaxData = this.calculateCO2TaxFromEmissions();
+  const vermieterTotal = this.calculateVermieterCO2TaxTotal();
+  
+  return {
+    eigennutzerTotal: co2TaxData.total,
+    vermieterTotal: vermieterTotal
+  };
+}
   
   cancelChanges() {
     this.isEditMode = false;
@@ -140,18 +153,19 @@ calculateIntensities() {
       this.editableConsumptionData.co2Intensity = 
         Math.round(this.editableConsumptionData.co2Emissions / this.building.livingSpace);
       
+      // FIX: Use heating + warm water instead of totalEnergy
       this.editableConsumptionData.energyIntensity = 
-        Math.round(this.editableConsumptionData.totalEnergy / this.building.livingSpace);
+        Math.round(((this.editableConsumptionData.heating || 0) + (this.editableConsumptionData.warmWater || 0)) / this.building.livingSpace);
     } else {
       this.consumptionData.co2Intensity = 
         Math.round(this.consumptionData.co2Emissions / this.building.livingSpace);
       
+      // FIX: Use heating + warm water instead of totalEnergy
       this.consumptionData.energyIntensity = 
-        Math.round(this.consumptionData.totalEnergy / this.building.livingSpace);
+        Math.round(((this.consumptionData.heating || 0) + (this.consumptionData.warmWater || 0)) / this.building.livingSpace);
     }
   }
 }
-  
   onValueChange() {
     this.calculateTotalEnergy();
     this.calculateIntensities();
@@ -199,34 +213,46 @@ getVermieterShareFromCO2Intensity(co2Intensity: number): number {
 
 // Calculate Vermieter's CO2 tax per square meter
 calculateVermieterCO2TaxTotal(): number {
+  const co2TaxData = this.calculateCO2TaxFromEmissions();
   const data = this.isEditMode ? this.editableConsumptionData! : this.consumptionData;
   const co2Intensity = data.co2Intensity;
   const vermieterShare = this.getVermieterShareFromCO2Intensity(co2Intensity);
   
-  return parseFloat((data.co2TaxTotal * (vermieterShare / 100)).toFixed(2));
+  // USE co2TaxData.total instead of data.co2TaxTotal
+  return parseFloat((co2TaxData.total * (vermieterShare / 100)).toFixed(2));
 }
-
-// Calculate Vermieter's CO2 tax per square meter by dividing the total by living space
+// REPLACE the existing calculateVermieterCO2Tax method
 calculateVermieterCO2Tax(): number {
   const totalTax = this.calculateVermieterCO2TaxTotal();
   
   if (this.building && this.building.livingSpace > 0) {
-    return parseFloat((totalTax / this.building.livingSpace).toFixed(2));
+    return parseFloat((totalTax / this.building.livingSpace).toFixed(3));
   }
   
-  // If no living space data is available, fall back to the original calculation
-  const data = this.isEditMode ? this.editableConsumptionData! : this.consumptionData;
-  const co2Intensity = data.co2Intensity;
-  const vermieterShare = this.getVermieterShareFromCO2Intensity(co2Intensity);
-  
-  return parseFloat((data.co2Tax * (vermieterShare / 100)).toFixed(2));
+  return 0;
 }
 
 // Handle user type change
 onUserTypeChange(): void {
-  // Ensure proper value with type conversion
   setTimeout(() => {
     this.isVermieter = !!this.isVermieter;
+    this.co2TaxDataChanged.emit(this.getCO2TaxData()); 
   });
+}
+// this new method to calculate CO2 tax based on emissions
+calculateCO2TaxFromEmissions(): { perM2: number; total: number } {
+  const data = this.isEditMode ? this.editableConsumptionData! : this.consumptionData;
+  const co2EmissionsKg = data.co2Emissions || 0;
+  
+  // Convert kg to tonnes FIRST, then multiply by 55€ per tonne
+  const totalTax = (co2EmissionsKg / 1000) * 55;
+  const perM2Tax = this.building && this.building.livingSpace > 0 
+    ? totalTax / this.building.livingSpace 
+    : 0;
+  
+  return {
+    perM2: parseFloat(perM2Tax.toFixed(3)),
+    total: parseFloat(totalTax.toFixed(2))
+  };
 }
 }

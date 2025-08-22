@@ -1,5 +1,31 @@
 <!-- dossier.component.html -->
 <div class="dossier-container">
+<!-- Updated print section with restructured button content -->
+<div class="print-section">
+  <button class="print-button" (click)="printDossier('kunde')" aria-label="Dossier für Kunde drucken">
+    <span class="print-text">
+      <span class="print-icon">🖨️</span>
+      <span class="print-main">Drucken</span>
+      <span class="print-label">Kunde</span>
+    </span>
+  </button>
+  
+  <button class="print-button" (click)="printDossier('lv')" aria-label="LV-Verzeichnis drucken">
+    <span class="print-text">
+      <span class="print-icon">🖨️</span>
+      <span class="print-main">Drucken</span>
+      <span class="print-label">LV-Verz.</span>
+    </span>
+  </button>
+  
+  <button class="print-button" (click)="printDossier('bank')" aria-label="Bank-Dokument drucken">
+    <span class="print-text">
+      <span class="print-icon">🖨️</span>
+      <span class="print-main">Drucken</span>
+      <span class="print-label">Bank</span>
+    </span>
+  </button>
+</div>
   <!-- Header Section -->
   <header class="dossier-header">
     <div class="logo">ENVALPRO</div>
@@ -7,35 +33,25 @@
     <h2 class="subtitle">ENERGIEEFFIZIENZ – FÖRDERUNG - POTENTIAL</h2>
   </header>
 
-  <!-- Building Image Section -->
-  <div class="building-image">
-    <!-- Show uploaded image if available, otherwise show placeholder with upload option -->
-    <div *ngIf="buildingImageUrl" class="image-container">
-      <img [src]="buildingImageUrl" alt="Gebäudeansicht" class="building-preview">
-      <button class="image-remove-btn" (click)="removeImage()" aria-label="Bild entfernen">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="15" y1="9" x2="9" y2="15"></line>
-          <line x1="9" y1="9" x2="15" y2="15"></line>
-        </svg>
-      </button>
+ <!-- 3D Building Model Section - Full Width -->
+  <div class="building-model-section">
+    <!-- Loading State -->
+    <div *ngIf="loading3DModel" class="model-loading">
+      <div class="loading-spinner"></div>
+      <p>3D-Modell wird geladen...</p>
     </div>
-    
-    <div *ngIf="!buildingImageUrl" class="image-placeholder">
-      <div class="upload-container">
-        <div class="upload-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-            <circle cx="8.5" cy="8.5" r="1.5"></circle>
-            <polyline points="21 15 16 10 5 21"></polyline>
-          </svg>
-        </div>
-        <p class="upload-text">Gebäudeansicht</p>
-        <label for="building-image-upload" class="upload-btn">
-          Bild hochladen
-        </label>
-        <input type="file" id="building-image-upload" accept="image/*" (change)="onImageUpload($event)" class="file-input">
-      </div>
+
+    <!-- 3D Model Viewer - Full Width Container -->
+    <div *ngIf="has3DModel && !loading3DModel" class="model-viewer-container">
+      <app-simple3d-model 
+        [address]="building.address"
+        [buildingId]="buildingId"
+        (screenshotsChanged)="onScreenshotsChanged($event)">
+      </app-simple3d-model>
+    </div>
+
+    <!-- No Model Available -->
+    <div *ngIf="!has3DModel && !loading3DModel" class="no-model-container">
     </div>
   </div>
 
@@ -73,6 +89,15 @@
     <button [class.active]="activeTab === 'summary'" (click)="setActiveTab('summary')">
       Zusammenfassung
     </button>
+    <button [class.active]="activeTab === 'modernizationPlanning'" (click)="setActiveTab('modernizationPlanning')">
+      Modernisierungsplanung
+    </button>
+    <button [class.active]="activeTab === 'consultationCta'" (click)="setActiveTab('consultationCta')">
+    Beratung
+    </button>
+    <button [class.active]="activeTab === 'generalInfo'" (click)="setActiveTab('generalInfo')">
+      Allgemeine Hinweise
+    </button>
   </div>
 </div>
 
@@ -99,10 +124,12 @@
   </div>
 
   <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'consumption'">
-    <app-consumption-tab 
-      [consumptionData]="consumptionData">
-    </app-consumption-tab>
-  </div>
+  <app-consumption-tab 
+    [consumptionData]="consumptionData"
+    [building]="building"
+    (co2TaxDataChanged)="onCO2TaxDataChanged($event)">
+  </app-consumption-tab>
+</div>
 
   <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'analysis'">
     <app-analysis-tab
@@ -114,6 +141,8 @@
     <app-renovation-tab 
       [renovationMeasures]="renovationMeasures"
       [savingsPotential]="savingsPotential"
+      [amortizationYears]="currentAmortizationYears"
+      [foerderboniMeasures]="foerderboniMeasures"
       (totalsChanged)="onRenovationTotalsChanged($event)">
     </app-renovation-tab>
   </div>
@@ -138,42 +167,61 @@
     [totalCosts]="totalCosts"
     [totalFunding]="totalFunding"
     [totalSavingsFromRenovation]="totalSavings"
-    [consumptionData]="consumptionData">
+    [consumptionData]="consumptionData"
+    [building]="building"
+    (dataChanged)="onFinancialPotentialDataChanged($event)">
   </app-financial-potential-tab>
   </div>
   <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'renovationResults'">
-    <app-renovation-results-tab
-      [consumptionData]="consumptionData"
-      [renovationMeasures]="renovationMeasures"
-      [savingsPotential]="savingsPotential">
-    </app-renovation-results-tab>
-  </div>
+  <app-renovation-results-tab
+    [consumptionData]="consumptionData"
+    [renovationMeasures]="renovationMeasures"
+    [savingsPotential]="savingsPotential"
+    [totalCosts]="totalCosts"
+    [totalFunding]="totalFunding"
+    [co2TaxFromConsumption]="co2TaxData"
+    (savingsPercentagesChanged)="onRenovationResultsSavingsChanged($event)">
+  </app-renovation-results-tab>
+</div>
   <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'financialBenefits'">
     <app-financial-benefits-tab
       [renovationMeasures]="renovationMeasures"
       [totalCosts]="totalCosts"
-      [totalFunding]="totalFunding">
+      [totalFunding]="totalFunding"
+     [consumptionData]="consumptionData"
+      [financialPotentialData]="financialPotentialData">
     </app-financial-benefits-tab>
   </div>
   <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'financingCalculator'">
     <app-financing-calculator
     [initialTotalCosts]="totalCosts"
     [initialTotalFunding]="totalFunding"
-    [initialTotalSavings]="totalSavings">
+    [initialTotalSavings]="totalSavings"
+    [financialPotentialData]="financialPotentialData">
   </app-financing-calculator>
   </div>
   <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'summary'">
     <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'summary'">
-      <app-summary-tab
-        [building]="building"
-        [consumptionData]="consumptionData"
-        [renovationMeasures]="renovationMeasures"
-        [savingsPotential]="savingsPotential"
-        [totalCosts]="totalCosts"
-        [totalFunding]="totalFunding"
-        [totalSavings]="totalSavings">
-      </app-summary-tab>
+     <app-summary-tab
+      [building]="building"
+      [consumptionData]="consumptionData"
+      [renovationMeasures]="renovationMeasures"
+      [savingsPotential]="savingsPotential"
+      [totalCosts]="totalCosts"
+      [totalFunding]="totalFunding"
+      [totalSavings]="totalSavings"
+      [financialData]="financialData">
+    </app-summary-tab>
     </div>
+  </div>
+  <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'modernizationPlanning'">
+    <app-modernization-planning></app-modernization-planning>
+  </div>
+  <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'consultationCta'">
+    <app-consultation-cta></app-consultation-cta>
+  </div>
+  <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'generalInfo'">
+  <app-general-info></app-general-info>
   </div>
   <!-- Footer Section -->
   <footer class="dossier-footer">

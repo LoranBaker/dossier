@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ElementRef, ViewChildren, QueryList, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Building } from '@models/building.model';
 import { ConsumptionData, RenovationMeasure, SavingsPotential } from '@models/models';
@@ -24,7 +24,7 @@ import { trigger, transition, style, animate, state } from '@angular/animations'
     ])
   ]
 })
-export class SummaryTabComponent implements OnInit, AfterViewInit {
+export class SummaryTabComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() building: Building | null = null;
   @Input() consumptionData: ConsumptionData | null = null;
   @Input() renovationMeasures: RenovationMeasure[] = [];
@@ -32,6 +32,7 @@ export class SummaryTabComponent implements OnInit, AfterViewInit {
   @Input() totalCosts: number = 0;
   @Input() totalFunding: number = 0;
   @Input() totalSavings: number = 0;
+  @Input() financialData: any = {}; // NEW: Add financial data input
 
   currentEnergyClass: string = 'F';
   targetEnergyClass: string = 'B';
@@ -71,8 +72,17 @@ export class SummaryTabComponent implements OnInit, AfterViewInit {
     }, 500);
   }
 
-  ngOnChanges(): void {
-    this.calculateValues();
+  ngOnChanges(changes: SimpleChanges): void {
+    // Recalculate values when inputs change
+    if (changes['financialData'] || changes['building'] || changes['consumptionData']) {
+      this.calculateValues();
+      
+      console.log('Summary component inputs changed:', {
+        financialData: this.financialData,
+        building: this.building,
+        consumptionData: this.consumptionData
+      });
+    }
   }
   
   /**
@@ -113,23 +123,130 @@ export class SummaryTabComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private calculateValues(): void {
-    // Using placeholder values based on the image
-    if (this.consumptionData) {
-
-    }
-
-    if (this.building) {
-      // Property values calculation
-      this.currentPropertyValue = 1414000;
-      this.targetPropertyValue = 1696800;
-      this.propertyValueIncrease = this.targetPropertyValue - this.currentPropertyValue;
-
-      // Rent calculations
-      this.currentRentPerSqm = 8.00;
-      this.targetRentPerSqm = 10.60;
-      this.rentIncreaseEuro = this.targetRentPerSqm - this.currentRentPerSqm;
+ private calculateValues(): void {
+  // Use financial data if available, otherwise fallback to placeholder values
+  if (this.financialData && Object.keys(this.financialData).length > 0) {
+    console.log('Using financial data for summary calculations:', this.financialData);
+    
+    // Map values from financial potential tab
+    // Left side (current/before values)
+    this.currentPropertyValue = this.financialData.currentPropertyValue || 675000;
+    this.currentRentPerSqm = this.financialData.currentRentPerSqm || this.getConsumptionRentPrice();
+    
+    // Right side (future/after values)
+    this.targetPropertyValue = this.financialData.targetPropertyValue || 795000;
+    this.propertyValueIncrease = this.financialData.propertyValueIncreaseAmount || 120000;
+    this.targetRentPerSqm = this.financialData.targetRentPerSqm || 15.20;
+    this.rentIncreaseEuro = this.financialData.rentIncreasePerSqm || 2.70;
+    
+    // Calculate percentage increase
+    if (this.currentRentPerSqm > 0) {
       this.rentIncreasePercent = ((this.targetRentPerSqm - this.currentRentPerSqm) / this.currentRentPerSqm) * 100;
     }
+  } else {
+    console.log('Using fallback values for summary calculations');
+    
+    // Use consumption data for consistency if available
+    this.currentRentPerSqm = this.getConsumptionRentPrice();
+    
+    // Fallback to default values if no financial data
+    this.currentPropertyValue = 675000;
+    this.targetPropertyValue = 795000;
+    this.propertyValueIncrease = this.targetPropertyValue - this.currentPropertyValue;
+    this.targetRentPerSqm = 15.20;
+    this.rentIncreaseEuro = this.targetRentPerSqm - this.currentRentPerSqm;
+    this.rentIncreasePercent = ((this.targetRentPerSqm - this.currentRentPerSqm) / this.currentRentPerSqm) * 100;
+  }
+  
+  // Log final values for debugging
+  console.log('Summary values calculated:', {
+    currentPropertyValue: this.currentPropertyValue,
+    targetPropertyValue: this.targetPropertyValue,
+    propertyValueIncrease: this.propertyValueIncrease,
+    currentRentPerSqm: this.currentRentPerSqm,
+    targetRentPerSqm: this.targetRentPerSqm,
+    rentIncreaseEuro: this.rentIncreaseEuro,
+    rentIncreasePercent: this.rentIncreasePercent,
+    currentEnergyClass: this.currentEnergyClass,
+    targetEnergyClass: this.targetEnergyClass
+  });
+}
+private getConsumptionRentPrice(): number {
+  if (this.consumptionData && this.consumptionData.rentPrice && this.consumptionData.rentPrice > 0) {
+    console.log('Using consumption data rent price:', this.consumptionData.rentPrice);
+    return this.consumptionData.rentPrice;
+  }
+  console.log('Using fallback rent price: 12.50');
+  return 12.50; // fallback value
+}
+  /**
+   * Formats currency values for display
+   */
+  formatCurrency(value: number): string {
+    return new Intl.NumberFormat('de-DE', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(value);
+  }
+
+  /**
+   * Formats percentage values for display
+   */
+  formatPercentage(value: number, decimals: number = 1): string {
+    return `${value.toFixed(decimals)}%`;
+  }
+
+  /**
+   * Formats rent per square meter for display
+   */
+  formatRentPerSqm(value: number): string {
+    return `${value.toFixed(2)} €/m²`;
+  }
+
+  /**
+   * Triggers number counting animation for a specific element
+   */
+  animateNumber(element: HTMLElement, targetValue: number, duration: number = 1000): void {
+    const startValue = 0;
+    const startTime = performance.now();
+    
+    const updateNumber = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Easing function for smooth animation
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      const currentValue = startValue + (targetValue - startValue) * easeOutQuart;
+      
+      element.textContent = Math.floor(currentValue).toLocaleString('de-DE');
+      
+      if (progress < 1) {
+        requestAnimationFrame(updateNumber);
+      } else {
+        element.textContent = targetValue.toLocaleString('de-DE');
+      }
+    };
+    
+    requestAnimationFrame(updateNumber);
+  }
+
+  /**
+   * Get energy class color for styling
+   */
+  getEnergyClassColor(energyClass: string): string {
+    const colorMap: { [key: string]: string } = {
+      'A+': '#00a651',
+      'A': '#4cb847',
+      'B': '#8cc63f',
+      'C': '#d7df23',
+      'D': '#fff200',
+      'E': '#ffb300',
+      'F': '#ff6900',
+      'G': '#e60012',
+      'H': '#a50034'
+    };
+    return colorMap[energyClass] || '#cccccc';
   }
 }

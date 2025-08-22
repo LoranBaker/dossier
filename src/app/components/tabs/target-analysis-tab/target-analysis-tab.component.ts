@@ -14,17 +14,57 @@ import { RenovationMeasure } from '@models/models';
 export class TargetAnalysisTabComponent implements OnInit {
   @Input() renovationMeasures!: RenovationMeasure[];
   @Input() totalSavings: number = 0;
-  
+
   // Environmental equivalents (with fixed default values)
   equivalentFlights: number = 5;
   equivalentKilometers: number = 118000;
   equivalentTrees: number = 566;
-  
+
+  // Edit mode functionality
+  isEditing: boolean = false;
+  showSavedMessage: boolean = false;
+
+  // LocalStorage key for persistence
+  private readonly STORAGE_KEY = 'target-analysis-measurement-visibility';
+
+  // All available measurements with display names
+  allMeasurements = {
+    'heizungstechnik': 'Heizungstechnik',
+    'kellerdecke': 'Kellerdecke',
+    'dach': 'Dach',
+    'fassade': 'Fassade',
+    'fenster-tueren': 'Fenster & Türen',
+    'luftungsanlage': 'Lüftungsanlage',
+    'dachgeschossdecke': 'Dachgeschossdecke',
+    'dachfenster': 'Dachfenster',
+    'photovoltaik': 'Photovoltaik'
+  };
+
+  // Measurement visibility control
+  measurementVisibility: { [key: string]: boolean } = {
+    'heizungstechnik': true,
+    'kellerdecke': true,
+    'dach': true,
+    'fassade': true,
+    'fenster-tueren': true,
+    'luftungsanlage': true,
+    'dachgeschossdecke': true,
+    'dachfenster': true,
+    'photovoltaik': true
+  };
+
+  // Backup for cancel functionality
+  private measurementVisibilityBackup: { [key: string]: boolean } = {};
+
+  // Hidden measurements dropdown
+  selectedHiddenMeasurement: string = '';
+  showAddMeasurementDropdown: boolean = false;
+
   // SVG icons as safe HTML
   airplaneIcon: SafeHtml;
   camperIcon: SafeHtml;
   treeIcon: SafeHtml;
-  
+
   constructor(private sanitizer: DomSanitizer) {
     // Apple-style SVG icons (clean, minimal, elegant)
     this.airplaneIcon = this.sanitizer.bypassSecurityTrustHtml(`
@@ -35,7 +75,7 @@ export class TargetAnalysisTabComponent implements OnInit {
         <circle cx="48" cy="16" r="1.5"/>
       </svg>
     `);
-    
+
     this.camperIcon = this.sanitizer.bypassSecurityTrustHtml(`
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M8,36h44c1.1,0,2-0.9,2-2V26c0-1.1-0.9-2-2-2h-2c-0.5-3-3.1-5.3-6.2-5.3H28c-3.1,0-5.7,2.3-6.2,5.3h-2 c-2.2,0-4,1.8-4,4V34"/>
@@ -48,7 +88,7 @@ export class TargetAnalysisTabComponent implements OnInit {
         <line x1="35" y1="24" x2="35" y2="29"/>
       </svg>
     `);
-    
+
     this.treeIcon = this.sanitizer.bypassSecurityTrustHtml(`
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M32,10c-6,0-10,4-10,10c0,2.5,1,4.7,2.5,6.5C21,28.8,18,33.5,18,39c0,7.7,6.3,14,14,14h0c7.7,0,14-6.3,14-14 c0-5.5-3-10.2-7.5-12.5c1.5-1.8,2.5-4,2.5-6.5C42,14,38,10,32,10z"/>
@@ -57,12 +97,128 @@ export class TargetAnalysisTabComponent implements OnInit {
       </svg>
     `);
   }
-  
+
   ngOnInit() {
+    // Load saved visibility settings from localStorage
+    this.loadVisibilitySettings();
     // You can calculate values here if you want to use actual data
     // this.calculateEquivalents();
   }
-  
+
+  // LocalStorage methods
+  private loadVisibilitySettings() {
+    try {
+      const saved = localStorage.getItem(this.STORAGE_KEY);
+      if (saved) {
+        const parsedSettings = JSON.parse(saved);
+        // Merge with default settings to handle new measurements
+        this.measurementVisibility = { ...this.measurementVisibility, ...parsedSettings };
+      }
+    } catch (error) {
+      console.warn('Failed to load measurement visibility settings:', error);
+    }
+  }
+
+  private saveVisibilitySettings() {
+    try {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.measurementVisibility));
+    } catch (error) {
+      console.warn('Failed to save measurement visibility settings:', error);
+    }
+  }
+
+ // Get hidden measurements for dropdown
+getHiddenMeasurements(): { key: string, name: string }[] {
+  return Object.keys(this.allMeasurements)
+    .filter(key => !this.measurementVisibility[key])
+    .map(key => ({
+      key,
+      name: this.allMeasurements[key as keyof typeof this.allMeasurements]
+    }));
+}
+
+// Get visible measurements count
+getVisibleMeasurementsCount(): number {
+  return Object.values(this.measurementVisibility).filter(visible => visible).length;
+}
+
+// Get total measurements count
+getTotalMeasurementsCount(): number {
+  return Object.keys(this.allMeasurements).length;
+}
+
+// Check if any measurements are hidden
+hasHiddenMeasurements(): boolean {
+  return this.getHiddenMeasurements().length > 0;
+}
+
+  // Edit mode methods
+  toggleEdit() {
+    this.isEditing = true;
+    this.showAddMeasurementDropdown = false;
+    // Create backup for cancel functionality
+    this.measurementVisibilityBackup = { ...this.measurementVisibility };
+  }
+
+  cancelEdit() {
+    this.isEditing = false;
+    this.showAddMeasurementDropdown = false;
+    this.selectedHiddenMeasurement = '';
+    // Restore from backup
+    this.measurementVisibility = { ...this.measurementVisibilityBackup };
+  }
+
+  saveChanges() {
+    this.isEditing = false;
+    this.showAddMeasurementDropdown = false;
+    this.selectedHiddenMeasurement = '';
+    this.showSavedMessage = true;
+    
+    // Save to localStorage
+    this.saveVisibilitySettings();
+    
+    // Hide saved message after 2 seconds
+    setTimeout(() => {
+      this.showSavedMessage = false;
+    }, 2000);
+  }
+
+  // Toggle measurement visibility
+  toggleMeasurement(measurementKey: string) {
+    if (this.isEditing) {
+      this.measurementVisibility[measurementKey] = !this.measurementVisibility[measurementKey];
+    }
+  }
+
+  // Show/hide add measurement dropdown
+  toggleAddMeasurementDropdown() {
+    if (!this.isEditing) return;
+    this.showAddMeasurementDropdown = !this.showAddMeasurementDropdown;
+    if (!this.showAddMeasurementDropdown) {
+      this.selectedHiddenMeasurement = '';
+    }
+  }
+
+  // Add measurement back from dropdown
+  addMeasurementBack() {
+    if (this.selectedHiddenMeasurement && this.isEditing) {
+      this.measurementVisibility[this.selectedHiddenMeasurement] = true;
+      this.selectedHiddenMeasurement = '';
+      this.showAddMeasurementDropdown = false;
+    }
+  }
+
+  // Reset all measurements to visible
+  showAllMeasurements() {
+    if (this.isEditing) {
+      Object.keys(this.measurementVisibility).forEach(key => {
+        this.measurementVisibility[key] = true;
+      });
+      this.showAddMeasurementDropdown = false;
+      this.selectedHiddenMeasurement = '';
+    }
+  }
+
   // Calculate environmental equivalents based on savings
   calculateEquivalents() {
     // Only calculate if we have actual savings data

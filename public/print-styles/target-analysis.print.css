@@ -1,0 +1,178 @@
+/* Target Analysis Section Print Styles - Optimized for Single Page */
+.target-analysis-section {
+  page-break-inside: auto !important;
+  margin: 0 !important;
+  padding: 1rem !important;
+  font-size: 9pt !important;
+  min-height: 85vh !important;
+  box-sizing: border-box !important;
+}
+
+.target-measures {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  grid-template-rows: repeat(3, auto) !important;
+  gap: 1.2rem !important;
+  margin: 1.2rem 0 !important;
+  width: 100% !important;
+  height: auto !important;
+}
+
+.target-analysis-section .measure-card {
+  margin: 0 !important;
+  padding: 1rem !important;
+  border: 1px solid #e8e8ed !important;
+  border-radius: 8px !important;
+  page-break-inside: avoid !important;
+  background: white !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+  height: auto !important;
+  min-height: 90px !important;
+  display: block !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+/* Specific positioning for 7 cards in 3x3 grid */
+.target-analysis-section .measure-card:nth-child(1),
+.target-analysis-section .measure-card:nth-child(2),
+.target-analysis-section .measure-card:nth-child(3) {
+  grid-row: 1 !important;
+}
+
+.target-analysis-section .measure-card:nth-child(4),
+.target-analysis-section .measure-card:nth-child(5),
+.target-analysis-section .measure-card:nth-child(6) {
+  grid-row: 2 !important;
+}
+
+.target-analysis-section .measure-card:nth-child(7) {
+  grid-row: 3 !important;
+  grid-column: 2 !important;
+}
+
+.target-analysis-section .measure-icon {
+  padding: 0.7rem !important;
+  height: 50px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 6px !important;
+  background: #f0f7ff !important;
+  margin-bottom: 0.7rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.target-analysis-section .measure-icon svg {
+  width: 28px !important;
+  height: 28px !important;
+  color: #0071e3 !important;
+}
+
+.target-analysis-section .measure-content {
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+.target-analysis-section .measure-content h3 {
+  font-size: 10pt !important;
+  margin-bottom: 0.5rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  color: #1d1d1f !important;
+}
+
+.target-analysis-section .measure-content p {
+  font-size: 8.5pt !important;
+  line-height: 1.3 !important;
+  margin: 0 !important;
+  color: #424245 !important;
+  word-wrap: break-word !important;
+}
+
+/* Climate contribution with controlled spacing */
+.target-analysis-section .climate-contribution {
+  background: #f0f8f0 !important;
+  border-radius: 8px !important;
+  padding: 1.2rem !important;
+  margin: 1.8rem 0 0 0 !important;
+  page-break-inside: avoid !important;
+  border: 1px solid #d4e6d4 !important;
+  clear: both !important;
+}
+
+.target-analysis-section .climate-contribution h2 {
+  font-size: 11pt !important;
+  margin-bottom: 1rem !important;
+  color: #2d5a2d !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+  font-weight: 600 !important;
+}
+
+.target-analysis-section .benefits-icons {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 1.2rem !important;
+  margin: 1rem 0 0 0 !important;
+  width: 100% !important;
+}
+
+.target-analysis-section .benefit-icon {
+  text-align: center !important;
+  padding: 1rem !important;
+  background: white !important;
+  border: 1px solid #d4e6d4 !important;
+  border-radius: 6px !important;
+  page-break-inside: avoid !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  height: auto !important;
+  min-height: 80px !important;
+  display: block !important;
+}
+
+.target-analysis-section .benefit-icon .icon {
+  font-size: 1.6rem !important;
+  margin-bottom: 0.5rem !important;
+  display: block !important;
+}
+
+.target-analysis-section .benefit-text {
+  font-size: 9.5pt !important;
+  font-weight: 700 !important;
+  margin-bottom: 0.4rem !important;
+  line-height: 1.1 !important;
+  color: #2d5a2d !important;
+}
+
+.target-analysis-section .benefit-description {
+  font-size: 8pt !important;
+  color: #5a7a5a !important;
+  line-height: 1.2 !important;
+  font-weight: 500 !important;
+}
+
+/* Firefox specific adjustments */
+@-moz-document url-prefix() {
+  .target-analysis-section {
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    min-height: 85vh !important;
+  }
+  
+  .target-measures {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1.2rem !important;
+  }
+  
+  .target-analysis-section .measure-card {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 0.7rem !important;
+    min-height: 90px !important;
+  }
+}

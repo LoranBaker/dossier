@@ -179,10 +179,10 @@
         </div>
       
         <!-- Eigennutzer View -->
-        <div *ngIf="!isVermieter">
-          <p>CO2 - Abgabe Euro (55 € / Tonne CO2)</p>
-          <p>{{consumptionData.co2Tax}} €/m² (Gesamt: {{consumptionData.co2TaxTotal}} € p.a.)</p>
-        </div>
+      <div *ngIf="!isVermieter">
+    <p>CO2 - Abgabe Euro (55 € / Tonne CO2)</p>
+    <p>{{calculateCO2TaxFromEmissions().perM2}} €/m² (Gesamt: {{calculateCO2TaxFromEmissions().total}} € p.a.)</p>
+  </div>
       
         <!-- Vermieter View -->
         <div *ngIf="isVermieter">

@@ -47,12 +47,40 @@ export class FinancingCalculatorComponent implements OnInit, OnDestroy {
       this.updateInitialValues();
     }
   }
+
+  @Input() 
+  set financialPotentialData(value: any) {
+    if (value) {
+      console.log('Received financialPotentialData:', value);
+      this._financialPotentialData = value;
+      this.updateFinancialPotentialValues();
+    }
+  }
   
   // Keep private backing fields
   private _initialTotalCosts = 0;
   private _initialTotalFunding = 0;
   private _initialTotalSavings = 0;
+  private _financialPotentialData: any = null;
   private initialValuesUpdated = false;
+
+   private updateFinancialPotentialValues() {
+    if (this._financialPotentialData) {
+      // Update PV sales income (monthly)
+      if (this._financialPotentialData.pvSalesIncomeMonthly !== undefined) {
+        this.financingService.updateFinancingData({
+          pvStromVerkauf: this._financialPotentialData.pvSalesIncomeMonthly
+        });
+      }
+      
+      // Update CO2 tax savings (monthly)  
+      if (this._financialPotentialData.co2TaxSavingsMonthly !== undefined) {
+        this.financingService.updateFinancingData({
+          co2TaxSavings: this._financialPotentialData.co2TaxSavingsMonthly
+        });
+      }
+    }
+  }
 
   // Your existing properties
   totalCosts = 0;

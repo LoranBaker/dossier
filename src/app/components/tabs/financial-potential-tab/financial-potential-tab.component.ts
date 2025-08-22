@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ConsumptionData } from '@models/models'; // Import the ConsumptionData interface
+import { Building } from '@models/building.model';
 
 @Component({
   selector: 'app-financial-potential-tab',
@@ -14,8 +15,11 @@ export class FinancialPotentialTabComponent implements OnInit, OnChanges {
   @Input() totalCosts: number = 0;
   @Input() totalFunding: number = 0;
   @Input() totalSavingsFromRenovation: number = 0;
-  @Input() consumptionData: ConsumptionData | null = null; // Add new input for consumption data
-  
+  @Input() consumptionData: ConsumptionData | null = null; 
+  @Output() dataChanged = new EventEmitter<any>();
+
+  @Input() building: Building | null = null;
+
   // Flag to force use of input values
   forceUseInputValues = true;
   
@@ -41,7 +45,7 @@ export class FinancialPotentialTabComponent implements OnInit, OnChanges {
     returnOnEquityBeforeTax: 0,
     amortizationYears: 19.1,
     fundingRate: 29.2,
-    strandingPointOld: '2035',
+    strandingPointOld: '2018',
     strandingPointNew: '2050+',
     rentalIncrease: {
       perSqmBefore: 0, // Will be dynamically set from consumptionData.rentPrice
@@ -116,6 +120,9 @@ export class FinancialPotentialTabComponent implements OnInit, OnChanges {
       displayFunding: this.displayFunding,
       displayEffectiveCosts: this.displayEffectiveCosts
     });
+
+    this.emitDataChange();
+
   }
   
   // Respond to changes in the input properties
@@ -181,7 +188,51 @@ export class FinancialPotentialTabComponent implements OnInit, OnChanges {
       }
     }
   }
+ emitDataChange(): void {
+  const currentPvSalesIncome = this.isEditMode ? this.editableFinancialData.pvSalesIncome : this.financialData.pvSalesIncome;
+  const currentCo2TaxSavings = this.isEditMode ? this.editableFinancialData.co2TaxSavings : this.financialData.co2TaxSavings;
+  const currentData = this.isEditMode ? this.editableFinancialData : this.financialData;
   
+  this.dataChanged.emit({
+    pvSalesIncome: currentPvSalesIncome,
+    co2TaxSavings: currentCo2TaxSavings,
+    // Add monthly values for financing calculator
+    pvSalesIncomeMonthly: Math.round(currentPvSalesIncome / 12),
+    co2TaxSavingsMonthly: Math.round(currentCo2TaxSavings / 12),
+    // Add property value increase data
+    propertyValueIncrease: currentData.rentalIncrease.totalValueIncrease,
+    propertyValueIncreasePercent: this.calculatePropertyValueIncreasePercent(currentData),
+    // Add rental increase data (monthly total from the table)
+    rentIncreaseMonthly: currentData.rentalIncrease.totalIncrease,
+    rentIncreasePercent: this.calculateRentIncreasePercent(currentData),
+    
+    // NEW: Add values for summary component mapping
+    // Left side (current/before values)
+    currentPropertyValue: currentData.rentalIncrease.totalValueBefore,
+    currentRentPerSqm: currentData.rentalIncrease.perSqmBefore,
+    
+    // Right side (future/after values) 
+    targetPropertyValue: currentData.rentalIncrease.totalValueAfter,
+    propertyValueIncreaseAmount: currentData.rentalIncrease.totalValueIncrease,
+    targetRentPerSqm: currentData.rentalIncrease.perSqmAfter,
+    rentIncreasePerSqm: currentData.rentalIncrease.perSqmIncrease
+  });
+}
+
+//helper methods to calculate percentages
+private calculatePropertyValueIncreasePercent(data: any): number {
+  if (data.rentalIncrease.totalValueBefore > 0) {
+    return Number(((data.rentalIncrease.totalValueIncrease / data.rentalIncrease.totalValueBefore) * 100).toFixed(1));
+  }
+  return 0;
+}
+
+private calculateRentIncreasePercent(data: any): number {
+  if (data.rentalIncrease.totalBefore > 0) {
+    return Number(((data.rentalIncrease.totalIncrease / data.rentalIncrease.totalBefore) * 100).toFixed(0));
+  }
+  return 0;
+}
   updateDisplayValues(): void {
     // If we have custom saved values, use them
     if (this.hasCustomValues) {
@@ -260,6 +311,8 @@ export class FinancialPotentialTabComponent implements OnInit, OnChanges {
         savedMessage.classList.remove('show');
       }, 3000);
     }
+    this.emitDataChange();
+
   }
 
   cancelChanges(): void {
@@ -289,6 +342,9 @@ export class FinancialPotentialTabComponent implements OnInit, OnChanges {
       (this.editableFinancialData.modernizationLevy || 0) +
       this.editableFinancialData.co2TaxSavings + 
       (this.editableFinancialData.pvSalesIncome || 0);
+
+      this.emitDataChange();
+
   }
 
   calculateFundingRate(): void {
@@ -332,38 +388,43 @@ export class FinancialPotentialTabComponent implements OnInit, OnChanges {
   }
   
   // Updated method to calculate rental yield (Mietrendite)
-  calculateRentalYield(): void {
-    if (this.editableFinancialData.rentalIncrease.valueBefore > 0) {
-      // Mietrendite Vorher = (Monthly rent Vorher × 12) / Property value per sqm Vorher
-      const annualRentBefore = this.editableFinancialData.rentalIncrease.perSqmBefore * 12;
-      this.editableFinancialData.rentalIncrease.returnBefore = 
-        ((annualRentBefore / this.editableFinancialData.rentalIncrease.valueBefore) * 100).toFixed(1);
-    } else {
-      this.editableFinancialData.rentalIncrease.returnBefore = '0.0';
-    }
-    
-    if (this.editableFinancialData.rentalIncrease.valueAfter > 0) {
-      // Mietrendite Nachher = (Monthly rent Nachher × 12) / Property value per sqm Nachher
-      const annualRentAfter = this.editableFinancialData.rentalIncrease.perSqmAfter * 12;
-      this.editableFinancialData.rentalIncrease.returnAfter = 
-        ((annualRentAfter / this.editableFinancialData.rentalIncrease.valueAfter) * 100).toFixed(1);
-    } else {
-      this.editableFinancialData.rentalIncrease.returnAfter = '0.0';
-    }
-    
-    // Calculate the increase as percentage difference: (Nachher/Vorher - 1)
-    const beforeValue = parseFloat(this.editableFinancialData.rentalIncrease.returnBefore);
-    const afterValue = parseFloat(this.editableFinancialData.rentalIncrease.returnAfter);
-    
-    if (beforeValue > 0) {
-      // Calculate percentage change: (Nachher/Vorher - 1) * 100
-      this.editableFinancialData.rentalIncrease.returnIncrease = 
-        ((afterValue / beforeValue - 1) * 100).toFixed(1);
-    } else {
-      this.editableFinancialData.rentalIncrease.returnIncrease = '0.0';
-    }
+ calculateRentalYield(): void {
+  // Calculate increases first
+  this.calculatePerSqmIncrease();
+  this.calculateTotalIncrease();
+  this.calculateValueIncrease();
+  this.calculateTotalValueIncrease();
+  
+  // Existing rental yield calculations...
+  if (this.editableFinancialData.rentalIncrease.valueBefore > 0) {
+    const annualRentBefore = this.editableFinancialData.rentalIncrease.perSqmBefore * 12;
+    this.editableFinancialData.rentalIncrease.returnBefore = 
+      ((annualRentBefore / this.editableFinancialData.rentalIncrease.valueBefore) * 100).toFixed(1);
+  } else {
+    this.editableFinancialData.rentalIncrease.returnBefore = '0.0';
   }
   
+  if (this.editableFinancialData.rentalIncrease.valueAfter > 0) {
+    const annualRentAfter = this.editableFinancialData.rentalIncrease.perSqmAfter * 12;
+    this.editableFinancialData.rentalIncrease.returnAfter = 
+      ((annualRentAfter / this.editableFinancialData.rentalIncrease.valueAfter) * 100).toFixed(1);
+  } else {
+    this.editableFinancialData.rentalIncrease.returnAfter = '0.0';
+  }
+  
+  const beforeValue = parseFloat(this.editableFinancialData.rentalIncrease.returnBefore);
+  const afterValue = parseFloat(this.editableFinancialData.rentalIncrease.returnAfter);
+  
+  if (beforeValue > 0) {
+    this.editableFinancialData.rentalIncrease.returnIncrease = 
+      ((afterValue / beforeValue - 1) * 100).toFixed(1);
+  } else {
+    this.editableFinancialData.rentalIncrease.returnIncrease = '0.0';
+  }
+
+  this.emitDataChange();
+}
+
   // Calculate modernization levy for financial data
   calculateModernizationLevyForFinancialData(): void {
     this.financialData.modernizationLevy = 
@@ -408,48 +469,74 @@ export class FinancialPotentialTabComponent implements OnInit, OnChanges {
   
   // Calculate Return on Equity Before Tax for financial data
   calculateReturnOnEquityBeforeTaxForFinancialData(): void {
-    if (this.financialData.effectiveCosts > 0) {
-      const totalValueIncrease = this.financialData.rentalIncrease.totalValueIncrease || 0;
-      this.financialData.returnOnEquityBeforeTax = 
-        (totalValueIncrease / this.financialData.effectiveCosts * 100).toFixed(2);
-    } else {
-      this.financialData.returnOnEquityBeforeTax = '0.00';
-    }
+  if (this.financialData.effectiveCosts > 0) {
+    // Formula: Einnahmen & Einsparungen p.a. gesamt / Effektive Kosten Eigenanteil * 100
+    this.financialData.returnOnEquityBeforeTax = 
+      (this.financialData.totalSavingsPerYear / this.financialData.effectiveCosts * 100).toFixed(2);
+  } else {
+    this.financialData.returnOnEquityBeforeTax = '0.00';
   }
+}
   
   // Updated method to calculate rental yield for financial data
-  calculateRentalYieldForFinancialData(): void {
-    if (this.financialData.rentalIncrease.valueBefore > 0) {
-      // Mietrendite Vorher = (Monthly rent Vorher × 12) / Property value per sqm Vorher
-      const annualRentBefore = this.financialData.rentalIncrease.perSqmBefore * 12;
-      this.financialData.rentalIncrease.returnBefore = 
-        ((annualRentBefore / this.financialData.rentalIncrease.valueBefore) * 100).toFixed(1);
-    } else {
-      this.financialData.rentalIncrease.returnBefore = '0.0';
-    }
+calculateRentalYieldForFinancialData(): void {
+  // Calculate increases first with proper formulas
+  this.financialData.rentalIncrease.perSqmIncrease = 
+    Math.abs(this.financialData.rentalIncrease.perSqmAfter - this.financialData.rentalIncrease.perSqmBefore);
+  
+  // Use correct formula: Living area × Rent per m² × 12 months
+  const livingArea = this.livingArea;
+  this.financialData.rentalIncrease.totalBefore = 
+    Math.round(livingArea * this.financialData.rentalIncrease.perSqmBefore * 12);
+  
+  this.financialData.rentalIncrease.totalAfter = 
+    Math.round(livingArea * this.financialData.rentalIncrease.perSqmAfter * 12);
     
-    if (this.financialData.rentalIncrease.valueAfter > 0) {
-      // Mietrendite Nachher = (Monthly rent Nachher × 12) / Property value per sqm Nachher
-      const annualRentAfter = this.financialData.rentalIncrease.perSqmAfter * 12;
-      this.financialData.rentalIncrease.returnAfter = 
-        ((annualRentAfter / this.financialData.rentalIncrease.valueAfter) * 100).toFixed(1);
-    } else {
-      this.financialData.rentalIncrease.returnAfter = '0.0';
-    }
+  this.financialData.rentalIncrease.totalIncrease = 
+    Math.abs(this.financialData.rentalIncrease.totalAfter - this.financialData.rentalIncrease.totalBefore);
     
-    // Calculate the increase as percentage difference: (Nachher/Vorher - 1)
-    const beforeValue = parseFloat(this.financialData.rentalIncrease.returnBefore);
-    const afterValue = parseFloat(this.financialData.rentalIncrease.returnAfter);
+  // Calculate value increases with correct formula: Living area × Value per m²
+  this.financialData.rentalIncrease.valueIncrease = 
+    Math.abs(this.financialData.rentalIncrease.valueAfter - this.financialData.rentalIncrease.valueBefore);
     
-    if (beforeValue > 0) {
-      // Calculate percentage change: (Nachher/Vorher - 1) * 100
-      this.financialData.rentalIncrease.returnIncrease = 
-        ((afterValue / beforeValue - 1) * 100).toFixed(1);
-    } else {
-      this.financialData.rentalIncrease.returnIncrease = '0.0';
-    }
+  this.financialData.rentalIncrease.totalValueBefore = 
+    Math.round(livingArea * this.financialData.rentalIncrease.valueBefore);
+    
+  this.financialData.rentalIncrease.totalValueAfter = 
+    Math.round(livingArea * this.financialData.rentalIncrease.valueAfter);
+    
+  this.financialData.rentalIncrease.totalValueIncrease = 
+    Math.abs(this.financialData.rentalIncrease.totalValueAfter - this.financialData.rentalIncrease.totalValueBefore);
+  
+  // Existing rental yield calculations remain unchanged...
+  if (this.financialData.rentalIncrease.valueBefore > 0) {
+    const annualRentBefore = this.financialData.rentalIncrease.perSqmBefore * 12;
+    this.financialData.rentalIncrease.returnBefore = 
+      ((annualRentBefore / this.financialData.rentalIncrease.valueBefore) * 100).toFixed(1);
+  } else {
+    this.financialData.rentalIncrease.returnBefore = '0.0';
   }
   
+  if (this.financialData.rentalIncrease.valueAfter > 0) {
+    const annualRentAfter = this.financialData.rentalIncrease.perSqmAfter * 12;
+    this.financialData.rentalIncrease.returnAfter = 
+      ((annualRentAfter / this.financialData.rentalIncrease.valueAfter) * 100).toFixed(1);
+  } else {
+    this.financialData.rentalIncrease.returnAfter = '0.0';
+  }
+  
+  const beforeValue = parseFloat(this.financialData.rentalIncrease.returnBefore);
+  const afterValue = parseFloat(this.financialData.rentalIncrease.returnAfter);
+  
+  if (beforeValue > 0) {
+    this.financialData.rentalIncrease.returnIncrease = 
+      ((afterValue / beforeValue - 1) * 100).toFixed(1);
+  } else {
+    this.financialData.rentalIncrease.returnIncrease = '0.0';
+  }
+
+  this.emitDataChange();
+}
   // New method to update perSqmBefore from consumptionData.rentPrice
   updatePerSqmBeforeFromConsumptionData(): void {
     if (this.consumptionData && this.consumptionData.rentPrice) {
@@ -467,4 +554,52 @@ export class FinancialPotentialTabComponent implements OnInit, OnChanges {
       console.log('Updated perSqmBefore from consumptionData:', this.financialData.rentalIncrease.perSqmBefore);
     }
   }
+
+ calculatePerSqmIncrease(): void {
+  this.editableFinancialData.rentalIncrease.perSqmIncrease = 
+    Math.abs(this.editableFinancialData.rentalIncrease.perSqmAfter - this.editableFinancialData.rentalIncrease.perSqmBefore);
+}
+
+// Calculate total monthly increase automatically with absolute value
+calculateTotalIncrease(): void {
+  const livingArea = this.livingArea;
+  
+  // Formula: Living area × Rent per m² × 12 months
+  this.editableFinancialData.rentalIncrease.totalBefore = 
+    Math.round(livingArea * this.editableFinancialData.rentalIncrease.perSqmBefore * 12);
+  
+  this.editableFinancialData.rentalIncrease.totalAfter = 
+    Math.round(livingArea * this.editableFinancialData.rentalIncrease.perSqmAfter * 12);
+  
+  // Calculate the increase (difference)
+  this.editableFinancialData.rentalIncrease.totalIncrease = 
+    Math.abs(this.editableFinancialData.rentalIncrease.totalAfter - this.editableFinancialData.rentalIncrease.totalBefore);
+}
+
+// Calculate value increase per sqm automatically
+calculateValueIncrease(): void {
+  this.editableFinancialData.rentalIncrease.valueIncrease = 
+    Math.abs(this.editableFinancialData.rentalIncrease.valueAfter - this.editableFinancialData.rentalIncrease.valueBefore);
+}
+
+// Calculate total value increase automatically
+// Calculate total value increase automatically with correct formula
+calculateTotalValueIncrease(): void {
+  const livingArea = this.livingArea;
+  
+  // Formula: Living area × Value per m²
+  this.editableFinancialData.rentalIncrease.totalValueBefore = 
+    Math.round(livingArea * this.editableFinancialData.rentalIncrease.valueBefore);
+  
+  this.editableFinancialData.rentalIncrease.totalValueAfter = 
+    Math.round(livingArea * this.editableFinancialData.rentalIncrease.valueAfter);
+  
+  // Calculate the increase (difference)
+  this.editableFinancialData.rentalIncrease.totalValueIncrease = 
+    Math.abs(this.editableFinancialData.rentalIncrease.totalValueAfter - this.editableFinancialData.rentalIncrease.totalValueBefore);
+}
+
+get livingArea(): number {
+  return this.building?.livingSpace || this.LIVING_SPACE; // Fallback to constant if building data not available
+}
 }

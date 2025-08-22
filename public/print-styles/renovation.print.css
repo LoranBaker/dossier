@@ -1,0 +1,103 @@
+/* Renovation Section Print Styles */
+.renovation-section {
+  font-size: 10pt !important;
+}
+
+.renovation-section h2 {
+  font-size: 1.25rem !important;
+  margin: 0.5rem 0 0.75rem 0 !important;
+  color: #0071e3 !important;
+  line-height: 1.2 !important;
+}
+
+.renovation-section h3 {
+  font-size: 1.125rem !important;
+  margin: 0.5rem 0 0.5rem 0 !important;
+  color: #424245 !important;
+  line-height: 1.2 !important;
+}
+
+.renovation-section h4 {
+  font-size: 1rem !important;
+  margin: 0.25rem 0 0.5rem 0 !important;
+  color: #1d1d1f !important;
+  line-height: 1.2 !important;
+}
+
+/* All Table Headers - Light Blue Background */
+.renovation-section .renovation-table th,
+.renovation-section .foerderboni-table th,
+.renovation-section .summe-table .summe-header td,
+.renovation-section table th {
+  background: #e1f0ff !important;
+  color: #0071e3 !important;
+  font-weight: 600 !important;
+  font-size: 9pt !important;
+  padding: 0.75rem !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Specific targeting for summe table header row */
+.renovation-section .summe-table tfoot tr.summe-header td {
+  background: #e1f0ff !important;
+  color: #0071e3 !important;
+  font-weight: 600 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Foerderboni table headers */
+.renovation-section .foerderboni-table thead tr.foerderboni-header th {
+  background: #e1f0ff !important;
+  color: #0071e3 !important;
+  font-weight: 600 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Renovation table footer totals */
+.renovation-section .renovation-table tfoot td {
+  background: #f0f7ff !important;
+  font-weight: 600 !important;
+  color: #0071e3 !important;
+  border-top: 2px solid #0071e3 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* General table cell styling */
+.renovation-section table th,
+.renovation-section table td {
+  font-size: 10pt !important;
+  padding: 0.75rem !important;
+  line-height: 1.3 !important;
+}
+
+.renovation-section p {
+  font-size: 10pt !important;
+  line-height: 1.4 !important;
+  margin: 0.5rem 0 !important;
+}
+
+/* Spacing between renovation table and savings potential */
+.renovation-table + .savings-potential {
+  margin-top: 2rem !important;
+}
+
+/* Alternative: More general spacing for savings potential */
+.savings-potential {
+  margin-top: 1.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Enhanced renovation section spacing */
+.renovation-section .renovation-table {
+  margin-bottom: 1.5rem !important;
+}
+
+.renovation-section .savings-potential {
+  margin-top: 2rem !important;
+  padding-top: 1rem !important;
+  border-top: 1px solid #e8e8ed !important;
+}

@@ -1,0 +1,429 @@
+/* consultation-cta.print.css */
+/* Print-specific styles for consultation CTA component */
+
+@media print {
+  /* Page setup for consultation CTA section */
+  .consultation-cta {
+    max-width: 100%;
+    margin: 0;
+    padding: 2rem 1rem;
+    background: transparent;
+    page-break-inside: avoid;
+    min-height: 95vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  /* Header Section */
+  .cta-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    page-break-inside: avoid;
+    flex-shrink: 0;
+  }
+
+  .main-question {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #0071e3; /* Use solid color instead of gradient for print */
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+
+  .header-subtitle {
+    font-size: 1.25rem;
+    color: #424245;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  /* Main CTA Section */
+  .main-cta-section {
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content: center;
+    page-break-inside: avoid;
+    flex-shrink: 0;
+  }
+
+  .cta-card {
+    background: #f5f5f7;
+    border-radius: 20px;
+    padding: 2rem 1.75rem;
+    border: 1px solid #d2d2d7;
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    
+    /* Add top border accent */
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: #0071e3;
+      border-radius: 20px 20px 0 0;
+    }
+  }
+
+  .cta-icon {
+    margin: 0 auto 1.25rem;
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    background: #0071e3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    svg {
+      color: white;
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  .cta-content {
+    .cta-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1d1d1f;
+      margin-bottom: 1rem;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      
+      .cta-subtitle {
+        display: block;
+        font-size: 1.4rem;
+        font-weight: 500;
+        color: #424245;
+        margin-top: 0.5rem;
+      }
+    }
+    
+    .cta-description {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: #424245;
+      margin: 0 auto;
+      max-width: 550px;
+    }
+  }
+
+  /* Service Section - Ensure visibility */
+  .service-section {
+    display: flex !important;
+    visibility: visible !important;
+    text-align: center !important;
+    margin-top: 0 !important;
+    position: relative !important;
+    page-break-inside: avoid;
+    opacity: 1 !important;
+    flex-grow: 0;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    padding-top: 0;
+    width: 100% !important;
+    
+    /* Ensure the section is properly positioned */
+    left: 0 !important;
+    right: 0 !important;
+    
+    /* Create centered title using ::before */
+    &::before {
+      content: 'Unser Service für Sie';
+      display: block !important;
+      font-size: 1.75rem !important;
+      font-weight: 600 !important;
+      color: #1d1d1f !important;
+      text-align: center !important;
+      width: 100% !important;
+      margin: 0 auto 3rem auto !important;
+      position: relative;
+      border-bottom: 3px solid #0071e3;
+      border-bottom-width: 50px;
+      border-bottom-style: solid;
+      border-bottom-color: transparent;
+      background: linear-gradient(to right, transparent calc(50% - 25px), #0071e3 calc(50% - 25px), #0071e3 calc(50% + 25px), transparent calc(50% + 25px));
+      background-position: bottom;
+      background-size: 100% 3px;
+      background-repeat: no-repeat;
+      padding-bottom: 0.75rem;
+    }
+  }
+
+  /* Hide the original title since we're using ::before */
+  .service-title {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  .service-steps {
+    display: flex !important;
+    visibility: visible !important;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 !important;
+    opacity: 1 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100%;
+    position: relative;
+  }
+
+  .service-steps-row {
+    display: flex !important;
+    visibility: visible !important;
+    gap: 1rem;
+    opacity: 1 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100%;
+    
+    &.first-row {
+      justify-content: center !important;
+      flex-wrap: nowrap;
+      max-width: 100%;
+    }
+    
+    &.second-row {
+      justify-content: center !important;
+      padding: 0;
+      margin: 0 auto;
+    }
+  }
+
+  .service-step {
+    display: flex !important;
+    visibility: visible !important;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 1rem;
+    background: #f5f5f7 !important;
+    border-radius: 16px;
+    border: 1px solid #d2d2d7;
+    position: relative;
+    min-height: 125px;
+    width: 155px;
+    max-width: 155px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    opacity: 1 !important;
+    
+    /* Remove all hover effects and transitions for print */
+    &:hover {
+      transform: none !important;
+      box-shadow: none !important;
+      background: #f5f5f7 !important;
+    }
+    
+    /* Top border accent using CSS variable */
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--step-color, #0071e3);
+      border-radius: 16px 16px 0 0;
+    }
+  }
+
+  /* Step colors for print */
+  .service-steps-row.first-row .service-step {
+    &:nth-child(1) { --step-color: #007AFF; }
+    &:nth-child(2) { --step-color: #34C759; }
+    &:nth-child(3) { --step-color: #FF9500; }
+    &:nth-child(4) { --step-color: #AF52DE; }
+    &:nth-child(5) { --step-color: #FF2D92; }
+  }
+
+  .service-steps-row.second-row .service-step {
+    &:nth-child(1) { --step-color: #5AC8FA; }
+    &:nth-child(2) { --step-color: #FFCC00; }
+    &:nth-child(3) { --step-color: #FF453A; }
+  }
+
+  .step-number {
+    display: flex !important;
+    visibility: visible !important;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--step-color, #0071e3) !important;
+    color: white !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    opacity: 1 !important;
+  }
+
+  .step-title {
+    display: block !important;
+    visibility: visible !important;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #1d1d1f !important;
+    text-align: center;
+    line-height: 1.3;
+    letter-spacing: -0.1px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    opacity: 1 !important;
+  }
+
+  /* REMOVE all tooltip/details elements for print */
+  .step-details,
+  .details-content,
+  .details-title,
+  .details-list {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Print-specific optimizations */
+  .consultation-cta * {
+    /* Ensure no elements break across pages */
+    page-break-inside: avoid;
+    
+    /* Remove any animations or transitions */
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    
+    /* Fix text rendering issues */
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+  }
+
+  /* Ensure consistent spacing and center alignment */
+  .consultation-cta {
+    color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    text-align: center !important;
+  }
+  
+  /* Force centering for all elements */
+  .consultation-cta h2,
+  .consultation-cta h3,
+  .consultation-cta p,
+  .consultation-cta div {
+    text-align: center !important;
+  }
+  
+  /* Specific fix for service title */
+  .consultation-cta .service-title,
+  .service-section .service-title,
+  h3.service-title {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    position: relative !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    display: block !important;
+    width: 100% !important;
+    
+    /* Additional text rendering fixes */
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    word-spacing: normal !important;
+    letter-spacing: normal !important;
+  }
+  
+  /* Center all flex containers */
+  .consultation-cta .cta-header,
+  .consultation-cta .main-cta-section,
+  .consultation-cta .service-section,
+  .consultation-cta .service-steps,
+  .consultation-cta .service-steps-row {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  /* Responsive adjustments for smaller print areas */
+  @media print and (max-width: 600px) {
+    .main-question {
+      font-size: 2rem;
+    }
+    
+    .service-title {
+      font-size: 1.5rem;
+    }
+    
+    .cta-card {
+      padding: 1.75rem 1.5rem;
+      border-radius: 16px;
+    }
+    
+    .cta-icon {
+      width: 70px;
+      height: 70px;
+      
+      svg {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    
+    .service-steps-row {
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      
+      &.first-row {
+        justify-content: center;
+      }
+      
+      &.second-row {
+        padding: 0;
+      }
+    }
+    
+    .service-step {
+      width: calc(33.333% - 0.5rem);
+      min-width: 110px;
+      padding: 1.25rem 0.75rem;
+      min-height: 100px;
+      border-radius: 12px;
+    }
+    
+    .step-number {
+      width: 32px;
+      height: 32px;
+      font-size: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .step-title {
+      font-size: 0.75rem;
+      line-height: 1.2;
+    }
+    
+    .cta-content .cta-title {
+      font-size: 1.75rem;
+      
+      .cta-subtitle {
+        font-size: 1.25rem;
+      }
+    }
+  }
+}

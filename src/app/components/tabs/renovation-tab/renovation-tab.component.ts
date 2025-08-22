@@ -19,6 +19,8 @@ import { takeUntil } from 'rxjs/operators';
 export class RenovationTabComponent implements OnInit, OnChanges, OnDestroy {
   @Input() renovationMeasures!: RenovationMeasure[];
   @Input() savingsPotential!: SavingsPotential;
+  @Input() amortizationYears: number = 0;
+  @Input() foerderboniMeasures: any[] = [];
   
   // Output the calculated totals to parent component if needed
   @Output() totalsChanged = new EventEmitter<{
@@ -245,4 +247,22 @@ export class RenovationTabComponent implements OnInit, OnChanges, OnDestroy {
       totalFunding: currentTotalFunding
     });
   }
+
+  onSavingsPercentagesChanged(percentages: {
+  energyCostSavings: number;
+  energyBalanceSavings: number;
+  co2TaxSavings: number;
+}): void {
+  console.log('Received savings percentages from renovation results:', percentages);
+  
+  // Update the savingsPotential object with the new percentages
+  if (this.savingsPotential) {
+    this.savingsPotential.energyCostSavings = percentages.energyCostSavings;
+    this.savingsPotential.energyBalanceSavings = percentages.energyBalanceSavings;
+    this.savingsPotential.co2TaxSavings = percentages.co2TaxSavings;
+    
+    console.log('Updated savingsPotential:', this.savingsPotential);
+  }
+}
+
 }

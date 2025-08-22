@@ -1,0 +1,87 @@
+<!-- general-info.component.html -->
+<div class="general-info">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Allgemeine Hinweise</h1>
+      <p class="hero-subtitle">
+        Wichtige Informationen zu Ihrer Gebäudeanalyse und Sanierungsplanung
+      </p>
+    </div>
+    <div class="hero-decoration">
+      <div class="floating-element element-1"></div>
+      <div class="floating-element element-2"></div>
+      <div class="floating-element element-3"></div>
+    </div>
+  </div>
+
+  <!-- Info Sections -->
+  <div class="sections-grid">
+    <div 
+      *ngFor="let section of infoSections; trackBy: trackBySectionIndex; let i = index" 
+      class="info-section"
+      [attr.data-section]="i"
+      [style.animation-delay.ms]="i * 150"
+    >
+      <!-- Section Header -->
+      <div class="section-header">
+        <div class="section-icon">
+          <div class="icon-content" [attr.data-icon]="i">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Different icons for each section -->
+              <ng-container [ngSwitch]="i">
+                <!-- Info icon for Allgemeine Hinweise -->
+                <g *ngSwitchCase="0">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </g>
+                <!-- Star icon for Was bietet ENVALPRO -->
+                <g *ngSwitchCase="1">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </g>
+                <!-- Calculator icon for Berechnungsmodell -->
+                <g *ngSwitchCase="2">
+                  <rect x="4" y="3" width="16" height="18" rx="2" ry="2"></rect>
+                  <line x1="8" y1="9" x2="16" y2="9"></line>
+                  <line x1="8" y1="13" x2="16" y2="13"></line>
+                  <line x1="8" y1="17" x2="16" y2="17"></line>
+                </g>
+                <!-- Dollar icon for Investitionen -->
+                <g *ngSwitchCase="3">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </g>
+                <!-- Alert triangle for Grenzen -->
+                <g *ngSwitchDefault>
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </g>
+              </ng-container>
+            </svg>
+          </div>
+        </div>
+        <h3 class="section-title">{{ section.title }}</h3>
+      </div>
+      
+      <!-- Section Content -->
+      <div class="section-content">
+        <div 
+          *ngFor="let paragraph of section.content; trackBy: trackByParagraphIndex; let j = index" 
+          class="content-paragraph"
+          [style.animation-delay.ms]="(i * 150) + (j * 50)"
+        >
+          {{ paragraph }}
+        </div>
+      </div>
+
+      <!-- Section Footer -->
+      <div class="section-footer">
+        <div class="reading-indicator">
+          <div class="indicator-dot" *ngFor="let p of section.content; let k = index" [class.active]="k === 0"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
