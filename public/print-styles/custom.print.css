@@ -1,0 +1,54 @@
+/* custom.print.css - dedicated rules for hero screenshot and page layout */
+
+@media print {
+  /* Hero screenshot consumes first page content area under header */
+  .hero-screenshot-first-page {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important; /* no extra gap below header */
+    padding: 0 !important;
+    overflow: hidden !important; /* allow cover cropping */
+  }
+
+  .hero-screenshot-first-page img {
+    display: block !important;
+    width: 100% !important;
+    height: calc(100vh - 40mm - 12mm) !important; /* viewport height minus page margins and approx header */
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: cover !important; /* fill area, cropping if necessary */
+    object-position: center center !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Ensure the four-screenshot section starts on the next page without extra blank pages */
+  .screenshots-four-section {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+
+  /* Remove any generic .page-break helper if present */
+  .page-break { display: none !important; }
+
+  /* Improve spacing inside the cloned dossier header */
+  .dossier-header-above-model {
+    padding: 6mm 8mm !important; /* inner margins */
+    box-sizing: border-box !important;
+    width: 100% !important;
+  }
+
+  .dossier-header-above-model .title {
+    margin: 2mm 0 1mm 0 !important;
+    line-height: 1.25 !important;
+  }
+
+  .dossier-header-above-model .subtitle {
+    margin: 0 !important;
+    line-height: 1.2 !important;
+  }
+}

@@ -26,7 +26,8 @@ private cssFiles = {
   modernizationPlanning: 'print-styles/modernization-planning.print.css',
   consultationCta: 'print-styles/consultation-cta.print.css',
   generalInfo: 'print-styles/general-info.print.css',
-  screenshots: 'print-styles/screenshots.print.css'
+  screenshots: 'print-styles/screenshots.print.css',
+  custom: 'print-styles/custom.print.css'
 };
 
  
@@ -102,11 +103,46 @@ async printDossierWithType(
         
         // Remove address, URL, date, and time from header - keep only logo and title
         this.cleanHeaderFooter(header);
-        printContainer.appendChild(header);
+        // Do not append the original header to avoid duplication
+        // printContainer.appendChild(header);
       }
-    if (this.screenshots && this.screenshots.length > 0) {
-this.addScreenshotsToFirstPage(printContainer);
-}
+
+    // Insert a styled Dossier header above the model/screenshots for print using the same component header structure/styles
+    if (header) {
+      const dossierIntro = header.cloneNode(true) as HTMLElement;
+      dossierIntro.classList.add('dossier-header-above-model');
+      const titleEl = dossierIntro.querySelector('.title') as HTMLElement | null;
+      if (titleEl) {
+        try {
+          const addr = (building?.address ?? '').toString();
+          titleEl.textContent = `DOSSIER – ${addr.toUpperCase()}`;
+        } catch {
+          titleEl.textContent = 'DOSSIER';
+        }
+      }
+
+      // Apply comfortable inner padding and spacing directly (print and preview)
+      dossierIntro.style.padding = '6mm 8mm';
+      dossierIntro.style.boxSizing = 'border-box';
+      if (titleEl) {
+        titleEl.style.margin = '2mm 0 1mm 0';
+        titleEl.style.lineHeight = '1.25';
+      }
+      const subtitleEl = dossierIntro.querySelector('.subtitle') as HTMLElement | null;
+      if (subtitleEl) {
+        subtitleEl.style.margin = '0';
+        subtitleEl.style.lineHeight = '1.2';
+      }
+
+      printContainer.appendChild(dossierIntro);
+    }
+
+    // Add a full-page hero screenshot right below the header (first page)
+    this.addHeroScreenshotFirstPage(printContainer);
+
+    // Add the four-screenshot block on a new page
+    this.addScreenshotsFourSection(printContainer);
+
     if (buildingImage) {
       // Remove upload controls from building image
       const uploadElements = buildingImage.querySelectorAll('.image-remove-btn, .upload-container');
@@ -350,6 +386,20 @@ private getHeaderFooterSuppressionCSS(): string {
         padding: 5px 0 !important;
       }
     }
+
+    /* Allow dossier component headers to show in print - use higher specificity */
+    @media print {
+      header.dossier-header,
+      header.dossier-header-above-model,
+      .dossier-header,
+      .dossier-header-above-model {
+        display: block !important;
+        visibility: visible !important;
+        height: auto !important;
+        margin: 0 0 10px 0 !important;
+        /* Removed padding reset so custom/inline padding applies */
+      }
+    }
   `;
 }
 
@@ -460,16 +510,25 @@ private async loadPrintStylesForType(printType: 'kunde' | 'lv' | 'bank'): Promis
       // Load ALL CSS files for bank to ensure same styling as kunde
       cssFilesToLoad = Object.values(this.cssFiles);
     } else if (printType === 'lv') {
-      // Load only shared and screenshots CSS for lv
+      // Load only shared and screenshots CSS for lv (plus custom for shared print rules)
       cssFilesToLoad = [
         this.cssFiles.shared,
-        this.cssFiles.screenshots
-      ];
+        this.cssFiles.screenshots,
+        (this.cssFiles as any).custom
+      ].filter(Boolean);
     }
+
+    // Ensure screenshots CSS is loaded before custom and both are at the end (custom last)
+    const screenshotsUrl = this.cssFiles.screenshots;
+    const customUrl = (this.cssFiles as any).custom;
+    const others = cssFilesToLoad.filter(u => u !== screenshotsUrl && u !== customUrl);
+    cssFilesToLoad = [...others];
+    if (screenshotsUrl) cssFilesToLoad.push(screenshotsUrl);
+    if (customUrl) cssFilesToLoad.push(customUrl); // custom last
     
-    // Load CSS files in parallel
+    // Load CSS files in parallel without cache to avoid stale styles
     const cssPromises = cssFilesToLoad.map(url => 
-      fetch(url).then(response => {
+      fetch(url, { cache: 'no-cache' }).then(response => {
         if (!response.ok) {
           console.warn(`Could not load CSS file: ${url}`);
           return '';
@@ -497,55 +556,9 @@ private async loadPrintStylesForType(printType: 'kunde' | 'lv' | 'bank'): Promis
   }
 }
 private addScreenshotsToFirstPage(printContainer: HTMLElement): void {
-  // Don't create a separate page - add to first page
-  if (!this.screenshots || this.screenshots.length === 0) return;
-  
-  // Create screenshots section for first page
-  const screenshotsSection = document.createElement('div');
-  screenshotsSection.className = 'screenshots-first-page';
-  
-  // Add title
-  const title = document.createElement('h2');
-  title.textContent = '3D-Modell Ansichten';
-  screenshotsSection.appendChild(title);
-  
-  // Create simple container (no flexbox, just block)
-  const container = document.createElement('div');
-  
-  // Add screenshots (max 4) - each in its own row
-  for (let i = 0; i < Math.min(this.screenshots.length, 4); i++) {
-    const screenshot = this.screenshots[i];
-    
-    // Create screenshot container (one per row)
-    const screenshotContainer = document.createElement('div');
-    
-    // Create image
-    const img = document.createElement('img');
-    img.src = screenshot.dataUrl;
-    img.alt = screenshot.viewName;
-    
-    // Create label
-    const label = document.createElement('p');
-    label.textContent = screenshot.viewName;
-    
-    // Add image and label to container
-    screenshotContainer.appendChild(img);
-    screenshotContainer.appendChild(label);
-    
-    // Add container to main container
-    container.appendChild(screenshotContainer);
-  }
-  
-  screenshotsSection.appendChild(container);
-  
-  // Insert after header and building image, before other sections
-  const headerElements = printContainer.querySelectorAll('.dossier-header, .building-image');
-  if (headerElements.length > 0) {
-    const lastHeaderElement = headerElements[headerElements.length - 1];
-    lastHeaderElement.parentNode?.insertBefore(screenshotsSection, lastHeaderElement.nextSibling);
-  } else {
-    printContainer.insertBefore(screenshotsSection, printContainer.firstChild);
-  }
+  // Legacy method disabled: four-screenshot block now lives on page 2
+  // via addScreenshotsFourSection(). Keep no-op to avoid accidental insertion.
+  return;
 }
 
   /**
@@ -983,5 +996,54 @@ private addScreenshotsToFirstPage(printContainer: HTMLElement): void {
       default:
         return baseCSS;
     }
+  }
+
+  // Add a large hero screenshot on the first page
+  private addHeroScreenshotFirstPage(printContainer: HTMLElement): void {
+    if (!this.screenshots || this.screenshots.length === 0) return;
+    const first = this.screenshots[0];
+    if (!first?.dataUrl) return;
+
+    const hero = document.createElement('div');
+    hero.className = 'hero-screenshot-first-page';
+
+    const img = document.createElement('img');
+    img.src = first.dataUrl;
+    img.alt = first.viewName || 'Erste Ansicht';
+
+    hero.appendChild(img);
+    printContainer.appendChild(hero);
+  }
+
+  // Add the four-screenshot section on the next page
+  private addScreenshotsFourSection(printContainer: HTMLElement): void {
+    if (!this.screenshots || this.screenshots.length === 0) return;
+
+    const section = document.createElement('div');
+    section.className = 'screenshots-first-page screenshots-four-section';
+
+    // Optional title
+    const title = document.createElement('h2');
+    title.textContent = '3D-Modell Ansichten';
+    section.appendChild(title);
+
+    const container = document.createElement('div');
+
+    const count = Math.min(this.screenshots.length, 4);
+    for (let i = 0; i < count; i++) {
+      const screenshot = this.screenshots[i];
+      const row = document.createElement('div');
+      const img = document.createElement('img');
+      img.src = screenshot.dataUrl;
+      img.alt = screenshot.viewName;
+      const label = document.createElement('p');
+      label.textContent = screenshot.viewName;
+      row.appendChild(img);
+      row.appendChild(label);
+      container.appendChild(row);
+    }
+
+    section.appendChild(container);
+    printContainer.appendChild(section);
   }
 }

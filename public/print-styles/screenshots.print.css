@@ -103,17 +103,24 @@
     margin: 0.5rem auto !important;
   }
   
+  /* Increase vertical spacing between rows */
   .screenshots-first-page > div > div {
     max-width: 200mm !important;
-    margin: 0 auto 0.3rem auto !important;
-    padding: 0.3rem !important;
+    margin: 0 auto 0.5rem auto !important; /* was 0.3rem */
+    padding: 0.25rem !important; /* slightly tighter padding to compensate */
   }
   
+  /* Slightly reduce image size to keep on one page */
   .screenshots-first-page img {
-    max-width: 180mm !important;
-    width: 180mm !important;
-    max-height: 60mm !important;
-    margin: 0.3rem auto !important;
+    max-width: 176mm !important; /* was 180mm */
+    width: 176mm !important; /* was 180mm */
+    max-height: 55mm !important; /* was 60mm */
+    margin: 0.25rem auto !important; /* was 0.3rem */
+  }
+
+  /* Avoid extra space after the last row */
+  .screenshots-first-page > div > div:last-child {
+    margin-bottom: 0.25rem !important;
   }
   
   /* Compact title on print */
@@ -155,10 +162,12 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   .screenshots-first-page {
     -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
   
   .screenshots-first-page > div > div {
     -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
     display: block !important;
     width: 100% !important;
   }
