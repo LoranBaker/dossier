@@ -1,48 +1,48 @@
 /* consultation-cta.print.css */
-/* Print-specific styles for consultation CTA component */
+/* Print-specific styles for consultation CTA component - Enhanced Full Width Layout */
 
 @media print {
   /* Page setup for consultation CTA section */
   .consultation-cta {
     max-width: 100%;
     margin: 0;
-    padding: 2rem 1rem;
+    padding: 1.5rem 0.5rem;
     background: transparent;
     page-break-inside: avoid;
     min-height: 95vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
   }
 
   /* Header Section */
   .cta-header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     position: relative;
     page-break-inside: avoid;
     flex-shrink: 0;
   }
 
   .main-question {
-    font-size: 2.5rem;
+    font-size: 6.5rem;
     font-weight: 700;
-    color: #0071e3; /* Use solid color instead of gradient for print */
-    margin: 0 0 1rem 0;
+    color: #0071e3;
+    margin: 0 0 2rem 0;
     letter-spacing: -0.5px;
     line-height: 1.1;
   }
 
   .header-subtitle {
-    font-size: 1.25rem;
+    font-size: 1.6rem;
     color: #424245;
     font-weight: 500;
     margin: 0;
   }
 
-  /* Main CTA Section */
+  /* Main CTA Section - Compact */
   .main-cta-section {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     display: flex;
     justify-content: center;
     page-break-inside: avoid;
@@ -51,10 +51,10 @@
 
   .cta-card {
     background: #f5f5f7;
-    border-radius: 20px;
-    padding: 2rem 1.75rem;
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
     border: 1px solid #d2d2d7;
-    max-width: 700px;
+    max-width: 900px;
     width: 100%;
     text-align: center;
     position: relative;
@@ -67,16 +67,16 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 5px;
+      height: 4px;
       background: #0071e3;
       border-radius: 20px 20px 0 0;
     }
   }
 
   .cta-icon {
-    margin: 0 auto 1.25rem;
-    width: 85px;
-    height: 85px;
+    margin: 0 auto 1rem;
+    width: 75px;
+    height: 75px;
     border-radius: 50%;
     background: #0071e3;
     display: flex;
@@ -85,39 +85,39 @@
     
     svg {
       color: white;
-      width: 48px;
-      height: 48px;
+      width: 42px;
+      height: 42px;
     }
   }
 
-  .cta-content {
+    .cta-content {
     .cta-title {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 700;
       color: #1d1d1f;
-      margin-bottom: 1rem;
-      letter-spacing: -0.5px;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.4px;
       line-height: 1.2;
       
       .cta-subtitle {
         display: block;
-        font-size: 1.4rem;
+        font-size: 1.6rem;
         font-weight: 500;
         color: #424245;
-        margin-top: 0.5rem;
+        margin-top: 0.4rem;
       }
     }
     
     .cta-description {
-      font-size: 1.1rem;
-      line-height: 1.5;
+      font-size: 1.2rem;
+      line-height: 1.4;
       color: #424245;
       margin: 0 auto;
       max-width: 550px;
     }
   }
 
-  /* Service Section - Ensure visibility */
+  /* Service Section - Full Width Layout */
   .service-section {
     display: flex !important;
     visibility: visible !important;
@@ -126,28 +126,25 @@
     position: relative !important;
     page-break-inside: avoid;
     opacity: 1 !important;
-    flex-grow: 0;
+    flex-grow: 1;
     flex-direction: column !important;
     justify-content: flex-start !important;
     align-items: center !important;
-    padding-top: 0;
     width: 100% !important;
+    padding: 0 !important;
     
-    /* Ensure the section is properly positioned */
-    left: 0 !important;
-    right: 0 !important;
-    
-    /* Create centered title using ::before */
+    /* Service title */
     &::before {
       content: 'Unser Service für Sie';
       display: block !important;
-      font-size: 1.75rem !important;
+      font-size: 2.2rem !important;
       font-weight: 600 !important;
       color: #1d1d1f !important;
       text-align: center !important;
       width: 100% !important;
       margin: 0 auto 3rem auto !important;
       position: relative;
+      padding-bottom: 0.75rem;
       border-bottom: 3px solid #0071e3;
       border-bottom-width: 50px;
       border-bottom-style: solid;
@@ -156,11 +153,10 @@
       background-position: bottom;
       background-size: 100% 3px;
       background-repeat: no-repeat;
-      padding-bottom: 0.75rem;
     }
   }
 
-  /* Hide the original title since we're using ::before */
+  /* Hide the original title */
   .service-title {
     display: none !important;
     visibility: hidden !important;
@@ -170,12 +166,12 @@
     display: flex !important;
     visibility: visible !important;
     flex-direction: column;
-    gap: 1.25rem;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 !important;
+    gap: 1.5rem;
+    max-width: 100% !important; /* Full width */
+    margin: 0 !important;
+    padding: 0 0.5rem !important; /* Minimal padding */
     opacity: 1 !important;
-    align-items: center !important;
+    align-items: stretch !important; /* Stretch to full width */
     justify-content: center !important;
     width: 100%;
     position: relative;
@@ -184,22 +180,25 @@
   .service-steps-row {
     display: flex !important;
     visibility: visible !important;
-    gap: 1rem;
+    gap: 0.75rem !important; /* Reduced gap for more space */
     opacity: 1 !important;
-    align-items: center !important;
-    justify-content: center !important;
+    align-items: stretch !important;
+    justify-content: space-between !important; /* Distribute evenly */
     width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
     
     &.first-row {
-      justify-content: center !important;
-      flex-wrap: nowrap;
-      max-width: 100%;
+      justify-content: space-between !important; /* Spread across full width */
+      flex-wrap: nowrap !important;
+      max-width: 100% !important;
     }
     
     &.second-row {
-      justify-content: center !important;
-      padding: 0;
-      margin: 0 auto;
+      justify-content: center !important; /* Center the 3 remaining items */
+      gap: 2rem !important; /* Larger gap for better spacing with fewer items */
+      padding: 0 10% !important; /* Add padding to center better */
+      margin: 0 auto !important;
     }
   }
 
@@ -208,26 +207,36 @@
     visibility: visible !important;
     flex-direction: column;
     align-items: center;
-    padding: 1.5rem 1rem;
+    padding: 2rem 1.5rem !important; /* Much larger padding */
     background: #f5f5f7 !important;
-    border-radius: 16px;
+    border-radius: 18px;
     border: 1px solid #d2d2d7;
     position: relative;
-    min-height: 125px;
-    width: 155px;
-    max-width: 155px;
-    flex-shrink: 0;
-    flex-grow: 0;
+    min-height: 160px !important; /* Much taller */
     opacity: 1 !important;
     
-    /* Remove all hover effects and transitions for print */
+    /* Full width distribution for first row */
+    .service-steps-row.first-row & {
+      flex: 1 1 0 !important; /* Equal flex grow */
+      max-width: calc(20% - 0.6rem) !important; /* 5 items = 20% each minus gap */
+      min-width: 140px !important;
+    }
+    
+    /* Centered layout for second row */
+    .service-steps-row.second-row & {
+      flex: 0 0 auto !important;
+      width: 220px !important; /* Much larger width */
+      max-width: 220px !important;
+    }
+    
+    /* Remove hover effects for print */
     &:hover {
       transform: none !important;
       box-shadow: none !important;
       background: #f5f5f7 !important;
     }
     
-    /* Top border accent using CSS variable */
+    /* Top border accent */
     &::before {
       content: '';
       position: absolute;
@@ -236,7 +245,7 @@
       right: 0;
       height: 3px;
       background: var(--step-color, #0071e3);
-      border-radius: 16px 16px 0 0;
+      border-radius: 14px 14px 0 0;
     }
   }
 
@@ -258,23 +267,23 @@
   .step-number {
     display: flex !important;
     visibility: visible !important;
-    width: 38px;
-    height: 38px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background: var(--step-color, #0071e3) !important;
     color: white !important;
     align-items: center;
     justify-content: center;
-    font-size: 0.875rem;
+    font-size: 1.4rem;
     font-weight: 600;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     opacity: 1 !important;
   }
 
   .step-title {
     display: block !important;
     visibility: visible !important;
-    font-size: 0.85rem;
+    font-size: 1.1rem;
     font-weight: 500;
     color: #1d1d1f !important;
     text-align: center;
@@ -284,125 +293,91 @@
     overflow-wrap: break-word;
     hyphens: auto;
     opacity: 1 !important;
+    flex-grow: 1; /* Allow text to fill available space */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
-  /* REMOVE all tooltip/details elements for print */
+  /* COMPLETELY REMOVE all tooltip/details elements for print */
   .step-details,
   .details-content,
   .details-title,
   .details-list {
     display: none !important;
     visibility: hidden !important;
+    opacity: 0 !important;
   }
 
   /* Print-specific optimizations */
   .consultation-cta * {
-    /* Ensure no elements break across pages */
     page-break-inside: avoid;
-    
-    /* Remove any animations or transitions */
     animation: none !important;
     transition: none !important;
     transform: none !important;
-    
-    /* Fix text rendering issues */
     text-rendering: optimizeLegibility !important;
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
   }
 
-  /* Ensure consistent spacing and center alignment */
+  /* Color accuracy for print */
   .consultation-cta {
     color-adjust: exact;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
     text-align: center !important;
   }
-  
-  /* Force centering for all elements */
-  .consultation-cta h2,
-  .consultation-cta h3,
-  .consultation-cta p,
-  .consultation-cta div {
-    text-align: center !important;
-  }
-  
-  /* Specific fix for service title */
-  .consultation-cta .service-title,
-  .service-section .service-title,
-  h3.service-title {
-    text-align: center !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    position: relative !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    display: block !important;
-    width: 100% !important;
-    
-    /* Additional text rendering fixes */
-    white-space: normal !important;
-    overflow: visible !important;
-    text-overflow: clip !important;
-    word-spacing: normal !important;
-    letter-spacing: normal !important;
-  }
-  
-  /* Center all flex containers */
-  .consultation-cta .cta-header,
-  .consultation-cta .main-cta-section,
-  .consultation-cta .service-section,
-  .consultation-cta .service-steps,
-  .consultation-cta .service-steps-row {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    text-align: center !important;
-  }
 
-  /* Responsive adjustments for smaller print areas */
-  @media print and (max-width: 600px) {
+  /* Responsive print adjustments */
+  @media print and (max-width: 700px) {
     .main-question {
-      font-size: 2rem;
-    }
-    
-    .service-title {
-      font-size: 1.5rem;
+      font-size: 2.2rem;
     }
     
     .cta-card {
-      padding: 1.75rem 1.5rem;
+      padding: 1.5rem 1.25rem;
       border-radius: 16px;
     }
     
     .cta-icon {
-      width: 70px;
-      height: 70px;
+      width: 65px;
+      height: 65px;
       
       svg {
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
       }
     }
     
+    /* Adjust service steps for smaller print */
     .service-steps-row {
-      flex-wrap: wrap;
-      gap: 0.75rem;
+      gap: 0.5rem !important;
       
       &.first-row {
-        justify-content: center;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
       }
       
       &.second-row {
-        padding: 0;
+        gap: 1.5rem !important;
+        padding: 0 5% !important;
       }
     }
     
     .service-step {
-      width: calc(33.333% - 0.5rem);
-      min-width: 110px;
-      padding: 1.25rem 0.75rem;
-      min-height: 100px;
+      .service-steps-row.first-row & {
+        flex: 0 0 auto !important;
+        max-width: calc(33.333% - 0.33rem) !important;
+        min-width: 120px !important;
+      }
+      
+      .service-steps-row.second-row & {
+        width: 160px !important;
+        max-width: 160px !important;
+      }
+      
+      padding: 1rem 0.6rem !important;
+      min-height: 95px !important;
       border-radius: 12px;
     }
     
@@ -410,19 +385,42 @@
       width: 32px;
       height: 32px;
       font-size: 0.75rem;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.6rem;
     }
     
     .step-title {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       line-height: 1.2;
     }
     
     .cta-content .cta-title {
-      font-size: 1.75rem;
+      font-size: 1.6rem;
       
       .cta-subtitle {
-        font-size: 1.25rem;
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  @media print and (max-width: 500px) {
+    /* Very small print areas - stack everything */
+    .service-steps-row {
+      &.first-row,
+      &.second-row {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 0.75rem !important;
+        padding: 0 !important;
+      }
+    }
+    
+    .service-step {
+      .service-steps-row.first-row &,
+      .service-steps-row.second-row & {
+        flex: 0 0 auto !important;
+        width: calc(50% - 0.375rem) !important;
+        max-width: calc(50% - 0.375rem) !important;
+        min-width: 140px !important;
       }
     }
   }

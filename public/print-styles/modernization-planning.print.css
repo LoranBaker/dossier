@@ -1,494 +1,478 @@
-/* Modernization Planning Section Print Styles - Exact Website Match, Single Page */
+/* Full Page Spread Print CSS - Enhanced Size - Maximum Page Utilization */
 
-/* Main Container - Optimized for single page */
-.modernization-planning,
-.single-page-optimized .modernization-planning,
-.modernization-planning-component,
-.planning-component {
-  max-width: 1000px !important;
-  margin: 0 auto !important;
-  padding: 1.5rem !important;
-  color: #1d1d1f !important;
-  background: transparent !important;
-  font-size: 10pt !important;
-  line-height: 1.4 !important;
-  max-height: none !important;
-  overflow: visible !important;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif !important;
-  page-break-inside: avoid !important;
-}
-
-/* Planning Header with Apple-style gradient underline */
-.planning-header,
-.modernization-planning .planning-header,
-.single-page-optimized .planning-header {
-  text-align: center !important;
-  margin-bottom: 2rem !important;
-  position: relative !important;
-  padding: 0.5rem 0 !important;
-}
-
-.planning-header::after,
-.modernization-planning .planning-header::after {
-  content: '' !important;
-  position: absolute !important;
-  bottom: -1rem !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  width: 100px !important;
-  height: 4px !important;
-  background: linear-gradient(90deg, #0071e3, #34c759) !important;
-  border-radius: 2px !important;
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-}
-
-/* Apple-style gradient title - Optimized size */
-.planning-title,
-.modernization-planning .planning-title,
-.single-page-optimized .planning-title,
-h1.planning-title {
-  font-size: 2.2rem !important;
-  font-weight: 700 !important;
-  letter-spacing: -1px !important;
-  background: linear-gradient(135deg, #0071e3, #34c759) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
-  color: #0071e3 !important;
-  margin-bottom: 1rem !important;
-  line-height: 1.1 !important;
-  position: relative !important;
-  text-align: center !important;
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-}
-
-/* Subtitle - Optimized */
-.planning-subtitle h2,
-.modernization-planning .planning-subtitle h2,
-.planning-subtitle,
-h2.planning-subtitle {
-  font-size: 1.4rem !important;
-  font-weight: 600 !important;
-  color: #1d1d1f !important;
-  margin-bottom: 0.5rem !important;
-  letter-spacing: -0.5px !important;
-  text-align: center !important;
-}
-
-.subtitle-text,
-.modernization-planning .subtitle-text {
-  font-size: 11pt !important;
-  color: #424245 !important;
-  font-weight: 400 !important;
-  margin: 0 0 1rem 0 !important;
-  opacity: 0.9 !important;
-  text-align: center !important;
-}
-
-/* Description Section - Compact */
-.planning-description,
-.modernization-planning .planning-description {
-  margin-bottom: 1.5rem !important;
-  position: relative !important;
-}
-
-.description-text,
-.planning-description .description-text,
-.modernization-planning .description-text {
-  font-size: 11pt !important;
-  line-height: 1.5 !important;
-  color: #424245 !important;
-  margin: 0 auto 1.5rem auto !important;
-  text-align: center !important;
-  max-width: 700px !important;
-}
-
-/* Benefits Section - Optimized spacing */
-.your-benefits,
-.modernization-planning .your-benefits {
-  margin: 1.5rem 0 !important;
-  position: relative !important;
-}
-
-.benefits-title,
-.your-benefits .benefits-title,
-.modernization-planning .benefits-title {
-  font-size: 1.2rem !important;
-  font-weight: 700 !important;
-  color: #1d1d1f !important;
-  margin-bottom: 1rem !important;
-  text-align: center !important;
-  position: relative !important;
-}
-
-.benefits-title::after,
-.your-benefits .benefits-title::after {
-  content: '' !important;
-  position: absolute !important;
-  bottom: -0.5rem !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  width: 60px !important;
-  height: 3px !important;
-  background: #0071e3 !important;
-  border-radius: 2px !important;
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-}
-
-/* Apple-style glassmorphism benefit cards - Compact */
-.benefits-list,
-.your-benefits .benefits-list,
-.modernization-planning .benefits-list {
-  display: grid !important;
-  gap: 0.8rem !important;
-  max-width: 900px !important;
-  margin: 0 auto 1.5rem auto !important;
-}
-
-.benefit-item,
-.benefits-list .benefit-item,
-.modernization-planning .benefit-item {
-  display: flex !important;
-  align-items: flex-start !important;
-  gap: 1rem !important;
-  padding: 1rem !important;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(245, 245, 247, 0.9)) !important;
-  border-radius: 14px !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
-  position: relative !important;
-  overflow: hidden !important;
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-}
-
-.benefit-item::before,
-.benefits-list .benefit-item::before {
-  content: '' !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 4px !important;
-  height: 100% !important;
-  background: linear-gradient(180deg, #34c759, #0071e3) !important;
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-}
-
-.benefit-check,
-.benefit-item .benefit-check {
-  color: #34c759 !important;
-  flex-shrink: 0 !important;
-  margin-top: 2px !important;
-  width: 22px !important;
-  height: 22px !important;
-  border-radius: 50% !important;
-  background: linear-gradient(135deg, rgba(52, 199, 89, 0.1), rgba(52, 199, 89, 0.05)) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-}
-
-.benefit-check svg,
-.benefit-item .benefit-check svg {
-  width: 14px !important;
-  height: 14px !important;
-}
-
-.benefit-text,
-.benefit-item .benefit-text {
-  font-size: 10pt !important;
-  line-height: 1.4 !important;
-  color: #1d1d1f !important;
-  margin: 0 !important;
-  font-weight: 500 !important;
-}
-
-/* SERVICE VISUALIZATION - Compact Apple-style recreation */
-.service-visualization,
-.modernization-planning .service-visualization {
-  margin: 2rem 0 !important;
-  position: relative !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  height: 280px !important;
-  overflow: visible !important;
-  width: 100% !important;
-  page-break-inside: avoid !important;
-  padding-top: 40px !important;
-  padding-bottom: 40px !important;
-}
-
-/* Main Service Circle - Compact but detailed */
-.service-circle,
-.service-visualization .service-circle {
-  width: 200px !important;
-  height: 200px !important;
-  position: relative !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  border-radius: 50% !important;
-  overflow: visible !important;
-  background: transparent !important;
-  margin: 0 auto !important;
-}
-
-/* Map Container - Replicate the complex layered background */
-.service-circle .map-container,
-.service-circle .map-placeholder,
-.map-placeholder {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  background: 
-    radial-gradient(circle at 30% 40%, rgba(52, 199, 89, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 70% 60%, rgba(0, 122, 255, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 50% 30%, rgba(52, 199, 89, 0.05) 0%, transparent 30%),
-    linear-gradient(135deg, rgba(0, 122, 255, 0.1) 0%, rgba(52, 199, 89, 0.05) 100%) !important;
-  z-index: 1 !important;
-  border-radius: 50% !important;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12), inset 0 0 0 2px rgba(255, 255, 255, 0.5) !important;
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-}
-
-/* Animated border rings - Compact */
-.service-circle::before {
-  content: '' !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  border: 3px solid transparent !important;
-  border-radius: 50% !important;
-  background: linear-gradient(45deg, #34c759, #0071e3, #34c759) !important;
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0) !important;
-  -webkit-mask-composite: xor !important;
-  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0) !important;
-  mask-composite: exclude !important;
-  z-index: 2 !important;
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-}
-
-.service-circle::after {
-  content: '' !important;
-  position: absolute !important;
-  top: 15px !important;
-  left: 15px !important;
-  right: 15px !important;
-  bottom: 15px !important;
-  border: 2px solid rgba(52, 199, 89, 0.3) !important;
-  border-radius: 50% !important;
-  z-index: 2 !important;
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-}
-
-/* Center House Icon - Compact */
-.center-house-icon,
-.service-circle .center-house-icon {
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  width: 28px !important;
-  height: 28px !important;
-  background: linear-gradient(135deg, #34c759, #30a46c) !important;
-  border-radius: 50% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  box-shadow: 
-    0 6px 16px rgba(52, 199, 89, 0.4),
-    0 2px 6px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-  z-index: 5 !important;
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-}
-
-.center-house-icon svg {
-  color: white !important;
-  width: 16px !important;
-  height: 16px !important;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2)) !important;
-}
-
-/* Service Title - Floating above circle */
-.service-title,
-.service-circle .service-title {
-  position: absolute !important;
-  top: -35px !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  font-size: 8pt !important;
-  font-weight: 600 !important;
-  color: white !important;
-  background: linear-gradient(135deg, rgba(0, 122, 255, 0.95) 0%, rgba(0, 86, 204, 0.95) 100%) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  padding: 6px 12px !important;
-  border-radius: 16px !important;
-  box-shadow: 
-    0 6px 18px rgba(0, 122, 255, 0.3),
-    0 2px 6px rgba(0, 0, 0, 0.15) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
-  z-index: 10 !important;
-  white-space: nowrap !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-  max-width: 300px !important;
-  text-align: center !important;
-  line-height: 1.3 !important;
-}
-
-/* Service Tooltip - Floating below circle */
-.service-tooltip,
-.service-circle .service-tooltip {
-  position: absolute !important;
-  bottom: -35px !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  font-size: 8pt !important;
-  font-weight: 600 !important;
-  color: white !important;
-  background: linear-gradient(135deg, rgba(0, 122, 255, 0.95) 0%, rgba(0, 86, 204, 0.95) 100%) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  padding: 5px 10px !important;
-  border-radius: 12px !important;
-  box-shadow: 
-    0 6px 18px rgba(0, 122, 255, 0.3),
-    0 2px 6px rgba(0, 0, 0, 0.15) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
-  z-index: 10 !important;
-  white-space: nowrap !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-}
-
-/* Connecting Arrow - From tooltip to center house */
-.tooltip-arrow,
-.service-tooltip .tooltip-arrow {
-  position: absolute !important;
-  top: -80px !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  width: 2px !important;
-  height: 75px !important;
-  background: linear-gradient(to top, rgba(0, 122, 255, 0.8) 0%, rgba(52, 199, 89, 0.6) 100%) !important;
-  border-radius: 1px !important;
-  z-index: 4 !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-}
-
-.tooltip-arrow::before,
-.service-tooltip .tooltip-arrow::before {
-  content: '' !important;
-  position: absolute !important;
-  top: -5px !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  width: 0 !important;
-  height: 0 !important;
-  border-left: 4px solid transparent !important;
-  border-right: 4px solid transparent !important;
-  border-bottom: 8px solid rgba(52, 199, 89, 0.8) !important;
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-}
-
-/* Closing Text - Apple gradient style */
-.closing-text,
-.modernization-planning .closing-text {
-  font-size: 1rem !important;
-  font-weight: 600 !important;
-  background: linear-gradient(135deg, #0071e3, #34c759) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
-  color: #0071e3 !important;
-  text-align: center !important;
-  margin-top: 1.5rem !important;
-  margin-bottom: 0 !important;
-  position: relative !important;
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-}
-
-/* Force visibility for all service elements */
-.modernization-planning [class*="service"],
-.modernization-planning [class*="tooltip"],
-.service-visualization *,
-.service-circle * {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-/* Ensure no conflicting overflow settings */
-.modernization-planning,
-.service-visualization,
-.service-circle {
-  overflow: visible !important;
-}
-
-/* Print media specific optimizations */
 @media print {
-  .service-visualization {
+  /* Page setup for maximum utilization */
+  @page {
+    size: A4;
+    margin: 0.25in; /* Slightly reduced margin for even more space */
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Full page utilization with maximum spread */
+  .modernization-planning {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0.2rem !important; /* Reduced padding */
+    min-height: 100vh !important; /* Use full viewport height */
+    height: auto !important;
+    color: #1d1d1f !important;
+    background: white !important;
+    font-size: 10pt !important; /* Increased base font size */
+    line-height: 1.15 !important; /* Slightly looser line height */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif !important;
     page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important; /* Spread content evenly */
   }
-  
-  .service-circle {
-    overflow: visible !important;
+
+  /* Header - More prominent */
+  .modernization-planning .planning-header {
+    text-align: center !important;
+    margin-bottom: 1.2rem !important; /* Increased margin */
+    position: relative !important;
+    padding: 0.4rem 0 !important; /* More padding */
+    width: 100% !important;
+    flex-shrink: 0 !important;
   }
-  
-  .service-title,
-  .service-tooltip,
-  .tooltip-arrow,
-  .center-house-icon {
+
+  .modernization-planning .planning-header::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -0.4rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 150px !important; /* Much wider accent line */
+    height: 5px !important; /* Thicker */
+    background: linear-gradient(90deg, #007AFF, #34C759) !important;
+    border-radius: 3px !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Title - Much larger and more prominent */
+  .modernization-planning .planning-title,
+  .modernization-planning h1.planning-title {
+    font-size: 3.2rem !important; /* Significantly increased size */
+    font-weight: 700 !important;
+    letter-spacing: -2.5px !important;
+    background: linear-gradient(135deg, #007AFF, #34C759) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: #007AFF !important;
+    margin: 0 0 1rem 0 !important; /* More margin */
+    line-height: 1.0 !important;
+    text-align: center !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Subtitle - Much larger */
+  .modernization-planning .planning-subtitle h2,
+  .modernization-planning h2.planning-subtitle {
+    font-size: 1.8rem !important; /* Significantly increased size */
+    font-weight: 600 !important;
+    color: #1d1d1f !important;
+    margin: 0 0 0.6rem 0 !important;
+    letter-spacing: -1.2px !important;
+    text-align: center !important;
+  }
+
+  .modernization-planning .subtitle-text {
+    font-size: 14pt !important; /* Much larger */
+    color: #6B6B70 !important;
+    font-weight: 400 !important;
+    margin: 0 0 0.6rem 0 !important;
+    text-align: center !important;
+    opacity: 0.9 !important;
+  }
+
+  /* Description - Much more prominent */
+  .modernization-planning .planning-description {
+    margin-bottom: 1.5rem !important; /* Increased margin */
+    width: 100% !important;
+    flex-shrink: 0 !important;
+  }
+
+  .modernization-planning .description-text {
+    font-size: 14pt !important; /* Much larger */
+    line-height: 1.45 !important;
+    color: #6B6B70 !important;
+    margin: 0 auto 1.2rem auto !important;
+    text-align: center !important;
+    max-width: 95% !important; /* Even wider text */
+  }
+
+  /* Benefits Section - Much more expanded */
+  .modernization-planning .your-benefits {
+    margin: 1.5rem 0 !important; /* Increased margins */
+    flex-grow: 1 !important; /* Takes available space */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+
+  .modernization-planning .benefits-title {
+    font-size: 1.7rem !important; /* Much larger title */
+    font-weight: 700 !important;
+    color: #1d1d1f !important;
+    margin-bottom: 1.5rem !important; /* More margin */
+    text-align: center !important;
+    position: relative !important;
+  }
+
+  .modernization-planning .benefits-title::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -0.6rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 100px !important; /* Much wider accent */
+    height: 4px !important; /* Thicker */
+    background: #007AFF !important;
+    border-radius: 2px !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Benefits List - Much larger grid with more spacing */
+  .modernization-planning .benefits-list {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1.3rem !important; /* Much larger gap */
+    margin: 0 auto 2rem auto !important; /* More margin */
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .modernization-planning .benefit-item {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 1rem !important; /* Larger gap */
+    padding: 1.3rem !important; /* Much more padding */
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.8), 
+      rgba(245, 245, 247, 0.9)
+    ) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-radius: 24px !important; /* Larger radius */
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+    position: relative !important;
+    page-break-inside: avoid !important;
+    overflow: hidden !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    min-height: 95px !important; /* Larger minimum height */
+  }
+
+  .modernization-planning .benefit-item::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 6px !important; /* Thicker accent */
+    height: 100% !important;
+    background: linear-gradient(180deg, #34C759, #007AFF) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .modernization-planning .benefit-check {
+    color: #34C759 !important;
+    flex-shrink: 0 !important;
+    margin-top: 3px !important;
+    width: 38px !important; /* Much larger check */
+    height: 38px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, 
+      rgba(52, 199, 89, 0.1), 
+      rgba(52, 199, 89, 0.05)
+    ) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .modernization-planning .benefit-check svg {
+    width: 26px !important; /* Much larger icon */
+    height: 26px !important;
+  }
+
+  .modernization-planning .benefit-text {
+    font-size: 11pt !important; /* Much larger text */
+    line-height: 1.35 !important;
+    color: #1d1d1f !important;
+    margin: 0 !important;
+    font-weight: 500 !important;
+  }
+
+  /* Service Title - Much larger and more prominent */
+  .modernization-planning .service-title {
+    font-size: 13pt !important; /* Much larger */
+    font-weight: 600 !important;
+    color: #1d1d1f !important;
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.9) 0%, 
+      rgba(245, 245, 247, 0.9) 100%
+    ) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    padding: 1rem 1.5rem !important; /* Much more padding */
+    border-radius: 22px !important; /* Larger radius */
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    text-align: center !important;
+    margin: 1rem auto !important; /* More margin */
+    width: 98% !important; /* Even wider */
+    max-width: 98% !important;
+    line-height: 1.35 !important;
+    position: relative !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .modernization-planning .service-title::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 5px !important; /* Thicker accent */
+    background: linear-gradient(90deg, #007AFF, #34C759) !important;
+    border-radius: 22px 22px 0 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Service Visualization - Much larger and more prominent */
+  .modernization-planning .service-visualization {
+    margin: 1.3rem 0 !important; /* More margin */
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 1rem !important; /* Larger gap */
+    height: auto !important;
+    width: 100% !important;
+    overflow: visible !important;
+    page-break-inside: avoid !important;
+    flex-shrink: 0 !important;
+    flex-grow: 1 !important; /* Allow to grow */
+    justify-content: center !important;
+  }
+
+  /* Service Circle - Massive size for maximum visual impact */
+  .modernization-planning .service-circle {
+    width: 420px !important; /* Much larger for maximum impact */
+    height: 420px !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    overflow: visible !important;
+    margin: 0 auto !important;
+    background: transparent !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Map container - Much larger with enhanced visibility */
+  .modernization-planning .service-circle img.map-container,
+  .modernization-planning .service-circle .map-container {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    z-index: 5 !important;
+    box-shadow: 
+      0 30px 60px rgba(0, 0, 0, 0.25),
+      inset 0 0 0 5px rgba(255, 255, 255, 0.7) !important; /* Thicker inset border */
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide the circle border - let image be the focus */
+  .modernization-planning .service-circle {
+    border: none !important; /* Remove border */
+    background: transparent !important; /* Transparent background */
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Center House Icon - Smaller and more subtle */
+  .modernization-planning .center-house-icon {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 50px !important; /* Smaller size */
+    height: 50px !important;
+    background: linear-gradient(135deg, #34C759, #30A46C) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 
+      0 8px 20px rgba(52, 199, 89, 0.4),
+      0 3px 8px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    z-index: 15 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .modernization-planning .center-house-icon svg {
+    color: white !important;
+    width: 32px !important; /* Even smaller icon */
+    height: 32px !important;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25)) !important;
+    display: block !important;
+    margin: 10px auto 0 auto !important; /* Added top margin */
+  }
+
+  /* Service Tooltip - Much larger and enhanced */
+  .modernization-planning .service-tooltip {
+    position: absolute !important;
+    bottom: -50px !important; /* More space */
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    font-size: 11pt !important; /* Much larger font */
+    font-weight: 600 !important;
+    color: white !important;
+    background: linear-gradient(135deg, 
+      rgba(0, 122, 255, 0.95) 0%, 
+      rgba(0, 86, 204, 0.95) 100%
+    ) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    padding: 8px 16px !important; /* Much more padding */
+    border-radius: 22px !important; /* Larger radius */
+    box-shadow: 
+      0 15px 40px rgba(0, 122, 255, 0.5),
+      0 6px 16px rgba(0, 0, 0, 0.25) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35) !important;
+    z-index: 15 !important;
+    white-space: nowrap !important;
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
-  
-  /* Ensure all gradients print correctly */
-  .service-circle::before,
-  .service-circle::after,
-  .service-title,
-  .service-tooltip,
-  .tooltip-arrow,
-  .center-house-icon,
-  .planning-title,
-  .closing-text {
+
+  /* Connecting Arrow - Much more prominent */
+  .modernization-planning .tooltip-arrow {
+    position: absolute !important;
+    top: -165px !important; /* Adjusted for much larger circle */
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 4px !important; /* Much thicker line */
+    height: 160px !important; /* Longer line */
+    background: linear-gradient(to top, 
+      rgba(0, 122, 255, 0.8) 0%,
+      rgba(52, 199, 89, 0.6) 100%
+    ) !important;
+    border-radius: 2px !important;
+    z-index: 14 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+  }
+
+  .modernization-planning .tooltip-arrow::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -10px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 0 !important;
+    height: 0 !important;
+    border-left: 8px solid transparent !important; /* Much larger arrow */
+    border-right: 8px solid transparent !important;
+    border-bottom: 15px solid rgba(52, 199, 89, 0.8) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Closing Text - Much larger and more prominent */
+  .modernization-planning .closing-text {
+    font-size: 1.35rem !important; /* Much larger */
+    font-weight: 600 !important;
+    background: linear-gradient(135deg, #007AFF, #34C759) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: #007AFF !important;
+    text-align: center !important;
+    margin: 1.3rem 0 0.8rem 0 !important; /* More margin */
+    position: relative !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Hide decorative elements that might interfere */
+  .modernization-planning .service-circle::before,
+  .modernization-planning .service-circle::after {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+
+  /* Force visibility for all essential elements */
+  .modernization-planning * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .modernization-planning [class*="service"],
+  .modernization-planning [class*="tooltip"],
+  .modernization-planning .service-visualization,
+  .modernization-planning .service-visualization *,
+  .modernization-planning .service-circle,
+  .modernization-planning .service-circle *,
+  .modernization-planning .center-house-icon,
+  .modernization-planning .center-house-icon * {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Ensure proper overflow and positioning */
+  .modernization-planning,
+  .modernization-planning .service-visualization,
+  .modernization-planning .service-circle {
+    overflow: visible !important;
   }
 }

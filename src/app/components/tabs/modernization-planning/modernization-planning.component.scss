@@ -231,7 +231,25 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   background: transparent;
 
-  .map-container {
+  // FIXED: Specific styles for img.map-container
+  img.map-container {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    z-index: 1 !important;
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.15),
+      inset 0 0 0 3px rgba(255, 255, 255, 0.5);
+    display: block !important;
+    opacity: 1 !important;
+  }
+
+  // Keep original div.map-container for compatibility
+  div.map-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -259,6 +277,7 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 50%;
   }
 
+  // FIXED: Adjusted z-index for decorative elements
   &::before {
     content: '';
     position: absolute;
@@ -274,7 +293,8 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
     mask-composite: exclude;
     animation: pulse 4s ease-in-out infinite;
-    z-index: 2;
+    z-index: 3; // CHANGED: Higher than image
+    pointer-events: none; // ADDED: Don't block image events
   }
 
   &::after {
@@ -287,11 +307,12 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 2px solid rgba(52, 199, 89, 0.3);
     border-radius: 50%;
     animation: pulse 4s ease-in-out infinite 1s;
-    z-index: 2;
+    z-index: 3; // CHANGED: Higher than image
+    pointer-events: none; // ADDED: Don't block image events
   }
 }
 
-// Center House Icon
+// Center House Icon - FIXED z-index
 .center-house-icon {
   position: absolute;
   top: 50%;
@@ -308,213 +329,12 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     0 8px 20px rgba(52, 199, 89, 0.4),
     0 3px 8px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  z-index: 5;
+  z-index: 10; // CHANGED: Highest z-index
   animation: house-pulse 2s ease-in-out infinite;
 
   svg {
     color: white;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
-  }
-}
-
-.service-content {
-  position: relative;
-  text-align: center;
-  width: 70%;
-  z-index: 3;
-  transform: translateY(-30px);
-}
-
-.service-header h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: $apple-blue;
-  margin-bottom: 1.5rem;
-  line-height: 1.3;
-  letter-spacing: -0.5px;
-}
-
-.service-icon-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-  position: relative;
-}
-
-.location-pin {
-  position: relative;
-  width: 90px;
-  height: 90px;
-  background: linear-gradient(135deg, $apple-blue, $apple-blue-dark-10);
-  border-radius: 50% 50% 50% 0;
-  transform: rotate(-45deg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 
-    0 12px 30px rgba(0, 113, 227, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-  animation: float 3s ease-in-out infinite;
-  
-  &:hover {
-    transform: rotate(-45deg) scale(1.1);
-    box-shadow: 
-      0 20px 40px rgba(0, 113, 227, 0.5),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  }
-}
-
-.pin-icon {
-  transform: rotate(45deg);
-  color: white;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
-}
-
-.home-icon {
-  position: absolute;
-  bottom: 6px;
-  right: 6px;
-  transform: rotate(45deg);
-  color: white;
-  background-color: $apple-blue-dark-10;
-  border-radius: 50%;
-  padding: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}
-
-.service-radius {
-  transform: rotate(-8deg);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, 20px) rotate(-8deg);
-  z-index: 10;
-}
-
-.radius-text {
-  font-size: 1rem;
-  font-weight: 600;
-  color: white;
-  background: linear-gradient(135deg, 
-    rgba(0, 122, 255, 0.95) 0%, 
-    rgba(0, 86, 204, 0.95) 100%
-  );
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  padding: 10px 20px;
-  border-radius: 20px;
-  box-shadow: 
-    0 8px 24px rgba(0, 122, 255, 0.3),
-    0 3px 8px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  letter-spacing: -0.25px;
-  position: relative;
-  z-index: 10;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid rgba(0, 122, 255, 0.95);
-    filter: drop-shadow(0 -2px 4px rgba(0, 0, 0, 0.1));
-  }
-}
-
-// Enhanced Apple-style map marker
-.apple-marker {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-  .marker-pin {
-    width: 44px;
-    height: 44px;
-    background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%);
-    border-radius: 50% 50% 50% 0;
-    transform: rotate(-45deg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 
-      0 8px 25px rgba(0, 122, 255, 0.4),
-      0 3px 8px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    position: relative;
-    z-index: 2;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    &::before {
-      content: '';
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      right: 2px;
-      bottom: 2px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
-      border-radius: 50% 50% 50% 0;
-      pointer-events: none;
-    }
-    
-    .marker-inner {
-      transform: rotate(45deg);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
-      
-      svg {
-        width: 20px;
-        height: 20px;
-        stroke-width: 2.5;
-      }
-    }
-    
-    &:hover {
-      transform: rotate(-45deg) scale(1.1);
-      box-shadow: 
-        0 12px 35px rgba(0, 122, 255, 0.5),
-        0 5px 15px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    }
-  }
-  
-  .marker-shadow {
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 24px;
-    height: 12px;
-    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.3) 0%, transparent 70%);
-    border-radius: 50%;
-    z-index: 1;
-    animation: pulse-shadow 2s ease-in-out infinite;
-  }
-}
-
-// Enhanced map tiles styling
-.leaflet-container {
-  background: linear-gradient(135deg, #f5f5f7 0%, #e5e5ea 100%) !important;
-  border-radius: 50%;
-  
-  .leaflet-tile-pane {
-    filter: saturate(0.7) brightness(1.1) contrast(0.9);
-  }
-  
-  .leaflet-control-container {
-    display: none !important;
   }
 }
 
@@ -632,26 +452,6 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes pulse-shadow {
-  0%, 100% {
-    transform: translateX(-50%) scale(1);
-    opacity: 0.3;
-  }
-  50% {
-    transform: translateX(-50%) scale(1.2);
-    opacity: 0.5;
-  }
-}
-
 // Media Queries
 @media (max-width: 768px) {
   .modernization-planning {
@@ -673,113 +473,10 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   .service-circle {
     width: 350px;
     height: 350px;
-  }
-
-  .service-title {
-    font-size: 1rem;
-    padding: 16px 24px;
-    max-width: 90%;
-  }
-
-  .service-tooltip {
-    font-size: 0.7rem;
-    padding: 5px 10px;
-  }
-  
-  .center-house-icon {
-    width: 32px;
-    height: 32px;
-
-    svg {
-      width: 18px;
-      height: 18px;
+    
+    img.map-container {
+      width: 100% !important;
+      height: 100% !important;
     }
-  }
-  
-  .tooltip-arrow {
-    height: 100px;
-    top: -40px;
-  }
-  
-  .location-pin {
-    width: 50px;
-    height: 50px;
-  }
-  
-  .benefit-item {
-    padding: 1.5rem;
-  }
-  
-  .benefit-text {
-    font-size: 1rem;
-  }
-  
-  .apple-marker {
-    .marker-pin {
-      width: 40px;
-      height: 40px;
-      
-      .marker-inner svg {
-        width: 18px;
-        height: 18px;
-      }
-    }
-  }
-}
-
-@media (max-width: 576px) {
-  .planning-title {
-    font-size: 2rem;
-  }
-  
-  .service-circle {
-    width: 280px;
-    height: 280px;
-  }
-
-  .service-title {
-    font-size: 0.9rem;
-    padding: 14px 20px;
-    max-width: 95%;
-  }
-
-  .service-tooltip {
-    font-size: 0.65rem;
-    padding: 4px 8px;
-  }
-  
-  .center-house-icon {
-    width: 28px;
-    height: 28px;
-
-    svg {
-      width: 16px;
-      height: 16px;
-    }
-  }
-  
-  .tooltip-arrow {
-    height: 80px;
-    top: -35px;
-  }
-  
-  .benefit-item {
-    flex-direction: column;
-    text-align: center;
-    padding: 1.5rem;
-  }
-
-  .benefit-check {
-    margin-top: 0;
-    align-self: center;
-  }
-  
-  .location-pin {
-    width: 45px;
-    height: 45px;
-  }
-  
-  .description-text {
-    font-size: 1.125rem;
   }
 }

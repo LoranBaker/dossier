@@ -220,7 +220,7 @@
 
 /* Individual Bars */
 .bar {
-  width: 50px !important;
+  width: 80px !important;
   position: relative !important;
   display: flex !important;
   flex-direction: column !important;
@@ -229,7 +229,7 @@
 
 /* Bar Face (Front) */
 .bar-face {
-  width: 50px !important;
+  width: 80px !important;
   position: relative !important;
   display: flex !important;
   align-items: center !important;

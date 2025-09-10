@@ -29,67 +29,7 @@ private cssFiles = {
   screenshots: 'print-styles/screenshots.print.css'
 };
 
-  /**
-   * Shows print settings instructions to user
-   */
-  private showPrintInstructions(): boolean {
-    const browserName = this.getBrowserName();
-    let instructions = '';
-    
-    switch (browserName) {
-      case 'chrome':
-        instructions = `Für PDF ohne Kopf-/Fußzeilen:
-
-1. Im Druckdialog auf "Weitere Optionen" klicken
-2. "Kopf- und Fußzeilen" DEAKTIVIEREN
-3. Optional: Nur "Seitenzahlen" aktivieren
-
-Möchten Sie fortfahren?`;
-        break;
-        
-      case 'firefox':
-        instructions = `Für PDF ohne Kopf-/Fußzeilen:
-
-1. Im Druckdialog "Seite einrichten..." wählen
-2. Reiter "Ränder & Kopf-/Fußzeilen"
-3. Alle Kopf-/Fußzeilen auf "Leer" setzen
-4. Optional: Eine Position auf "--#--" für Seitenzahlen setzen
-
-Möchten Sie fortfahren?`;
-        break;
-        
-      case 'safari':
-        instructions = `Für PDF ohne Kopf-/Fußzeilen:
-
-1. Im Druckdialog "Details einblenden" klicken
-2. "Safari" Dropdown-Menü wählen
-3. "Kopf- und Fußzeile drucken" DEAKTIVIEREN
-
-Möchten Sie fortfahren?`;
-        break;
-        
-      case 'edge':
-        instructions = `Für PDF ohne Kopf-/Fußzeilen:
-
-1. Im Druckdialog auf "Weitere Einstellungen" klicken
-2. "Kopf- und Fußzeilen" DEAKTIVIEREN
-3. Optional: Nur "Seitenzahlen" aktivieren
-
-Möchten Sie fortfahren?`;
-        break;
-        
-      default:
-        instructions = `Für PDF ohne Kopf-/Fußzeilen:
-
-1. Im Druckdialog "Weitere Einstellungen" suchen
-2. "Kopf- und Fußzeilen" DEAKTIVIEREN
-3. Optional: Nur "Seitenzahlen" aktivieren
-
-Möchten Sie fortfahren?`;
-    }
-    
-    return confirm(instructions);
-  }
+ 
 
   /**
    * Detects browser name for specific instructions
@@ -135,10 +75,6 @@ async printDossierWithType(
   printType: 'kunde' | 'lv' | 'bank'
 ): Promise<void> {
   
-  // Show print instructions and get user confirmation
-  if (!this.showPrintInstructions()) {
-    return; // User cancelled
-  }
   
   // Create print window IMMEDIATELY after user interaction to avoid popup blocker
   const printWindow = window.open('', '_blank', 'width=800,height=600');
@@ -514,8 +450,22 @@ private trySafariPrintOptions(printWindow: Window): void {
  */
 private async loadPrintStylesForType(printType: 'kunde' | 'lv' | 'bank'): Promise<string> {
   try {
-    // Use ALL CSS files for all print types to ensure same styling
-    const cssFilesToLoad = Object.values(this.cssFiles); // All CSS files for all types
+    // Define which CSS files to load for each print type
+    let cssFilesToLoad: string[] = [];
+    
+    if (printType === 'kunde') {
+      // Load all CSS files for kunde
+      cssFilesToLoad = Object.values(this.cssFiles);
+    } else if (printType === 'bank') {
+      // Load ALL CSS files for bank to ensure same styling as kunde
+      cssFilesToLoad = Object.values(this.cssFiles);
+    } else if (printType === 'lv') {
+      // Load only shared and screenshots CSS for lv
+      cssFilesToLoad = [
+        this.cssFiles.shared,
+        this.cssFiles.screenshots
+      ];
+    }
     
     // Load CSS files in parallel
     const cssPromises = cssFilesToLoad.map(url => 
@@ -534,7 +484,12 @@ private async loadPrintStylesForType(printType: 'kunde' | 'lv' | 'bank'): Promis
     const cssContents = await Promise.all(cssPromises);
     
     // Combine all CSS content
-    return cssContents.join('\n\n');
+    const combinedCSS = cssContents.join('\n\n');
+    
+    // Add print type specific overrides if needed
+    const typeSpecificCSS = this.getTypeSpecificCSS(printType);
+    
+    return combinedCSS + '\n\n' + typeSpecificCSS;
   } catch (error) {
     console.error('Error loading print styles:', error);
     // Fallback to the original inline styles if CSS files fail to load
@@ -970,5 +925,63 @@ private addScreenshotsToFirstPage(printContainer: HTMLElement): void {
       
       /* Add more essential fallback styles as needed */
     `;
+  }
+
+  /**
+   * Get print type specific CSS overrides
+   */
+  private getTypeSpecificCSS(printType: 'kunde' | 'lv' | 'bank'): string {
+    const baseCSS = `
+      /* Ensure consistent styling across all print types */
+      @page {
+        size: A4 portrait;
+        margin: 20mm;
+        @bottom-center { content: counter(page) !important; }
+      }
+      
+      body {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 10pt !important;
+        line-height: 1.4 !important;
+        color: #1d1d1f !important;
+      }
+    `;
+
+    // Add type-specific overrides if needed
+    switch (printType) {
+      case 'bank':
+        return baseCSS + `
+          /* Bank-specific styling overrides */
+          .print-section-title {
+            color: #0071e3 !important;
+            font-weight: 700 !important;
+            border-bottom: 2px solid #0071e3 !important;
+          }
+          
+          /* Ensure all tables and charts have consistent styling */
+          .financial-table, .renovation-table {
+            border-collapse: collapse !important;
+            width: 100% !important;
+            margin-bottom: 1rem !important;
+          }
+          
+          .financial-chart, .potential-chart {
+            page-break-inside: avoid !important;
+            margin-bottom: 1rem !important;
+          }
+        `;
+        
+      case 'lv':
+        return baseCSS + `
+          /* LV-specific styling */
+          .screenshots-section {
+            page-break-inside: avoid !important;
+          }
+        `;
+        
+      case 'kunde':
+      default:
+        return baseCSS;
+    }
   }
 }
