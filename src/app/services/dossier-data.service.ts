@@ -46,6 +46,8 @@ export class DossierDataService {
     // Initialize calculated totals
     this.initializeRenovationFunding();
     this.calculateTotals();
+    // NEW: sync plan with measures so timeline shows data
+    this.syncRenovationPlanWithMeasures();
   }
 
   // Initialize mock data methods
@@ -80,7 +82,7 @@ export class DossierDataService {
       renovationYear: null
     },
     roof: {
-      form: 'versch. Dachtypen',
+      form: 'verschiedene Dachtypen',
       usage: 'genutzt/beheizt',
       area: 190,
       orientation: {
@@ -139,9 +141,9 @@ export class DossierDataService {
     // Add hazard classes data
     hazardClasses: [
       { name: 'Hochwassergefahrenklasse', level: 'gering' },
-      { name: 'Starkregengefährenklasse', level: 'gering' },
+      { name: 'Starkregengefahrenklasse', level: 'gering' },
       { name: 'Hochwassergefahrenklasse (Sturmflut)', level: 'gering' },
-      { name: 'Sturmgefährenklasse', level: 'gering' },
+      { name: 'Sturmgefahrenklasse', level: 'gering' },
       { name: 'Erdbebenrisikozonen', level: 'gering' },
       { name: 'Erdbewegungsrisikozonen', level: 'gering' },
       { name: 'Schneelastzone', level: 'gering' }
@@ -179,16 +181,6 @@ export class DossierDataService {
   private initMockRenovationMeasures(): RenovationMeasure[] {
   return [
     {
-      type: 'Solarthermie',
-      description: 'vorher',
-      description1: 'nachher',
-      details: 'keine Solaranlage',
-      details1:'nicht sanieren',
-      cost: 13000,
-      funding: 3900,
-      savings: 0
-    },
-    {
       type: 'Photovoltaik',
       description: 'vorher',
       description1: 'nachher',
@@ -223,7 +215,7 @@ export class DossierDataService {
       description: 'vorher',
       description1: 'nachher',
       details: 'manuelle Lüftung',
-      details1:'Lüftungsanlage dezentral mit Wärmerückgewinnung',
+      details1:'Lüftungsanlage dezentral mit Wärmerück- gewinnung',
       cost: 9000,
       funding: 1800,
       savings: 548
@@ -258,26 +250,26 @@ export class DossierDataService {
       funding: 7600,
       savings: 939
     },
-    {
-      type: 'Dachgeschossdecke',
-      description: 'vorher',
-      description1: 'nachher',
-      details: 'nicht saniert',
-      details1:'nicht sanieren',
-      cost: 17000,
-      funding: 3400,
-      savings: 0
-    },
-    {
-      type: 'Dachfenster',
-      description: 'vorher',
-      description1: 'nachher',
-      details: '2 und 3-fach Verglasung',
-      details1:'nicht sanieren',
-      cost: 1800,
-      funding: 360,
-      savings: 0
-    },
+    // {
+    //   type: 'Dachgeschossdecke',
+    //   description: 'vorher',
+    //   description1: 'nachher',
+    //   details: 'nicht saniert',
+    //   details1:'nicht sanieren',
+    //   cost: 17000,
+    //   funding: 3400,
+    //   savings: 0
+    // },
+    // {
+    //   type: 'Dachfenster',
+    //   description: 'vorher',
+    //   description1: 'nachher',
+    //   details: '2 und 3-fach Verglasung',
+    //   details1:'nicht sanieren',
+    //   cost: 1800,
+    //   funding: 360,
+    //   savings: 0
+    // },
     //    {
     //   type: 'Förderboni',
     //   description: '',
@@ -300,20 +292,20 @@ private initFoerderboniMeasures(): any[] {
       zuschuss: '50% (max. 650 € EFH/ZFH; 850 € MFH)'
     },
     {
-      type: 'Fachplanung &Baublgt.',
+      type: 'Fachplanung & Baubegleitung',
       grundlage: 'BEG EM',
       kosten: '5.000 €',
       zuschuss: '50% (max. 5tsd € EFH/ZFH; 2tsd € pro WE)'
     },
     {
-      type: 'Fachplanung &Baublgt.',
+      type: 'Fachplanung & Baubegleitung',
       grundlage: 'BEG WG 261',
       kosten: '10.000 €',
       zuschuss: '50% (max. 10tsd € EFH/ZFH; 4tsd € pro WE)'
     },
     {
       type: 'ENVALPRO SERVICE',
-      grundlage: 'Leistung siehe Seite X',
+      grundlage: 'Leistungen und Kostennoten sind separat aufgeführt',
       kosten: '3.000 €*',
       zuschuss: 'pauschal FULL-SERVICE SORGLOSPAKET'
     }
@@ -371,6 +363,8 @@ private initFoerderboniMeasures(): any[] {
     // For API: this.http.get<RenovationMeasure[]>(`${this.apiBaseUrl}/measures`).subscribe(...)
     this.renovationMeasuresSubject.next(this.initMockRenovationMeasures());
     this.initializeRenovationFunding();
+    // NEW: ensure plan reflects measures after fetching
+    this.syncRenovationPlanWithMeasures();
   }
 
     getCurrentFoerderboniMeasures(): any[] {
@@ -409,6 +403,8 @@ private initFoerderboniMeasures(): any[] {
     // For API: return this.http.put<RenovationMeasure[]>(`${this.apiBaseUrl}/measures`, measures);
     this.renovationMeasuresSubject.next(measures);
     this.calculateTotals();
+    // NEW: keep renovation plan in sync when measures change
+    this.syncRenovationPlanWithMeasures();
     return of(measures);
   }
 
@@ -501,5 +497,55 @@ private initFoerderboniMeasures(): any[] {
 
   getCurrentBuildingImageUrl(): string | null {
     return this.buildingImageUrlSubject.getValue();
+  }
+
+  // NEW: helper to get cost by measure type
+  private getMeasureCost(type: string): number {
+    const m = this.renovationMeasuresSubject.getValue().find(mm => mm.type === type);
+    return m ? (typeof m.cost === 'number' ? m.cost : 0) : 0;
+  }
+
+  // NEW: synchronize renovation plan with current measures so that timeline displays them
+  private syncRenovationPlanWithMeasures(): void {
+    const excluded = ['Hydraulischer Abgleich','Neue Heizkreispumpe','Voraussetzung bei Heizungstausch','Förderboni'];
+    const measures = this.renovationMeasuresSubject.getValue();
+    let plan = [...this.renovationPlanSubject.getValue()];
+
+    // Ensure plan exists
+    if (!plan || plan.length === 0) {
+      plan = this.initRenovationPlan();
+    }
+
+    // Current assigned measure set
+    const assigned = new Set(plan.flatMap(p => p.measures));
+
+    // Filter measures we want to assign
+    const assignable = measures
+      .filter(m => !excluded.includes(m.type))
+      .map(m => m.type);
+
+    // Remove orphaned measures (no longer present in measures list)
+    plan.forEach(p => {
+      p.measures = p.measures.filter(t => assignable.includes(t));
+    });
+
+    // Find which assignable measures are missing
+    const missing = assignable.filter(t => !assigned.has(t));
+
+    // Distribute missing measures round-robin across years for a more even initial layout
+    missing.forEach((type, idx) => {
+      const targetPlan = plan[idx % plan.length];
+      if (!targetPlan.measures.includes(type)) {
+        targetPlan.measures.push(type);
+      }
+    });
+
+    // Recalculate investment per year based on current measures & their latest costs
+    plan.forEach(p => {
+      p.investment = p.measures.reduce((sum, t) => sum + this.getMeasureCost(t), 0);
+    });
+
+    // Emit updated plan only if something changed (simple always update for now)
+    this.renovationPlanSubject.next(plan);
   }
 }

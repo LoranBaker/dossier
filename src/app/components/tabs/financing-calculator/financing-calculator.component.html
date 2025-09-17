@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <p>Bitte setzen Sie sich mit unseren Finnazierungsexperten zusammen. Wir helfen Ihnen geren und suchen aus <strong>über 500 Banken</strong> das passende Angebot für Sie heraus.</p>
+  <p>Bitte setzen Sie sich mit unseren Finanzierungsexperten zusammen. Wir helfen Ihnen gerne und suchen aus <strong>über 500 Banken</strong> das passende Angebot für Sie heraus.</p>
 
 <div class="bank-icons">
   <div class="bank-icon">
@@ -75,7 +75,7 @@
           </div>
           
           <div class="financing-info-row financing-highlight-row">
-            <div class="financing-label">Effektive Kosten /Eigenanteil*</div>
+            <div class="financing-label">Effektive Kosten / Eigenanteil*</div>
             <div class="financing-value">{{ effectiveCosts | currency:'EUR':'symbol':'1.0-0' }}</div>
           </div>
           
@@ -128,7 +128,7 @@
           </div>
           
           <div class="financing-info-row">
-            <div class="financing-label">Einnahmen Verkauf nicht selbst verbrauchten PV-Strom</div>
+            <div class="financing-label">Einnahmen aus dem Verkauf des nicht selbst verbrauchten PV-Stroms</div>
             <div class="financing-value">
               <span *ngIf="!isEditing">{{ pvStromVerkauf | currency:'EUR':'symbol':'1.0-0' }}</span>
               <div *ngIf="isEditing" class="financing-input-group">
@@ -152,7 +152,7 @@
           </div>
           
           <div class="financing-info-row">
-            <div class="financing-label">Summe weitere Ersparnisse</div>
+            <div class="financing-label">Summe weiterer Ersparnisse</div>
             <div class="financing-value"><strong>{{ additionalSavingsTotal | currency:'EUR':'symbol':'1.0-0' }}</strong></div>
           </div>
         </div>
@@ -160,7 +160,7 @@
     </div>
     
     <div class="financing-table-section financing-total-savings">
-      <div class="financing-section-title">Summe alle Ersparnisse & Einnahmen mtl.</div>
+      <div class="financing-section-title">Summe aller Ersparnisse & Einnahmen mtl.</div>
       <div class="financing-total-value">+{{ totalSavingsMonthly | currency:'EUR':'symbol':'1.0-0' }}</div>
     </div>
     <br>
@@ -188,7 +188,7 @@
                 <div class="financing-value">{{ loanTerm10 }} Jahre</div>
               </div>
               
-              <div class="financing-loan-note">*Kondition können je nach Alter, Bonität, Bank und Situation abweichen</div>
+              <div class="financing-loan-note">*Konditionen können je nach Alter, Bonität, Bank und Situation abweichen</div>
               <div class="financing-rate-note">*(Rate ohne Ersparnisse, Einnahmen & Umlagen)</div>
             </div>
           </div>
@@ -243,7 +243,7 @@
     </div>
     
     <div class="financing-final-note">
-      Ihre monatlicher Kapitaldienst setzt sich aus der endgültigen Finanzierungsrate abzüglich der Summe aller tatsächlichen Ersparnisse & Einnahmen zusammen!
+      Ihr monatlicher Kapitaldienst setzt sich aus der endgültigen Finanzierungsrate, abzüglich der Summe aller tatsächlichen Ersparnisse & Einnahmen zusammen!
     </div>
   </div>
 </div>

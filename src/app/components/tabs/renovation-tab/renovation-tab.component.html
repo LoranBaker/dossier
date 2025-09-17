@@ -80,15 +80,25 @@
         </ng-container>
       </tr>
     </tbody>
-    <!-- <tfoot>
-      <tr>
-        <td colspan="3">Summe</td>
-        <td>ca. {{totalCosts | currency:'EUR':'symbol':'1.0-0'}}</td>
-        <td>ca. {{totalFunding | currency:'EUR':'symbol':'1.0-0'}}</td>
-        <td>ca. {{totalSavings | currency:'EUR':'symbol':'1.0-0'}}</td>
-      </tr>
-    </tfoot> -->
   </table>
+
+  <!-- Summe Table -->
+<table class="summe-table">
+  <tfoot>
+    <tr class="summe-header">
+      <td>Summe</td>
+      <td>Sanierungskosten</td>
+      <td>Förderung</td>
+      <td>Einsparungen p.a.</td>
+    </tr>
+    <tr class="summe-values">
+      <td></td>
+      <td>ca. {{totalCosts | currency:'EUR':'symbol':'1.0-0'}}</td>
+      <td>ca. {{totalFunding | currency:'EUR':'symbol':'1.0-0'}}</td>
+      <td>ca. {{totalSavings | currency:'EUR':'symbol':'1.0-0'}}</td>
+    </tr>
+  </tfoot>
+</table>
 
   <!-- Förderboni Table -->
 <table class="foerderboni-table">
@@ -110,23 +120,7 @@
   </tbody>
 </table>
 
-<!-- Summe Table -->
-<table class="summe-table">
-  <tfoot>
-    <tr class="summe-header">
-      <td>Summe</td>
-      <td>Kosten</td>
-      <td>Förderung</td>
-      <td>Einsparungen p.a.</td>
-    </tr>
-    <tr class="summe-values">
-      <td></td>
-      <td>ca. {{totalCosts | currency:'EUR':'symbol':'1.0-0'}}</td>
-      <td>ca. {{totalFunding | currency:'EUR':'symbol':'1.0-0'}}</td>
-      <td>ca. {{totalSavings | currency:'EUR':'symbol':'1.0-0'}}</td>
-    </tr>
-  </tfoot>
-</table>
+
 
 <div class="foerderboni-note">
   *Kosten für hydraulischen Abgleich & neue Heizkreispumpe in Heizung berücksichtigt
@@ -138,7 +132,7 @@
       <li>{{savingsPotential.energyCostSavings}}% Einsparpotenzial Ihrer Energiekosten</li>
       <li>{{savingsPotential.energyBalanceSavings}}% Einsparpotenzial Ihrer Energiebilanz</li>
       <li>{{savingsPotential.co2TaxSavings}}% Einsparpotenzial Ihrer C02-Steuer</li>
-      <li>10 Maßnahmen In {{amortizationYears}} Jahren amortisiert!</li>
+      <li>10 Maßnahmen in {{amortizationYears}} Jahren amortisiert!</li>
     </ul>
   </div>
 </div>

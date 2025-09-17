@@ -22,7 +22,7 @@
           <th colspan="2">AKTUELLE DATEN UND VERBRAUCH</th>
         </tr>
         <tr>
-          <td>Heizung in kWh* ca.</td>
+          <td>Heizung in kWh</td>
           <td>
             <ng-container *ngIf="!isEditMode">{{consumptionData.heating | number}}</ng-container>
             <input *ngIf="isEditMode" type="number" [(ngModel)]="editableConsumptionData!.heating" 
@@ -30,7 +30,7 @@
           </td>
         </tr>
         <tr>
-          <td>Warmwasser in kWh* ca.</td>
+          <td>Warmwasser in kWh</td>
           <td>
             <ng-container *ngIf="!isEditMode">{{consumptionData.warmWater | number}}</ng-container>
             <input *ngIf="isEditMode" type="number" [(ngModel)]="editableConsumptionData!.warmWater" 
@@ -38,7 +38,7 @@
           </td>
         </tr>
         <tr>
-          <td>Strom in kWh* ca.</td>
+          <td>Strom in kWh</td>
           <td>
             <ng-container *ngIf="!isEditMode">{{consumptionData.electricity | number}}</ng-container>
             <input *ngIf="isEditMode" type="number" [(ngModel)]="editableConsumptionData!.electricity" 
@@ -46,7 +46,7 @@
           </td>
         </tr>
         <tr>
-          <td>Energie in kWh total* ca.</td>
+          <td>Energie in kWh total</td>
           <td>
             <ng-container *ngIf="!isEditMode">{{consumptionData.totalEnergy | number}}</ng-container>
             <ng-container *ngIf="isEditMode">{{editableConsumptionData!.totalEnergy | number}}</ng-container>
@@ -61,7 +61,7 @@
             </td>
           </tr>
           <tr>
-            <td>Marktpreis in € pro m² ca.</td>
+            <td>Marktpreis in € pro m²</td>
             <td>
               <ng-container *ngIf="!isEditMode">{{consumptionData.marketPrice | number}}</ng-container>
               <input *ngIf="isEditMode" type="number" [(ngModel)]="editableConsumptionData!.marketPrice" 
@@ -69,14 +69,14 @@
             </td>
           </tr>
         <tr>
-          <td>Energiekosten in €* ca.</td>
+          <td>Energiekosten in €</td>
           <td>
             <ng-container *ngIf="!isEditMode">{{consumptionData.energyCosts | number}}</ng-container>
             <input *ngIf="isEditMode" type="number" [(ngModel)]="editableConsumptionData!.energyCosts" class="edit-input">
           </td>
         </tr>
         <tr>
-        <td>C02-Emissionen in kg ca.</td>
+        <td>CO₂-Emissionen in kg</td>
         <td>
           <ng-container *ngIf="!isEditMode">{{consumptionData.co2Emissions | number}}</ng-container>
           <ng-container *ngIf="isEditMode">{{editableConsumptionData!.co2Emissions | number}}</ng-container>
@@ -88,8 +88,8 @@
         </tr>
       </table>
       
-      <p class="footnote">*Geschätzte Werte, da keine Angaben</p>
-      <p class="footnote">**Stranded Asset heisst das Ihre Immobilie nicht den Vorgaben der EU /CRREM entspricht und Wertverlust droht!</p>
+      <p class="footnote">Geschätzte Werte, da keine Angaben</p>
+      <p class="footnote">*Stranded Asset heißt, dass Ihre Immobilie den Vorgaben der EU/CRREM nicht entspricht und ein Wertverlust droht.</p>
     
     <h3>ESG-Management (road to Paris)</h3>
       
@@ -97,8 +97,8 @@
         <h4>Emission & Energie</h4>
         <div class="esg-table">
           <div class="esg-row">
-            <div class="esg-cell">CO2 - Intensität kg CO2 - Aqu./m2</div>
-            <div class="esg-cell">Emissionen gesamt kg CO2 - Aqu.</div>
+            <div class="esg-cell">CO₂ - Intensität kg CO₂ - Aqu./m2</div>
+            <div class="esg-cell">Emissionen gesamt kg CO₂ - Aqu.</div>
           </div>
           <div class="esg-row">
             <div class="esg-cell">
@@ -180,13 +180,13 @@
       
         <!-- Eigennutzer View -->
       <div *ngIf="!isVermieter">
-    <p>CO2 - Abgabe Euro (55 € / Tonne CO2)</p>
+    <p>CO₂ - Abgabe Euro (55 € / Tonne CO₂)</p>
     <p>{{calculateCO2TaxFromEmissions().perM2}} €/m² (Gesamt: {{calculateCO2TaxFromEmissions().total}} € p.a.)</p>
   </div>
       
         <!-- Vermieter View -->
         <div *ngIf="isVermieter">
-          <p>CO2 - Abgabe je m² Euro (55 € / Tonne CO2)</p>
+          <p>CO₂ - Abgabe je m² Euro (55 € / Tonne CO₂)</p>
           <p>{{calculateVermieterCO2Tax()}} €/m² (Gesamt: {{calculateVermieterCO2TaxTotal()}} € p.a.)</p>
         </div>
       </div>
@@ -207,7 +207,184 @@
           <ng-container *ngIf="!isEditMode">{{consumptionData.strandingRisk}}</ng-container>
           <input *ngIf="isEditMode" type="number" [(ngModel)]="editableConsumptionData!.strandingRisk" class="edit-input small-input">
           Jahren (mind.)
+          <span class="stranding-info-wrapper">
+            <button type="button" class="stranding-info-btn" aria-label="Info zum Stranding Asset Risiko" aria-describedby="stranding-tooltip">
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="10" cy="10" r="9" stroke="#ffffff" stroke-width="1.5" fill="none" />
+                <text x="10" y="14" text-anchor="middle" font-size="11" font-family="system-ui, -apple-system, 'Inter', sans-serif" font-weight="600" fill="#ffffff">i</text>
+              </svg>
+            </button>
+            <span id="stranding-tooltip" class="stranding-tooltip" role="tooltip">
+             Falls bei Ihnen ein negativer Jahreswert steht,
+              dann bedeutet es, dass Ihre Immobilie seit den aufgeführten
+              Jahren nicht den CRREM-Vorgaben entspricht!
+              <span class="tooltip-arrow"></span>
+            </span>
+          </span>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Enhanced Apple-style tooltip -->
+<style>
+  .stranding-info-wrapper { 
+    position: relative; 
+    display: inline-flex; 
+    align-items: center; 
+    margin-left: 8px; 
+  }
+  
+  .stranding-info-btn {
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%);
+    border: 1px solid rgba(255, 71, 87, 0.3);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 1;
+    padding: 0;
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.5, 1);
+    box-shadow: 
+      0 2px 6px rgba(255, 71, 87, 0.25),
+      0 1px 2px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+  }
+  
+  .stranding-info-btn:hover {
+    background: linear-gradient(135deg, #ff3742 0%, #ff2a37 100%);
+    border-color: rgba(255, 71, 87, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 
+      0 6px 12px rgba(255, 71, 87, 0.35),
+      0 2px 4px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+  }
+  
+  .stranding-info-btn:active {
+    transform: translateY(0);
+    box-shadow: 
+      0 1px 2px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+  }
+  
+  .stranding-info-btn:focus-visible {
+    box-shadow: 
+      0 0 0 2px #fff,
+      0 0 0 4px #0071e3,
+      0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .stranding-tooltip {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    background: rgba(28, 28, 30, 0.95);
+    color: #ffffff;
+    padding: 12px 16px;
+    border-radius: 12px;
+    width: 250px !important;
+    min-width: 250px !important;
+    max-width: none !important;
+    font-size: 13px;
+    line-height: 1.4;
+    font-weight: 400;
+    letter-spacing: 0.1px;
+    text-align: left;
+    box-shadow: 
+      0 8px 24px rgba(0, 0, 0, 0.3),
+      0 2px 8px rgba(0, 0, 0, 0.2),
+      0 0 0 0.5px rgba(255, 255, 255, 0.1) inset;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.5, 1);
+    z-index: 1000;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+  
+  .stranding-info-wrapper:hover .stranding-tooltip,
+  .stranding-info-btn:focus + .stranding-tooltip,
+  .stranding-info-wrapper:focus-within .stranding-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+  }
+  
+  .stranding-tooltip .tooltip-arrow {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid rgba(28, 28, 30, 0.95);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  }
+  
+  /* Dark mode support */
+  @media (prefers-color-scheme: dark) {
+    .stranding-info-btn {
+      background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%);
+      border-color: rgba(255, 71, 87, 0.3);
+      color: #ffffff;
+    }
+    .stranding-info-btn:hover {
+      background: linear-gradient(135deg, #ff3742 0%, #ff2a37 100%);
+      border-color: rgba(255, 71, 87, 0.4);
+    }
+  }
+  
+  /* High contrast mode */
+  @media (prefers-contrast: high) {
+    .stranding-info-btn {
+      border: 2px solid #0071e3;
+      background: #ffffff;
+    }
+    .stranding-tooltip {
+      background: #000000;
+      border: 1px solid #ffffff;
+    }
+  }
+  
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .stranding-info-btn,
+    .stranding-tooltip {
+      transition: none;
+    }
+  }
+  
+  /* Print styles */
+  @media print {
+    .stranding-info-btn {
+      display: none !important;
+    }
+    .stranding-tooltip {
+      position: static;
+      opacity: 1;
+      transform: none;
+      background: #f5f5f5;
+      color: #000000;
+      box-shadow: none;
+      border: 1px solid #cccccc;
+      margin-left: 8px;
+      display: inline-block;
+    }
+  }
+</style>

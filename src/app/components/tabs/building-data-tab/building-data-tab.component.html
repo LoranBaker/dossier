@@ -134,9 +134,8 @@
           </td>
           <td>Flurstücksgröße ca.</td>
           <td>
-            <ng-container *ngIf="!isEditMode">ca. {{building.plotSize}} m²</ng-container>
+            <ng-container *ngIf="!isEditMode">{{building.plotSize}} m²</ng-container>
             <div *ngIf="isEditMode" class="input-group">
-              <span>ca.</span>
               <input type="number" [(ngModel)]="editableBuilding!.plotSize" class="edit-input">
               <span>m²</span>
             </div>
@@ -259,7 +258,7 @@
               <option value="teilweise genutzt">teilweise genutzt</option>
             </select>
           </td>
-          <td>Dachausrichtung in m²</td>
+          <td>Dachfläche in m²</td>
           <td>
             <ng-container *ngIf="!isEditMode">ca. {{building.roof.orientation.area.sso}} / {{building.roof.orientation.area.ono}}</ng-container>
             <div *ngIf="isEditMode" class="input-group">
@@ -426,7 +425,7 @@
             </label>
           </td>
         </tr>
-        <tr>
+        <!-- <tr>
           <td>Gibt es eine Tiefgarage</td>
           <td>
             <ng-container *ngIf="!isEditMode">{{building.basement.hasUndergroundGarage ? 'Ja' : 'Nein'}}</ng-container>
@@ -445,7 +444,7 @@
               <span class="toggle-slider"></span>
             </label>
           </td>
-        </tr>
+        </tr> -->
         <tr>
           <td>Ist Tiefgarage beheizt</td>
           <td>
@@ -525,7 +524,7 @@
           </td>
         </tr>
         <tr>
-          <td>Heizungs-&Ww.verbrauch</td>
+          <td>Heizungs- & Warmw.verbrauch</td>
           <td>
             <ng-container *ngIf="!isEditMode">{{building.consumption.heating}}</ng-container>
             <input *ngIf="isEditMode" type="text" [(ngModel)]="editableBuilding!.consumption.heating" class="edit-input">
@@ -535,57 +534,7 @@
         </tr>
       </table>
     </div>
-    
-    <!-- Previous Renovations Table -->
-    <div class="data-table">
-      <table>
-        <tr>
-          <th colspan="4">Folgende Sanierungen wurden bereits durchgeführt</th>
-        </tr>
-        <!-- Static rows for existing renovations -->
-        <tr *ngFor="let renovation of building.renovations; let i = index">
-          <td>
-            <ng-container *ngIf="!isEditMode">{{renovation.type}}</ng-container>
-            <input *ngIf="isEditMode" type="text" [(ngModel)]="editableBuilding!.renovations[i].type" class="edit-input">
-          </td>
-          <td>
-            <ng-container *ngIf="!isEditMode">{{renovation.quantity}}</ng-container>
-            <input *ngIf="isEditMode" type="text" [(ngModel)]="editableBuilding!.renovations[i].quantity" class="edit-input">
-          </td>
-          <td>Wann</td>
-          <td>
-            <ng-container *ngIf="!isEditMode">{{renovation.year}}</ng-container>
-            <input *ngIf="isEditMode" type="number" [(ngModel)]="editableBuilding!.renovations[i].year" class="edit-input">
-          </td>
-        </tr>
-        <!-- Add new renovation row in edit mode -->
-        <tr *ngIf="isEditMode">
-          <td>
-            <input type="text" [(ngModel)]="newRenovation.type" placeholder="Typ" class="edit-input">
-          </td>
-          <td>
-            <input type="text" [(ngModel)]="newRenovation.quantity" placeholder="Menge" class="edit-input">
-          </td>
-          <td>Wann</td>
-          <td>
-            <input type="number" [(ngModel)]="newRenovation.year" placeholder="Jahr" class="edit-input">
-          </td>
-        </tr>
-        <!-- Hazard Classes Template -->
-        <!-- Add renovation button -->
-        <tr *ngIf="isEditMode">
-          <td colspan="4" class="add-row">
-            <button class="add-button" (click)="addRenovation()">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
-              Sanierung hinzufügen
-            </button>
-          </td>
-        </tr>
-      </table>
-    </div>
+
     <div class="data-table hazard-classes-section">
   <table>
     <tr>

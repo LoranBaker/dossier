@@ -4839,7 +4839,7 @@ select.edit-input {
   
   /* Remove the :hover pseudo-selector to make it always visible */
   &::after {
-    content: "66.343 €\A\AWürden Sie in 15 Jahren mehr\AEinnehmen und Einsparen\A(0% Kostensteigerung p.a.)\A\A*ohne Wertsteigerung Ihrer Immobilie";
+    content: "66.343 €\A\AWürden Sie in 15 Jahren Mehreinnahmen und Einsparen\A(0% Kostensteigerung p.a.)\A\A*ohne Wertsteigerung Ihrer Immobilie";
     position: absolute;
     bottom: calc(100% + 15px); /* Position above the cell with some spacing */
     left: 50%;

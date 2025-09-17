@@ -1,0 +1,51 @@
+/* Added spacing between stacked measures */
+.year-measures-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* space between measure boxes */
+  align-items: stretch;
+}
+
+.measure-box.stacked {
+  margin: 0; /* rely on gap */
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #2d3e50; /* darker bg to contrast white text */
+  position: relative;
+  color: #fff; /* default text white */
+}
+
+.isEditMode .measure-box.stacked.clickable:hover, .measure-box.stacked.clickable:hover {
+  background: #3f5874;
+  cursor: pointer;
+}
+
+.measure-box.stacked .measure-name {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 2px;
+  color: #fff;
+}
+
+.measure-box.stacked .measure-cost {
+  font-size: 11px;
+  color: #fff; /* changed to white */
+}
+
+.year-measures-wrapper .no-measures.empty-edit {
+  font-size: 11px;
+  color: #ccc;
+  font-style: italic;
+}
+
+.timeline-table td {
+  vertical-align: top;
+  padding: 10px;
+}
+
+/* Optional: widen cells a bit for readability */
+.timeline-table td, .timeline-table th {
+  min-width: 140px;
+}

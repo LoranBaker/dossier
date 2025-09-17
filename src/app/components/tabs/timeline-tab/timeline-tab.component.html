@@ -64,23 +64,28 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Only show rows for measures that appear in at least one year -->
-        <tr *ngFor="let measure of getActiveMeasures()">
+        <!-- Single row: each year cell lists all its measures stacked -->
+        <tr>
           <td *ngFor="let plan of renovationPlan" 
-              [class.active]="plan.measures.includes(measure)"
-              [class.clickable]="isEditMode && plan.measures.includes(measure)"
-              (click)="isEditMode && plan.measures.includes(measure) ? removeMeasureFromTimeline(measure, plan.year) : null">
-            <div *ngIf="plan.measures.includes(measure)" class="measure-box">
-              <div class="measure-name">{{measure}}</div>
-              <div class="measure-cost">
-                Kosten<br>{{getMeasureCost(measure) | currency:'EUR':'symbol':'1.0-0'}}
+              [class.selected-year]="selectedYear === plan.year && isEditMode"
+              (click)="selectYear(plan.year)">
+            <div class="year-measures-wrapper">
+              <div *ngIf="plan.measures.length === 0" class="no-measures" [class.empty-edit]="isEditMode"> 
+                <span *ngIf="!isEditMode">-</span>
+                <span *ngIf="isEditMode">(leer)</span>
               </div>
-              <!-- Remove icon (only visible in edit mode) -->
-              <div *ngIf="isEditMode" class="remove-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
+              <div *ngFor="let measure of plan.measures" 
+                   class="measure-box stacked" 
+                   [class.clickable]="isEditMode"
+                   (click)="isEditMode ? removeMeasureFromTimeline(measure, plan.year) : null">
+                <div class="measure-name">{{measure}}</div>
+                <div class="measure-cost">{{getMeasureCost(measure) | currency:'EUR':'symbol':'1.0-0'}}</div>
+                <div *ngIf="isEditMode" class="remove-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </div>
               </div>
             </div>
           </td>

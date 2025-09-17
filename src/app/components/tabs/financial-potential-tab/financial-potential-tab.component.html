@@ -112,26 +112,26 @@
       
       <!-- KPIs Section -->
       <tr class="section-header">
-        <th colspan="4">KPIs</th>
+        <th colspan="4">KPI<span>s</span></th>
       </tr>
       
       <tr>
         <td>Eigenkapitalrendite (vor Steuer)</td>
-        <td>{{financialData.returnOnEquityBeforeTax}} %</td>
+        <td>{{financialData.returnOnEquityBeforeTax | number:'1.2-2'}} %</td>
         <td></td>
         <td></td>
       </tr>
       
       <tr>
         <td>Amortisationszeit in J. (Kosten Sanierung Eigenanteil)</td>
-        <td>{{financialData.amortizationYears}} Jahre</td>
+        <td>{{financialData.amortizationYears | number:'1.1-1'}} Jahre</td>
         <td></td>
         <td></td>
       </tr>
       
       <tr>
         <td>Förderquote</td>
-        <td>{{financialData.fundingRate}} %</td>
+        <td>{{financialData.fundingRate | number:'1.0-2'}} %</td>
         <td></td>
         <td></td>
       </tr>

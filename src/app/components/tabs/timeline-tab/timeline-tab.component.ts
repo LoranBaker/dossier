@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RenovationPlan } from '@models/models';
 import { RenovationMeasure } from '@models/models';
+import { DossierDataService } from '../../../services/dossier-data.service';
 
 @Component({
   selector: 'app-timeline-tab',
@@ -12,7 +13,7 @@ import { RenovationMeasure } from '@models/models';
   standalone: true,
   imports: [CommonModule, CurrencyPipe, FormsModule]
 })
-export class TimelineTabComponent implements OnInit {
+export class TimelineTabComponent implements OnInit, OnChanges {
   @Input() renovationPlan!: RenovationPlan[];
   @Input() renovationMeasures!: RenovationMeasure[];
   
@@ -36,6 +37,8 @@ export class TimelineTabComponent implements OnInit {
   'Förderboni'
 ];
 
+  constructor(private dossierDataService: DossierDataService) {}
+
   ngOnInit() {
     // Extract all available years from renovation plan
      this.availableYears = this.renovationPlan.map(plan => plan.year);
@@ -48,6 +51,8 @@ export class TimelineTabComponent implements OnInit {
     console.log('Available years:', this.availableYears);
     console.log('All measure types:', this.allMeasureTypes);
     console.log('Renovation plan:', this.renovationPlan);
+
+    this.ensurePlanPopulated();
   }
   
   // NEW METHOD: Get only measures that appear in at least one year
@@ -165,6 +170,9 @@ export class TimelineTabComponent implements OnInit {
       // Show saved message
       this.showSavedMessage();
       
+      // Persist plan to service
+      this.dossierDataService.updateRenovationPlan(this.renovationPlan).subscribe();
+      
       // Reset selection
       this.resetSelection();
       
@@ -200,6 +208,9 @@ export class TimelineTabComponent implements OnInit {
         
         // Show saved message
         this.showSavedMessage();
+        
+        // Persist plan to service
+        this.dossierDataService.updateRenovationPlan(this.renovationPlan).subscribe();
         
         console.log('Updated renovation plan:', this.renovationPlan);
       }
@@ -250,5 +261,40 @@ export class TimelineTabComponent implements OnInit {
     this.isEditMode = false;
     this.resetSelection();
     this.showSavedMessage();
+    this.dossierDataService.updateRenovationPlan(this.renovationPlan).subscribe();
+  }
+
+  // NEW: ensure initial population of plan with measures if empty
+  private ensurePlanPopulated(): void {
+    if (!this.renovationPlan || this.renovationPlan.length === 0) return;
+    const alreadyAssigned = new Set(this.renovationPlan.flatMap(p => p.measures));
+    const assignable = this.renovationMeasures
+      .filter(m => !this.excludedMeasures.includes(m.type))
+      .map(m => m.type)
+      .filter(t => !alreadyAssigned.has(t));
+    if (alreadyAssigned.size === 0 && assignable.length > 0) {
+      assignable.forEach((type, idx) => {
+        const target = this.renovationPlan[idx % this.renovationPlan.length];
+        target.measures.push(type);
+      });
+      // Recalculate investments
+      this.renovationPlan.forEach(p => {
+        p.investment = p.measures.reduce((sum, t) => sum + this.getMeasureCost(t), 0);
+      });
+      this.dossierDataService.updateRenovationPlan(this.renovationPlan).subscribe();
+    }
+  }
+
+  // NEW: implement OnChanges to update derived data when inputs change
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['renovationPlan'] && this.renovationPlan) {
+      this.availableYears = this.renovationPlan.map(p => p.year);
+    }
+    if (changes['renovationMeasures'] && this.renovationMeasures) {
+      const allTypes = [...new Set(this.renovationMeasures.map(m => m.type))];
+      this.allMeasureTypes = allTypes.filter(t => !this.excludedMeasures.includes(t));
+    }
+    // After any input change, ensure plan populated
+    this.ensurePlanPopulated();
   }
 }

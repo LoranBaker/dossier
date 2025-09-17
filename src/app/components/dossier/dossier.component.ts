@@ -33,6 +33,7 @@ import { DossierDataService } from '../../services/dossier-data.service';
 import { FinancialDataService } from '@app/services/financial-data.service';
 import { PrintService } from '@app/services/print.service';
 import { Building3DService } from '../../services/building-3d.service';
+import { PrintPdfService } from '../../services/print-pdf.service';
 
 @Component({
   selector: 'app-dossier',
@@ -120,7 +121,8 @@ export class DossierComponent implements OnInit {
     private financialDataService: FinancialDataService, 
     private printService: PrintService,
     private building3DService: Building3DService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private printPdfService: PrintPdfService
   ) {
     // Get observables from service
     this.building$ = this.dossierService.building$;
@@ -399,6 +401,34 @@ export class DossierComponent implements OnInit {
     printType
   );
 }
+
+  printScreenshotDossier() {
+    const tabOrder = [
+      'overview',
+      'buildingData',
+      'consumption',
+      'analysis',
+      'renovation',
+      'timeline',
+      'targetAnalysis',
+      'financialPotential',
+      'renovationResults',
+      'financialBenefits',
+      'financingCalculator',
+      'summary',
+      'modernizationPlanning',
+      'consultationCta',
+      'generalInfo'
+    ];
+
+    this.printPdfService.exportDossierTabs(tabOrder, (tab: string) => this.setActiveTab(tab), {
+      fileName: 'dossier-full.pdf',
+      darkBackground: false,
+      contentSelector: '.tab-content',
+      headerSelector: '.dossier-header',
+      delayMs: 600
+    });
+  }
 
   private calculateInitialSavingsPercentages(): void {
     if (this.consumptionData) {

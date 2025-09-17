@@ -480,3 +480,203 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
 }
+
+/* Print-specific styles for modernization planning component */
+@media print {
+  .modernization-planning {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    page-break-inside: avoid;
+  }
+
+  .planning-header {
+    margin-bottom: 2rem !important;
+    page-break-after: avoid;
+  }
+
+  .planning-title {
+    font-size: 2rem !important;
+    margin-bottom: 1rem !important;
+    /* Remove gradient for print - use solid color */
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
+    color: #0071e3 !important;
+  }
+
+  .planning-subtitle h2 {
+    font-size: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .subtitle-text {
+    font-size: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .description-text {
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 1.5rem !important;
+    text-align: left !important;
+  }
+
+  .benefits-list {
+    display: block !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .benefit-item {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+    padding: 1rem !important;
+    margin-bottom: 1rem !important;
+    /* Simplify background for print */
+    background: #f8f9fa !important;
+    border: 1px solid #e9ecef !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    page-break-inside: avoid;
+  }
+
+  .benefit-check {
+    background: #34c759 !important;
+    color: white !important;
+    flex-shrink: 0 !important;
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .benefit-text {
+    font-size: 0.9rem !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+  }
+
+  .service-title {
+    font-size: 1.1rem !important;
+    padding: 1rem !important;
+    background: #f8f9fa !important;
+    border: 1px solid #e9ecef !important;
+    border-radius: 8px !important;
+    text-align: center !important;
+    margin: 1.5rem 0 !important;
+    /* Remove all complex effects for print */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+
+  .closing-text {
+    font-size: 1.1rem !important;
+    text-align: center !important;
+    margin: 1.5rem 0 !important;
+    /* Remove gradient for print */
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
+    color: #0071e3 !important;
+  }
+
+  /* Simplify service visualization for print */
+  .service-visualization {
+    margin: 2rem 0 !important;
+    page-break-inside: avoid;
+  }
+
+  .service-circle {
+    width: 300px !important;
+    height: 300px !important;
+    margin: 0 auto !important;
+    position: relative !important;
+    border: 3px solid #0071e3 !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    /* Remove pseudo-elements for print */
+  }
+
+  .service-circle::before,
+  .service-circle::after {
+    display: none !important;
+  }
+
+  .service-circle img.map-container {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    display: block !important;
+  }
+
+  .center-house-icon {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 36px !important;
+    height: 36px !important;
+    background: #34c759 !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 10 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+  }
+
+  .center-house-icon svg {
+    color: white !important;
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .service-tooltip {
+    position: static !important;
+    display: block !important;
+    text-align: center !important;
+    margin-top: 1rem !important;
+    background: #0071e3 !important;
+    color: white !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 4px !important;
+    font-size: 0.9rem !important;
+    width: fit-content !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    /* Remove backdrop effects */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .tooltip-arrow {
+    display: none !important;
+  }
+
+  /* Hide animations and complex effects */
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Ensure fallback if image fails */
+  .map-placeholder {
+    background: #e9ecef !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.9rem !important;
+    color: #6c757d !important;
+  }
+
+  .map-placeholder::before {
+    content: "Kartenbereich (100km Umkreis)" !important;
+  }
+}
