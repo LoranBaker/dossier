@@ -50,13 +50,14 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 3rem;
   font-weight: 700;
   letter-spacing: -1.5px;
-  background: linear-gradient(135deg, $apple-blue, $apple-green);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: $apple-blue; // Use a solid color instead of gradient
   margin-bottom: 1.5rem;
   line-height: 1.1;
   position: relative;
+  // background: linear-gradient(135deg, $apple-blue, $apple-green);
+  // -webkit-background-clip: text;
+  // -webkit-text-fill-color: transparent;
+  // background-clip: text;
 }
 
 .planning-subtitle h2 {
@@ -113,7 +114,6 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transform: translateX(-50%);
     width: 60px;
     height: 3px;
-    background: $apple-blue;
     border-radius: 2px;
   }
 }
@@ -130,10 +130,12 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   align-items: flex-start;
   gap: 1.5rem;
   padding: 2rem;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.8), 
-    rgba(245, 245, 247, 0.9)
-  );
+  background: none !important;
+  // background: $apple-blue-light-48; // Use a solid light gray background
+  // background: linear-gradient(135deg, 
+  //   rgba(255, 255, 255, 0.8), 
+  //   rgba(245, 245, 247, 0.9)
+  // );
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 20px;
@@ -201,14 +203,15 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 .closing-text {
   font-size: 1.375rem;
   font-weight: 600;
-  background: linear-gradient(135deg, $apple-blue, $apple-green);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: $apple-blue; // Use a solid color instead of gradient
   text-align: center;
   margin-top: 3rem;
   margin-bottom: 0;
   position: relative;
+  // background: linear-gradient(135deg, $apple-blue, $apple-green);
+  // -webkit-background-clip: text;
+  // -webkit-text-fill-color: transparent;
+  // background-clip: text;
 }
 
 .service-visualization {
@@ -231,7 +234,7 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   background: transparent;
 
-  // FIXED: Specific styles for img.map-container
+  // FIXED: Higher z-index for image
   img.map-container {
     position: absolute !important;
     top: 0 !important;
@@ -240,7 +243,7 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     height: 100% !important;
     border-radius: 50% !important;
     object-fit: cover !important;
-    z-index: 1 !important;
+    z-index: 5 !important; // CHANGED: Higher than decorative elements
     box-shadow: 
       0 20px 40px rgba(0, 0, 0, 0.15),
       inset 0 0 0 3px rgba(255, 255, 255, 0.5);
@@ -248,36 +251,7 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 1 !important;
   }
 
-  // Keep original div.map-container for compatibility
-  div.map-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 
-      0 20px 40px rgba(0, 0, 0, 0.15),
-      inset 0 0 0 3px rgba(255, 255, 255, 0.5);
-  }
-
-  .map-placeholder {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, 
-      rgba(0, 122, 255, 0.1) 0%, 
-      rgba(52, 199, 89, 0.05) 100%
-    );
-    z-index: 1;
-    border-radius: 50%;
-  }
-
-  // FIXED: Adjusted z-index for decorative elements
+  // Decorative elements with lower z-index
   &::before {
     content: '';
     position: absolute;
@@ -293,8 +267,8 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
     mask-composite: exclude;
     animation: pulse 4s ease-in-out infinite;
-    z-index: 3; // CHANGED: Higher than image
-    pointer-events: none; // ADDED: Don't block image events
+    z-index: 3 !important; // CHANGED: Lower than image
+    pointer-events: none;
   }
 
   &::after {
@@ -307,12 +281,12 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 2px solid rgba(52, 199, 89, 0.3);
     border-radius: 50%;
     animation: pulse 4s ease-in-out infinite 1s;
-    z-index: 3; // CHANGED: Higher than image
-    pointer-events: none; // ADDED: Don't block image events
+    z-index: 3 !important; // CHANGED: Lower than image
+    pointer-events: none;
   }
 }
 
-// Center House Icon - FIXED z-index
+// Center House Icon - Highest z-index
 .center-house-icon {
   position: absolute;
   top: 50%;
@@ -329,7 +303,7 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     0 8px 20px rgba(52, 199, 89, 0.4),
     0 3px 8px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  z-index: 10; // CHANGED: Highest z-index
+  z-index: 10 !important; // CHANGED: Highest z-index
   animation: house-pulse 2s ease-in-out infinite;
 
   svg {
@@ -342,10 +316,11 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 1.2rem;
   font-weight: 600;
   color: $apple-black;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.9) 0%, 
-    rgba(245, 245, 247, 0.9) 100%
-  );
+  background: $apple-blue-light-48; // Use a solid light gray background
+  // background: linear-gradient(135deg, 
+  //   rgba(255, 255, 255, 0.9) 0%, 
+  //   rgba(245, 245, 247, 0.9) 100%
+  // );
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   padding: 20px 30px;
@@ -600,12 +575,11 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 3px solid #0071e3 !important;
     border-radius: 50% !important;
     overflow: hidden !important;
-    /* Remove pseudo-elements for print */
   }
 
   .service-circle::before,
   .service-circle::after {
-    display: none !important;
+    display: none !important; // Remove decorative elements in print
   }
 
   .service-circle img.map-container {
@@ -614,6 +588,10 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     object-fit: cover !important;
     border-radius: 50% !important;
     display: block !important;
+    z-index: 1 !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
   }
 
   .center-house-icon {
@@ -628,55 +606,7 @@ $apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    z-index: 10 !important;
+    z-index: 100 !important; // Very high for print
     box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
-  }
-
-  .center-house-icon svg {
-    color: white !important;
-    width: 20px !important;
-    height: 20px !important;
-  }
-
-  .service-tooltip {
-    position: static !important;
-    display: block !important;
-    text-align: center !important;
-    margin-top: 1rem !important;
-    background: #0071e3 !important;
-    color: white !important;
-    padding: 0.5rem 1rem !important;
-    border-radius: 4px !important;
-    font-size: 0.9rem !important;
-    width: fit-content !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    /* Remove backdrop effects */
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  .tooltip-arrow {
-    display: none !important;
-  }
-
-  /* Hide animations and complex effects */
-  * {
-    animation: none !important;
-    transition: none !important;
-  }
-
-  /* Ensure fallback if image fails */
-  .map-placeholder {
-    background: #e9ecef !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 0.9rem !important;
-    color: #6c757d !important;
-  }
-
-  .map-placeholder::before {
-    content: "Kartenbereich (100km Umkreis)" !important;
   }
 }

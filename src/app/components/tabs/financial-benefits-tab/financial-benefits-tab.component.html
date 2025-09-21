@@ -17,7 +17,22 @@
         <td>Energiekosten über 15 Jahre 0 % Teuerung p.a.</td>
         <td class="value-column">{{ energyCost15Years | number:'1.0-0' }} €</td>
         <td class="value-column">{{ energyCostAfter15Years | number:'1.0-0' }} €</td>
-        <td class="value-column highlight-value tooltip-trigger-simple">{{ energySavings15Years0Percent | number:'1.0-0' }} €</td>
+        <td class="value-column highlight-value tooltip-container">
+          {{ energySavings15Years0Percent | number:'1.0-0' }} €
+          
+          <!-- Dynamic Tooltip -->
+          <div class="custom-tooltip-wrapper">
+            <div class="custom-tooltip-content">
+              <strong>{{ totalSavings15Years | number:'1.0-0' }} €</strong>
+              ergeben sich nach 15 Jahren an Einnahmen und Einsparungen bei gleichbleibenden Kosten 
+              <br>
+              (0 % Kostensteigerung p. a.).
+              <br><br>
+              <em>*ohne Wertsteigerung Ihrer Immobilie</em>
+            </div>
+            <div class="custom-tooltip-arrow"></div>
+          </div>
+        </td>
       </tr>
       <tr>
         <td>Energiekosten über 15 Jahre 5 % Teuerung p.a.</td>

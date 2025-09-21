@@ -1,0 +1,552 @@
+// Enhanced design for summary tab with emoji icons
+.summary-container {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  color: #f5f5ff;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, #0066cc, #5ac8fa, #34c759, #ffcc00);
+    z-index: 1;
+  }
+}
+
+.summary-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: #0071e3;
+  margin-bottom: 3rem;
+  letter-spacing: -0.025em;
+  position: relative;
+  
+  &::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, #0066cc, #5ac8fa);
+    margin: 1rem auto 0;
+    border-radius: 3px;
+  }
+}
+
+.summary-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4rem;
+  gap: 20px;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    bottom: -25px;
+    height: 1px;
+    background: linear-gradient(90deg, 
+      rgba(0,0,0,0.01), 
+      rgba(0,0,0,0.08) 20%, 
+      rgba(0,0,0,0.08) 80%, 
+      rgba(0,0,0,0.01)
+    );
+  }
+}
+
+.summary-icon {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  transform: perspective(1000px) rotateX(5deg);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: perspective(1000px) rotateX(0deg) translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .icon-emoji {
+    font-size: 60px;
+    line-height: 1;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
+  }
+
+  &.building-icon {
+    background: linear-gradient(135deg, #f2f2f2, #e0e0e0);
+    color: #666;
+  }
+
+  &.chart-icon {
+    background: linear-gradient(135deg, #34c759, #28a745);
+    color: white;
+  }
+
+  &.efficient-house-icon {
+    background: linear-gradient(135deg, #0071e3, #0077cc);
+    color: white;
+  }
+}
+
+.summary-arrow {
+  width: 70px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  svg {
+    width: 100%;
+    height: 50px;
+  }
+  
+  &:not(.arrow-long) svg {
+    color: #34c759;
+    filter: drop-shadow(0 2px 3px rgba(52, 199, 89, 0.3));
+  }
+  
+  &.arrow-long svg {
+    color: #0071e3;
+    filter: drop-shadow(0 2px 3px rgba(0, 113, 227, 0.3));
+  }
+}
+
+.summary-comparison {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 4rem;
+}
+
+.summary-panel {
+  flex: 1;
+  padding: 2.5rem;
+  border-radius: 24px;
+  position: relative;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  
+  &:hover {
+    transform: translateY(-5px);
+  }
+  
+  &-current {
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.03);
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, #ff3b30, #ff9500);
+      border-radius: 5px 0 0 5px;
+    }
+  }
+  
+  &-future {
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.03);
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, #34c759, #30b0c7);
+      border-radius: 5px 0 0 5px;
+    }
+  }
+}
+
+.energy-class {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  
+  .energy-label {
+    font-size: 1.3rem;
+    margin-right: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #1d1d1f;
+  }
+  
+  .energy-badge {
+    display: inline-flex;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.3rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
+      z-index: 1;
+    }
+    
+    &-f {
+      background: linear-gradient(135deg, #ff3b30, #ff2d55);
+    }
+    
+    &-b {
+      background: linear-gradient(135deg, #34c759, #30b0c7);
+    }
+  }
+}
+
+.energy-progress {
+  height: 8px;
+  background-color: #f2f2f2;
+  border-radius: 4px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  position: relative;
+  
+  .progress-bar {
+    height: 100%;
+    border-radius: 4px;
+    width: 0;
+    transition: width 1.5s ease-in-out;
+    background: linear-gradient(90deg, #ff3b30, #ff9500);
+    position: relative;
+    
+    &.target {
+      background: linear-gradient(90deg, #34c759, #30b0c7);
+    }
+    
+    &.progress-70 {
+      width: 70%;
+    }
+  }
+}
+
+.property-value {
+  margin-bottom: 2.5rem;
+  position: relative;
+  
+  .value-label {
+    font-size: 1.2rem;
+    margin-bottom: 0.7rem;
+    color: #1d1d1f;
+    font-weight: 500;
+  }
+  
+  .value-amount {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    color: #1d1d1f;
+    letter-spacing: -0.02em;
+  }
+  
+  .value-increase {
+    color: #34c759;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    
+    span {
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+    
+    &::before {
+      content: '📈';
+      display: inline-block;
+      font-size: 1.2rem;
+      margin-right: 6px;
+    }
+  }
+}
+
+.rent-info {
+  margin-bottom: 2.5rem;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  
+  .rent-label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #1d1d1f;
+    
+    span {
+      font-weight: 600;
+    }
+  }
+  
+  .rent-increase-euro, 
+  .rent-increase-percent {
+    color: #34c759;
+    display: flex;
+    align-items: center;
+    margin-top: 0.4rem;
+    
+    span {
+      font-weight: 600;
+    }
+    
+    &::before {
+      content: '📈';
+      display: inline-block;
+      font-size: 1.2rem;
+      margin-right: 6px;
+    }
+  }
+}
+
+.risk-list, .benefit-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 2rem;
+  
+  li {
+    padding: 0.8rem 0 0.8rem 36px;
+    position: relative;
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+    font-size: 1.1rem;
+    color: #1d1d1f;
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+  }
+}
+
+.risk-list li:before {
+  content: "⚠️";
+  font-size: 18px;
+}
+
+.benefit-list li:before {
+  content: "✅";
+  font-size: 18px;
+}
+
+.summary-conclusion {
+  background-color: white;
+  padding: 3rem;
+  border-radius: 24px;
+  margin-bottom: 3rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.03);
+  position: relative;
+  
+  h3 {
+    font-size: 1.7rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #1d1d1f;
+    
+    .company-name {
+      color: #0071e3;
+      font-weight: 700;
+      position: relative;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, #0066cc, #5ac8fa);
+        border-radius: 2px;
+      }
+    }
+  }
+  
+  p {
+    line-height: 1.9;
+    margin-bottom: 1.6rem;
+    font-size: 1.15rem;
+    color: #333;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  strong {
+    font-weight: 600;
+    color: #1d1d1f;
+  }
+}
+
+.summary-footer {
+  text-align: center;
+  margin-top: 3.5rem;
+  
+  .future-heading {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    letter-spacing: -0.03em;
+    display: flex;
+        color: #0071e3;
+
+    align-items: center;
+    justify-content: center;
+    
+  }
+  
+  .company-logo {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #0071e3;
+    letter-spacing: -0.03em;
+    position: relative;
+    display: inline-block;
+   
+  }
+}
+
+// glass morphism effect
+.glass-panel {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  pointer-events: none;
+  
+  &.top-right {
+    top: -100px;
+    right: -100px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(52, 199, 89, 0.1) 0%,
+      rgba(52, 199, 89, 0) 70%
+    );
+  }
+  
+  &.bottom-left {
+    bottom: -100px;
+    left: -100px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(0, 113, 227, 0.1) 0%,
+      rgba(0, 113, 227, 0) 70%
+    );
+  }
+}
+
+// Add subtle animation to value changes
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.animated-value {
+  animation: pulse 0.5s ease-in-out;
+}
+
+// Responsive adjustments
+@media (max-width: 1024px) {
+  .summary-comparison {
+    gap: 20px;
+  }
+  
+  .summary-panel {
+    padding: 2rem;
+  }
+  
+  .summary-conclusion {
+    padding: 2rem;
+  }
+  
+  .icon-emoji {
+    font-size: 50px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .summary-comparison {
+    flex-direction: column;
+  }
+  
+  .summary-hero {
+    flex-wrap: wrap;
+  }
+  
+  .summary-icon {
+    width: 100px;
+    height: 100px;
+    
+    .icon-emoji {
+      font-size: 40px !important;
+    }
+  }
+  
+  .summary-title, .future-heading {
+    font-size: 1.8rem;
+  }
+  
+  .summary-conclusion h3 {
+    font-size: 1.4rem;
+      color: #0071e3;
+
+  }
+  
+  .glass-panel {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .company-logo {
+    &::before, &::after {
+      display: none;
+    }
+  }
+}
+
+

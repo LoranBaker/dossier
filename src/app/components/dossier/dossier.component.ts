@@ -253,6 +253,7 @@ export class DossierComponent implements OnInit {
   this.modelScreenshots = screenshots;
   // Pass screenshots to print service
   this.printService.setScreenshots(screenshots);
+  this.printPdfService.setScreenshots(screenshots); 
   console.log('Screenshots updated:', screenshots.length, 'images');
 }
   /**
@@ -426,9 +427,11 @@ export class DossierComponent implements OnInit {
       darkBackground: false,
       contentSelector: '.tab-content',
       headerSelector: '.dossier-header',
-      delayMs: 600
+      delayMs: 600,
+      includeScreenshots: true
     });
   }
+
 
   private calculateInitialSavingsPercentages(): void {
     if (this.consumptionData) {

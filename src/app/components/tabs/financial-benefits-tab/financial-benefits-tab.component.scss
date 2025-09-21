@@ -1,0 +1,130 @@
+.tooltip-container {
+  position: relative;
+  cursor: help;
+  
+  .custom-tooltip-wrapper {
+    position: absolute;
+    bottom: calc(100% + 15px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    
+    // Always visible - no hover state needed
+    opacity: 1;
+    visibility: visible;
+    
+    .custom-tooltip-content {
+      background: linear-gradient(135deg, #34c759, #30d158);
+      color: #fff;
+      padding: 8px 10px; // Make tooltip box smaller
+      border-radius: 10px; // reverted to old radius
+      font-size: 0.7rem; // reverted to old font size
+      font-weight: 400;
+      line-height: 1.3; // reverted to old line height
+      width: 170px; // reverted to old width
+      text-align: left;
+      box-shadow: 
+        0 12px 24px rgba(52, 199, 89, 0.3),
+        0 2px 8px rgba(0, 0, 0, 0.1);
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      backdrop-filter: blur(20px); // reverted to old blur
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2); // reverted to old border
+      text-shadow: 0 1px 2px rgba(0,0,0,0.10); // reverted to old shadow
+      letter-spacing: -0.01em;
+      transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+      
+      strong {
+        display: block;
+        font-size: 1.2rem; // keep improved value size
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 4px; // adjusted margin
+        letter-spacing: -0.02em;
+        text-shadow: 0 4px 16px rgba(52,199,89,0.18), 0 1px 2px rgba(0,0,0,0.10);
+      }
+      
+      em {
+        color: #e0ffe5;
+        font-size: 0.85em; // adjusted font size
+        font-style: italic;
+        margin-top: 6px; // adjusted margin
+        display: block;
+      }
+    }
+    
+    .custom-tooltip-arrow {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid #34c759;
+      filter: drop-shadow(0 1px 2px rgba(52, 199, 89, 0.3));
+      transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+  }
+  
+  // Remove hover transform/scale effect
+  &:hover {
+    .custom-tooltip-wrapper {
+      .custom-tooltip-content {
+        // Removed: transform: translateX(-50%) scale(1.05);
+        // Removed: box-shadow: ... (keep default shadow)
+      }
+      .custom-tooltip-arrow {
+        // Removed: filter: drop-shadow(0 2px 4px ...);
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .tooltip-container {
+    .custom-tooltip-wrapper {
+      left: -75px;
+      transform: none;
+      
+      .custom-tooltip-content {
+        width: 200px;
+        font-size: 0.75rem;
+        padding: 10px 14px;
+      }
+      
+      .custom-tooltip-arrow {
+        left: calc(100px);
+        transform: none;
+      }
+    }
+    
+    &:hover {
+      .custom-tooltip-wrapper {
+        .custom-tooltip-content {
+          // Removed: transform: scale(1.05);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .tooltip-container {
+    .custom-tooltip-wrapper {
+      left: -65px;
+      
+      .custom-tooltip-content {
+        width: 180px;
+        font-size: 0.7rem;
+        padding: 8px 12px;
+      }
+      
+      .custom-tooltip-arrow {
+        left: calc(90px);
+      }
+    }
+  }
+}
