@@ -265,4 +265,32 @@ export class RenovationTabComponent implements OnInit, OnChanges, OnDestroy {
   }
 }
 
+/**
+ * Check if a string is a URL
+ */
+isUrl(text: string): boolean {
+  if (!text) return false;
+  return text.startsWith('www.') || text.startsWith('http://') || text.startsWith('https://');
+}
+
+/**
+ * Get the full URL with https:// prefix if needed
+ */
+getFullUrl(url: string): string {
+  if (!url) return '';
+  
+  // If it already has a protocol, return as is
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+  
+  // If it starts with www., add https://
+  if (url.startsWith('www.')) {
+    return `https://${url}`;
+  }
+  
+  // For other cases, assume it needs https://www.
+  return `https://www.${url}`;
+}
+
 }

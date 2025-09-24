@@ -124,7 +124,8 @@ export class DossierDataService {
     consumption: {
       electricity: 'Unbekannt',
       heating: 'Ca. 40.000 kWh*',
-      hotWater: 'unbekannt'
+      hotWater: 'Unbekannt',
+      heizungsverbrauch:'Unbekannt',
     },
     renovations: [
       {
@@ -306,8 +307,8 @@ private initFoerderboniMeasures(): any[] {
     {
       type: 'ENVALPRO SERVICE',
       grundlage: 'Leistungen und Kostennoten sind separat aufgeführt',
-      kosten: '3.000 €*',
-      zuschuss: 'pauschal FULL-SERVICE SORGLOSPAKET'
+      kosten: 'Siehe:',
+      zuschuss: 'www.envalpro-impact.com/service'
     }
   ];
 }

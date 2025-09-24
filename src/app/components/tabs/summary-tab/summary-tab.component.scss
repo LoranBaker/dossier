@@ -194,39 +194,77 @@
     color: #1d1d1f;
   }
   
-  .energy-badge {
-    display: inline-flex;
-    width: 48px;
-    height: 48px;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 700;
-    font-size: 1.3rem;
+ // Complete energy badge styles for all energy classes
+.energy-badge {
+  display: inline-flex;
+  width: 48px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.3rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    position: relative;
-    
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      border-radius: 12px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
-      z-index: 1;
-    }
-    
-    &-f {
-      background: linear-gradient(135deg, #ff3b30, #ff2d55);
-    }
-    
-    &-b {
-      background: linear-gradient(135deg, #34c759, #30b0c7);
-    }
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
+    z-index: 1;
   }
+  
+  // A+ Energy Class (Best)
+  &-a\+ {
+    background: linear-gradient(135deg, #00a651, #34c759);
+  }
+  
+  // A Energy Class (Excellent)
+  &-a {
+    background: linear-gradient(135deg, #4cb847, #34c759);
+  }
+  
+  // B Energy Class (Very Good)
+  &-b {
+    background: linear-gradient(135deg, #8cc63f, #4cb847);
+  }
+  
+  // C Energy Class (Good)
+  &-c {
+    background: linear-gradient(135deg, #d7df23, #8cc63f);
+  }
+  
+  // D Energy Class (Fair)
+  &-d {
+    background: linear-gradient(135deg, #fff200, #d7df23);
+  }
+  
+  // E Energy Class (Poor)
+  &-e {
+    background: linear-gradient(135deg, #ffb300, #fff200);
+  }
+  
+  // F Energy Class (Very Poor)
+  &-f {
+    background: linear-gradient(135deg, #ff6900, #ffb300);
+  }
+  
+  // G Energy Class (Extremely Poor)
+  &-g {
+    background: linear-gradient(135deg, #e60012, #ff6900);
+  }
+  
+  // H Energy Class (Worst)
+  &-h {
+    background: linear-gradient(135deg, #a50034, #e60012);
+  }
+}
 }
 
 .energy-progress {

@@ -32,10 +32,11 @@ export class SummaryTabComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() totalCosts: number = 0;
   @Input() totalFunding: number = 0;
   @Input() totalSavings: number = 0;
-  @Input() financialData: any = {}; // NEW: Add financial data input
+  @Input() financialData: any = {}; // Financial data input
+  @Input() energyRatings: { currentEnergyRating: string; targetEnergyRating: string } | null = null; // Energy ratings input
 
   currentEnergyClass: string = 'F';
-  targetEnergyClass: string = 'B';
+  targetEnergyClass: string = 'A';
   currentPropertyValue: number = 0;
   targetPropertyValue: number = 0;
   propertyValueIncrease: number = 0;
@@ -74,13 +75,14 @@ export class SummaryTabComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     // Recalculate values when inputs change
-    if (changes['financialData'] || changes['building'] || changes['consumptionData']) {
+    if (changes['financialData'] || changes['building'] || changes['consumptionData'] || changes['energyRatings']) {
       this.calculateValues();
       
       console.log('Summary component inputs changed:', {
         financialData: this.financialData,
         building: this.building,
-        consumptionData: this.consumptionData
+        consumptionData: this.consumptionData,
+        energyRatings: this.energyRatings
       });
     }
   }
@@ -123,62 +125,132 @@ export class SummaryTabComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
- private calculateValues(): void {
-  // Use financial data if available, otherwise fallback to placeholder values
-  if (this.financialData && Object.keys(this.financialData).length > 0) {
-    console.log('Using financial data for summary calculations:', this.financialData);
-    
-    // Map values from financial potential tab
-    // Left side (current/before values)
-    this.currentPropertyValue = this.financialData.currentPropertyValue || 675000;
-    this.currentRentPerSqm = this.financialData.currentRentPerSqm || this.getConsumptionRentPrice();
-    
-    // Right side (future/after values)
-    this.targetPropertyValue = this.financialData.targetPropertyValue || 795000;
-    this.propertyValueIncrease = this.financialData.propertyValueIncreaseAmount || 120000;
-    this.targetRentPerSqm = this.financialData.targetRentPerSqm || 15.20;
-    this.rentIncreaseEuro = this.financialData.rentIncreasePerSqm || 2.70;
-    
-    // Calculate percentage increase
-    if (this.currentRentPerSqm > 0) {
+  private calculateValues(): void {
+    // Update energy classes from renovation results if available
+    if (this.energyRatings) {
+      this.currentEnergyClass = this.energyRatings.currentEnergyRating;
+      this.targetEnergyClass = this.energyRatings.targetEnergyRating;
+      console.log('Using energy ratings from renovation results:', this.energyRatings);
+    } else {
+      // Fallback to consumption data or defaults
+      this.currentEnergyClass = this.getEnergyClassFromConsumption() || 'F';
+      this.targetEnergyClass = 'A'; // Default target after renovation
+      console.log('Using fallback energy ratings:', { current: this.currentEnergyClass, target: this.targetEnergyClass });
+    }
+
+    // Use financial data if available, otherwise fallback to placeholder values
+    if (this.financialData && Object.keys(this.financialData).length > 0) {
+      console.log('Using financial data for summary calculations:', this.financialData);
+      
+      // Map values from financial potential tab
+      // Left side (current/before values)
+      this.currentPropertyValue = this.financialData.currentPropertyValue || 675000;
+      this.currentRentPerSqm = this.financialData.currentRentPerSqm || this.getConsumptionRentPrice();
+      
+      // Right side (future/after values)
+      this.targetPropertyValue = this.financialData.targetPropertyValue || 795000;
+      this.propertyValueIncrease = this.financialData.propertyValueIncreaseAmount || 120000;
+      this.targetRentPerSqm = this.financialData.targetRentPerSqm || 15.20;
+      this.rentIncreaseEuro = this.financialData.rentIncreasePerSqm || 2.70;
+      
+      // Calculate percentage increase
+      if (this.currentRentPerSqm > 0) {
+        this.rentIncreasePercent = ((this.targetRentPerSqm - this.currentRentPerSqm) / this.currentRentPerSqm) * 100;
+      }
+    } else {
+      console.log('Using fallback values for summary calculations');
+      
+      // Use consumption data for consistency if available
+      this.currentRentPerSqm = this.getConsumptionRentPrice();
+      
+      // Fallback to default values if no financial data
+      this.currentPropertyValue = 675000;
+      this.targetPropertyValue = 795000;
+      this.propertyValueIncrease = this.targetPropertyValue - this.currentPropertyValue;
+      this.targetRentPerSqm = 15.20;
+      this.rentIncreaseEuro = this.targetRentPerSqm - this.currentRentPerSqm;
       this.rentIncreasePercent = ((this.targetRentPerSqm - this.currentRentPerSqm) / this.currentRentPerSqm) * 100;
     }
-  } else {
-    console.log('Using fallback values for summary calculations');
     
-    // Use consumption data for consistency if available
-    this.currentRentPerSqm = this.getConsumptionRentPrice();
+    // Log final values for debugging
+    console.log('Summary values calculated:', {
+      currentPropertyValue: this.currentPropertyValue,
+      targetPropertyValue: this.targetPropertyValue,
+      propertyValueIncrease: this.propertyValueIncrease,
+      currentRentPerSqm: this.currentRentPerSqm,
+      targetRentPerSqm: this.targetRentPerSqm,
+      rentIncreaseEuro: this.rentIncreaseEuro,
+      rentIncreasePercent: this.rentIncreasePercent,
+      currentEnergyClass: this.currentEnergyClass,
+      targetEnergyClass: this.targetEnergyClass
+    });
+  }
+
+  private getConsumptionRentPrice(): number {
+    if (this.consumptionData && this.consumptionData.rentPrice && this.consumptionData.rentPrice > 0) {
+      console.log('Using consumption data rent price:', this.consumptionData.rentPrice);
+      return this.consumptionData.rentPrice;
+    }
+    console.log('Using fallback rent price: 12.50');
+    return 12.50; // fallback value
+  }
+
+  /**
+   * Get energy class from consumption data
+   */
+  private getEnergyClassFromConsumption(): string | null {
+    if (this.consumptionData && this.consumptionData.energyIntensity) {
+      return this.getEnergyRatingFromIntensity(this.consumptionData.energyIntensity);
+    }
+    return null;
+  }
+
+  /**
+   * Convert energy intensity to energy rating
+   */
+  private getEnergyRatingFromIntensity(energyIntensity: number): string {
+    if (energyIntensity <= 25) return 'A+';
+    if (energyIntensity <= 50) return 'A';
+    if (energyIntensity <= 75) return 'B';
+    if (energyIntensity <= 100) return 'C';
+    if (energyIntensity <= 125) return 'D';
+    if (energyIntensity <= 150) return 'E';
+    if (energyIntensity <= 175) return 'F';
+    if (energyIntensity <= 200) return 'G';
+    return 'H';
+  }
+
+  /**
+   * Get CSS class name for energy badge (handles special characters)
+   */
+  getEnergyBadgeClass(energyClass: string): string {
+    // Convert to lowercase and handle special characters
+    const baseClass = 'energy-badge';
+    let energySpecificClass = `energy-badge-${energyClass.toLowerCase()}`;
     
-    // Fallback to default values if no financial data
-    this.currentPropertyValue = 675000;
-    this.targetPropertyValue = 795000;
-    this.propertyValueIncrease = this.targetPropertyValue - this.currentPropertyValue;
-    this.targetRentPerSqm = 15.20;
-    this.rentIncreaseEuro = this.targetRentPerSqm - this.currentRentPerSqm;
-    this.rentIncreasePercent = ((this.targetRentPerSqm - this.currentRentPerSqm) / this.currentRentPerSqm) * 100;
+    // Handle A+ special case
+    if (energyClass === 'A+') {
+      energySpecificClass = 'energy-badge-a-plus';
+    }
+    
+    return `${baseClass} ${energySpecificClass}`;
   }
-  
-  // Log final values for debugging
-  console.log('Summary values calculated:', {
-    currentPropertyValue: this.currentPropertyValue,
-    targetPropertyValue: this.targetPropertyValue,
-    propertyValueIncrease: this.propertyValueIncrease,
-    currentRentPerSqm: this.currentRentPerSqm,
-    targetRentPerSqm: this.targetRentPerSqm,
-    rentIncreaseEuro: this.rentIncreaseEuro,
-    rentIncreasePercent: this.rentIncreasePercent,
-    currentEnergyClass: this.currentEnergyClass,
-    targetEnergyClass: this.targetEnergyClass
-  });
-}
-private getConsumptionRentPrice(): number {
-  if (this.consumptionData && this.consumptionData.rentPrice && this.consumptionData.rentPrice > 0) {
-    console.log('Using consumption data rent price:', this.consumptionData.rentPrice);
-    return this.consumptionData.rentPrice;
+
+  /**
+   * Debug method to check current energy class values
+   */
+  debugEnergyClasses(): void {
+    console.log('=== ENERGY CLASS DEBUG ===');
+    console.log('Current Energy Class:', this.currentEnergyClass);
+    console.log('Target Energy Class:', this.targetEnergyClass);
+    console.log('Energy Ratings Input:', this.energyRatings);
+    console.log('CSS Class for current:', this.getEnergyBadgeClass(this.currentEnergyClass));
+    console.log('CSS Class for target:', this.getEnergyBadgeClass(this.targetEnergyClass));
+    console.log('Current Energy Color:', this.getEnergyClassColor(this.currentEnergyClass));
+    console.log('Target Energy Color:', this.getEnergyClassColor(this.targetEnergyClass));
+    console.log('=== END DEBUG ===');
   }
-  console.log('Using fallback rent price: 12.50');
-  return 12.50; // fallback value
-}
+
   /**
    * Formats currency values for display
    */
@@ -248,5 +320,65 @@ private getConsumptionRentPrice(): number {
       'H': '#a50034'
     };
     return colorMap[energyClass] || '#cccccc';
+  }
+
+  /**
+   * Get inline styles for energy badge (alternative to CSS classes)
+   */
+  getEnergyBadgeStyles(energyClass: string): { [key: string]: string } {
+    const baseStyles = {
+      'display': 'inline-flex',
+      'width': '48px',
+      'height': '48px',
+      'align-items': 'center',
+      'justify-content': 'center',
+      'color': 'white',
+      'font-weight': '700',
+      'font-size': '1.3rem',
+      'border-radius': '12px',
+      'box-shadow': '0 4px 10px rgba(0, 0, 0, 0.1)',
+      'position': 'relative'
+    };
+
+    const color = this.getEnergyClassColor(energyClass);
+    
+    // Create gradient based on energy class
+    let background = '';
+    switch (energyClass) {
+      case 'A+':
+        background = 'linear-gradient(135deg, #00a651, #34c759)';
+        break;
+      case 'A':
+        background = 'linear-gradient(135deg, #4cb847, #34c759)';
+        break;
+      case 'B':
+        background = 'linear-gradient(135deg, #8cc63f, #4cb847)';
+        break;
+      case 'C':
+        background = 'linear-gradient(135deg, #d7df23, #8cc63f)';
+        break;
+      case 'D':
+        background = 'linear-gradient(135deg, #fff200, #d7df23)';
+        break;
+      case 'E':
+        background = 'linear-gradient(135deg, #ffb300, #fff200)';
+        break;
+      case 'F':
+        background = 'linear-gradient(135deg, #ff6900, #ffb300)';
+        break;
+      case 'G':
+        background = 'linear-gradient(135deg, #e60012, #ff6900)';
+        break;
+      case 'H':
+        background = 'linear-gradient(135deg, #a50034, #e60012)';
+        break;
+      default:
+        background = color;
+    }
+
+    return {
+      ...baseStyles,
+      'background': background
+    };
   }
 }

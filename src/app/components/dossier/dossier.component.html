@@ -180,6 +180,8 @@
     (dataChanged)="onFinancialPotentialDataChanged($event)">
   </app-financial-potential-tab>
   </div>
+  
+  <!-- UPDATED: Added energyRatingChanged event handler -->
   <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'renovationResults'">
   <app-renovation-results-tab
     [consumptionData]="consumptionData"
@@ -188,9 +190,11 @@
     [totalCosts]="totalCosts"
     [totalFunding]="totalFunding"
     [co2TaxFromConsumption]="co2TaxData"
-    (savingsPercentagesChanged)="onRenovationResultsSavingsChanged($event)">
+    (savingsPercentagesChanged)="onRenovationResultsSavingsChanged($event)"
+    (energyRatingChanged)="onRenovationResultsEnergyRatingChanged($event)">
   </app-renovation-results-tab>
 </div>
+
   <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'financialBenefits'">
     <app-financial-benefits-tab
       [renovationMeasures]="renovationMeasures"
@@ -200,6 +204,7 @@
       [financialPotentialData]="financialPotentialData">
     </app-financial-benefits-tab>
   </div>
+  
   <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'financingCalculator'">
     <app-financing-calculator
     [initialTotalCosts]="totalCosts"
@@ -208,8 +213,9 @@
     [financialPotentialData]="financialPotentialData">
   </app-financing-calculator>
   </div>
+  
+  <!-- UPDATED: Added energyRatings input to summary tab -->
   <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'summary'">
-    <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'summary'">
      <app-summary-tab
       [building]="building"
       [consumptionData]="consumptionData"
@@ -218,19 +224,23 @@
       [totalCosts]="totalCosts"
       [totalFunding]="totalFunding"
       [totalSavings]="totalSavings"
-      [financialData]="financialData">
+      [financialData]="financialData"
+      [energyRatings]="energyRatings">
     </app-summary-tab>
-    </div>
   </div>
+  
   <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'modernizationPlanning'">
     <app-modernization-planning></app-modernization-planning>
   </div>
+  
   <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'consultationCta'">
     <app-consultation-cta></app-consultation-cta>
   </div>
+  
   <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'generalInfo'">
   <app-general-info></app-general-info>
   </div>
+  
   <!-- Footer Section -->
   <footer class="dossier-footer">
     <div class="footer-logo">ENVALPRO</div>

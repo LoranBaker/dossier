@@ -1,0 +1,791 @@
+/* dossier.component.scss - */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+// Apple-inspired color palette with HSL values for easier manipulation
+$apple-white: hsl(0, 0%, 100%);         // #ffffff
+$apple-off-white: hsl(240, 5%, 96%);    // #f5f5f7
+$apple-gray-light: hsl(240, 14%, 93%);  // #e8e8ed
+$apple-gray: hsl(240, 2%, 54%);         // #86868b
+$apple-gray-dark: hsl(240, 1%, 26%);    // #424245
+$apple-black: hsl(240, 1%, 12%);        // #1d1d1f
+
+// Base blue with variations
+$apple-blue: hsl(213, 100%, 45%);       // #0071e3
+$apple-blue-hover: hsl(213, 100%, 47%); // #0077ed
+$apple-blue-light-40: hsl(213, 100%, 85%); // 40% lighter
+$apple-blue-light-45: hsl(213, 100%, 90%); // 45% lighter
+$apple-blue-light-48: hsl(213, 100%, 93%); // 48% lighter
+$apple-blue-light-30: hsl(213, 100%, 75%); // 30% lighter
+$apple-blue-dark-10: hsl(213, 100%, 35%);  // 10% darker
+$apple-blue-dark-15: hsl(213, 100%, 30%);  // 15% darker
+
+// Other colors with variations
+$apple-green: hsl(142, 100%, 40%);      // #00ca56
+$apple-green-light-10: hsl(142, 100%, 50%); // 10% lighter
+
+$apple-red: hsl(4, 100%, 62%);          // #ff453a
+$apple-red-dark-5: hsl(4, 100%, 57%);   // 5% darker
+$apple-red-dark-10: hsl(4, 100%, 52%);  // 10% darker
+$apple-red-dark-15: hsl(4, 100%, 47%);  // 15% darker
+
+$apple-yellow: hsl(50, 100%, 52%);      // #ffd60a
+$apple-yellow-light-10: hsl(50, 100%, 62%); // 10% lighter
+
+$apple-orange: hsl(35, 100%, 52%);      // #ff9f0a
+$apple-orange-light-10: hsl(35, 100%, 62%); // 10% lighter
+
+//shadow
+$apple-shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
+$apple-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+$apple-shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.16);
+
+//transitions
+$apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+
+/* Target Analysis Tab Styles */
+.target-analysis-section {
+  margin-bottom: 3rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  color: $apple-black;
+  
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: $apple-black;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  /* Edit Controls - Consistent with app styling */
+  .target-analysis-edit-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  
+  .target-analysis-edit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: $apple-white;
+    color: $apple-blue;
+    border: 1px solid $apple-blue;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: $apple-transition;
+    font-family: inherit;
+    
+    svg {
+      stroke: $apple-blue;
+      transition: $apple-transition;
+    }
+    
+    &:hover {
+      background-color: $apple-blue-light-48;
+      transform: translateY(-2px);
+      box-shadow: $apple-shadow-sm;
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+  
+  .target-analysis-action-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .target-analysis-cancel-button {
+    background-color: $apple-white;
+    color: $apple-gray-dark;
+    border: 1px solid $apple-gray-light;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: $apple-transition;
+    font-family: inherit;
+    
+    &:hover {
+      background-color: $apple-gray-light;
+      transform: translateY(-2px);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+  
+  .target-analysis-save-button {
+    background-color: $apple-blue;
+    color: $apple-white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: $apple-transition;
+    font-family: inherit;
+    
+    &:hover {
+      background-color: $apple-blue-hover;
+      transform: translateY(-2px);
+      box-shadow: $apple-shadow-sm;
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+  
+  .target-analysis-saved-message {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background-color: $apple-green;
+    color: white;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    pointer-events: none;
+    box-shadow: $apple-shadow;
+    font-family: inherit;
+    white-space: nowrap;
+    z-index: 100;
+    
+    &.show {
+      opacity: 1;
+      transform: translateY(0);
+      animation: fadeInMessage 0.3s ease forwards;
+    }
+    
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      right: 20px;
+      width: 16px;
+      height: 16px;
+      background-color: $apple-green;
+      transform: rotate(45deg);
+      border-radius: 2px;
+    }
+  }
+
+  /* Edit Mode Instructions */
+  .edit-instructions {
+    margin-bottom: 2rem;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, $apple-blue-light-48, $apple-blue-light-45);
+    border-radius: 12px;
+    border: 1px solid $apple-blue-light-30;
+    
+    p {
+      margin: 0;
+      font-size: 1rem;
+      color: $apple-blue-dark-10;
+      font-weight: 500;
+      text-align: center;
+      
+      &::before {
+        content: "ℹ️";
+        margin-right: 0.75rem;
+        font-size: 1.125rem;
+      }
+    }
+  }
+}
+
+/* Updated styles for smaller target measure containers */
+.target-measures {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); // Reduced from 360px
+  gap: 20px; // Reduced from 24px
+  margin-bottom: 48px;
+  
+  .measure-card {
+    background-color: $apple-white;
+    border-radius: 16px; // Reduced from 20px
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    height: auto;
+    min-height: 160px; // Reduced from 180px
+    position: relative;
+    cursor: default;
+    border: 2px solid transparent;
+    overflow: hidden;
+    
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+    
+    /* Edit mode styling */
+    &.editing {
+      cursor: pointer;
+      user-select: none;
+      
+      &:hover {
+        border-color: $apple-blue;
+        background: linear-gradient(135deg, $apple-white, $apple-blue-light-48);
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 16px 32px rgba(0, 113, 227, 0.18);
+      }
+      
+      &:active {
+        transform: translateY(-6px) scale(1.01);
+        transition: all 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+    }
+    
+    /* Icon Header Section - Made smaller */
+    .measure-icon {
+      width: 100%;
+      height: 70px; // Reduced from 80px
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      
+      svg {
+        width: 42px; // Reduced from 48px
+        height: 42px; // Reduced from 48px
+        stroke-width: 1.5;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        z-index: 2;
+        position: relative;
+      }
+      
+      /* Background overlay for better contrast */
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0.1;
+        z-index: 1;
+      }
+      
+      /* Icon colors with improved gradients and patterns */
+      &.heating-icon {
+        background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #ffa726 100%);
+        color: white;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 60%);
+        }
+      }
+      
+      &.basement-icon {
+        background: linear-gradient(135deg, #8b4513 0%, #a0522d 50%, #cd853f 100%);
+        color: white;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent 60%);
+        }
+      }
+      
+      &.roof-icon {
+        background: linear-gradient(135deg, #dc143c 0%, #e91e63 50%, #f06292 100%);
+        color: white;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 60%);
+        }
+      }
+      
+      &.facade-icon {
+        background: linear-gradient(135deg, #4682b4 0%, #5a9fd4 50%, #81c784 100%);
+        color: white;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 60%);
+        }
+      }
+      
+      &.window-icon {
+        background: linear-gradient(135deg, #20b2aa 0%, #48d1cc 50%, #80cbc4 100%);
+        color: white;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 60%);
+        }
+      }
+      
+      &.ventilation-icon {
+        background: linear-gradient(135deg, #32cd32 0%, #90ee90 50%, #a5d6a7 100%);
+        color: white;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent 60%);
+        }
+      }
+      
+      &.attic-floor-icon {
+        background: linear-gradient(135deg, #9370db 0%, #ba55d3 50%, #ce93d8 100%);
+        color: white;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 60%);
+        }
+      }
+      
+      &.skylight-icon {
+        background: linear-gradient(135deg, #ffa500 0%, #ffb84d 50%, #ffcc80 100%);
+        color: white;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 60%);
+        }
+      }
+      
+      &.solar-icon {
+        background: linear-gradient(135deg, #ffd700 0%, #ffed4a 50%, #fff176 100%);
+        color: #2c2c2c;
+        
+        &::before {
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 60%);
+        }
+        
+        svg {
+          filter: drop-shadow(0 2px 4px rgba(44, 44, 44, 0.15));
+        }
+      }
+    }
+    
+    /* Content Section - Reduced padding */
+    .measure-content {
+      flex: 1;
+      padding: 20px; // Reduced from 24px
+      display: flex;
+      flex-direction: column;
+      
+      h3 {
+        font-size: 1.25rem; // Reduced from 1.375rem
+        font-weight: 600;
+        color: $apple-black;
+        margin-bottom: 14px; // Reduced from 16px
+        letter-spacing: -0.02em;
+        line-height: 1.3;
+      }
+      
+      p {
+        color: $apple-gray-dark;
+        font-size: 0.95rem; // Reduced from 1rem
+        line-height: 1.5; // Slightly tighter from 1.6
+        margin: 0;
+        flex-grow: 1;
+        
+        strong {
+          font-weight: 600;
+          color: $apple-black;
+        }
+      }
+    }
+    
+    
+    /* Edit toggle indicator - Better positioning */
+    .edit-toggle-indicator {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, $apple-green 0%, #2dd4bf 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);
+      opacity: 0;
+      transform: scale(0.6) rotate(-180deg);
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      z-index: 20;
+      pointer-events: none;
+      border: 3px solid white;
+    }
+    
+    &.editing .edit-toggle-indicator {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+    
+    &.editing:hover .edit-toggle-indicator {
+      transform: scale(1.1) rotate(0deg);
+      box-shadow: 0 6px 16px rgba(52, 199, 89, 0.4);
+    }
+  }
+}
+
+/* Measurement Controls */
+.measurement-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: $apple-off-white;
+  border-radius: 12px;
+  border: 1px solid $apple-gray-light;
+}
+
+.measurement-stats {
+  .visible-count {
+    font-size: 0.9rem;
+    color: $apple-gray-dark;
+    font-weight: 500;
+  }
+}
+
+.add-measurement-controls {
+  position: relative;
+}
+
+.add-back-dropdown {
+  position: relative;
+  
+  &.open .dropdown-arrow {
+    transform: rotate(180deg);
+  }
+}
+
+.add-back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: $apple-white;
+  color: $apple-blue;
+  border: 1px solid $apple-blue;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: $apple-transition;
+  font-family: inherit;
+  
+  &:hover {
+    background-color: $apple-blue-light-48;
+    transform: translateY(-1px);
+    box-shadow: $apple-shadow-sm;
+  }
+  
+  .dropdown-arrow {
+    transition: transform 0.3s ease;
+  }
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background-color: $apple-white;
+  border: 1px solid $apple-gray-light;
+  border-radius: 12px;
+  box-shadow: $apple-shadow;
+  min-width: 220px;
+  max-width: 300px;
+  z-index: 1000;
+  overflow: hidden;
+  animation: dropdownFadeIn 0.2s ease-out;
+}
+
+.dropdown-header {
+  padding: 0.75rem 1rem;
+  background-color: $apple-off-white;
+  border-bottom: 1px solid $apple-gray-light;
+  
+  span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $apple-gray-dark;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: $apple-transition;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: $apple-black;
+  
+  &:hover {
+    background-color: $apple-blue-light-48;
+    color: $apple-blue;
+    
+    svg {
+      stroke: $apple-blue;
+    }
+  }
+  
+  &.show-all {
+    font-weight: 600;
+    color: $apple-green;
+    
+    &:hover {
+      background-color: rgba($apple-green, 0.1);
+      color: $apple-green;
+      
+      svg {
+        stroke: $apple-green;
+      }
+    }
+  }
+  
+  svg {
+    flex-shrink: 0;
+    stroke: $apple-gray;
+    transition: $apple-transition;
+  }
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: $apple-gray-light;
+  margin: 0.5rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .measurement-controls {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .measurement-stats {
+    text-align: center;
+  }
+  
+  .add-measurement-controls {
+    align-self: center;
+  }
+  
+  .dropdown-menu {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 250px;
+  }
+}
+
+/* Animation */
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Climate contribution section */
+.climate-contribution {
+  background-color: hsla(100, 60%, 95%, 1);
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 48px;
+  
+  h2 {
+    font-size: 1.75rem;
+    margin-bottom: 32px;
+    color: hsla(100, 30%, 30%, 1);
+  }
+}
+
+/* Eco comparison cards */
+.eco-comparison {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 24px;
+  
+  .eco-card {
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+    width: calc(33.33% - 16px);
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+    
+    .eco-icon {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      svg {
+        width: 60px;
+        height: 60px;
+        stroke: hsla(100, 50%, 50%, 1);
+        stroke-width: 1;
+      }
+    }
+    
+    .eco-details {
+      text-align: center;
+      
+      .eco-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: $apple-black;
+        margin-bottom: 4px;
+      }
+      
+      .eco-description {
+        font-size: 0.9rem;
+        color: hsla(0, 0%, 40%, 1);
+      }
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .eco-comparison {
+    flex-direction: column;
+    align-items: center;
+    
+    .eco-card {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+}
+
+/* Additional flourishes */
+.measure-card, .eco-card {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Smooth animations */
+@keyframes subtleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.eco-icon svg {
+  animation: subtleFloat 3s ease-in-out infinite;
+}
+
+/* Additional styles for the timeline tab's new functionality */
+
+.add-measure-controls {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: $apple-off-white;
+  border-radius: 12px;
+  box-shadow: $apple-shadow-sm;
+  transition: $apple-transition;
+  
+  &:hover {
+    box-shadow: $apple-shadow;
+  }
+  
+  .add-measure-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    align-items: flex-end;
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      
+      label {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: $apple-gray-dark;
+        margin-bottom: 0.5rem;
+      }
+    }
+    
+    .add-button {
+      height: 40px; // Match height to inputs
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background-color: $apple-blue;
+      color: white;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      transition: $apple-transition;
+      
+      &:hover:not(:disabled) {
+        background-color: $apple-blue-hover;
+        transform: translateY(-2px);
+        box-shadow: $apple-shadow-sm;
+      }
+      
+      &:disabled {
+        background-color: $apple-gray-light;
+        color: $apple-gray;
+        cursor: not-allowed;
+      }
+      
+      svg {
+        stroke: white;
+      }
+    }
+  }
+  
+  .edit-instructions {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: $apple-gray;
+    font-style: italic;
+  }
+}

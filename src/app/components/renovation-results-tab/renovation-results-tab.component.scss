@@ -1,0 +1,991 @@
+/* dossier.component.scss - */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+// Apple-inspired color palette with HSL values for easier manipulation
+$apple-white: hsl(0, 0%, 100%);         // #ffffff
+$apple-off-white: hsl(240, 5%, 96%);    // #f5f5f7
+$apple-gray-light: hsl(240, 14%, 93%);  // #e8e8ed
+$apple-gray: hsl(240, 2%, 54%);         // #86868b
+$apple-gray-dark: hsl(240, 1%, 26%);    // #424245
+$apple-black: hsl(240, 1%, 12%);        // #1d1d1f
+
+// Base blue with variations
+$apple-blue: hsl(213, 100%, 45%);       // #0071e3
+$apple-blue-hover: hsl(213, 100%, 47%); // #0077ed
+$apple-blue-light-40: hsl(213, 100%, 85%); // 40% lighter
+$apple-blue-light-45: hsl(213, 100%, 90%); // 45% lighter
+$apple-blue-light-48: hsl(213, 100%, 93%); // 48% lighter
+$apple-blue-light-30: hsl(213, 100%, 75%); // 30% lighter
+$apple-blue-dark-10: hsl(213, 100%, 35%);  // 10% darker
+$apple-blue-dark-15: hsl(213, 100%, 30%);  // 15% darker
+
+// Other colors with variations
+$apple-green: hsl(142, 100%, 40%);      // #00ca56
+$apple-green-light-10: hsl(142, 100%, 50%); // 10% lighter
+
+$apple-red: hsl(4, 100%, 62%);          // #ff453a
+$apple-red-dark-5: hsl(4, 100%, 57%);   // 5% darker
+$apple-red-dark-10: hsl(4, 100%, 52%);  // 10% darker
+$apple-red-dark-15: hsl(4, 100%, 47%);  // 15% darker
+
+$apple-yellow: hsl(50, 100%, 52%);      // #ffd60a
+$apple-yellow-light-10: hsl(50, 100%, 62%); // 10% lighter
+
+$apple-orange: hsl(35, 100%, 52%);      // #ff9f0a
+$apple-orange-light-10: hsl(35, 100%, 62%); // 10% lighter
+
+//shadow
+$apple-shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
+$apple-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+$apple-shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.16);
+
+//transitions
+$apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+.renovation-results-section {
+  h2, h3, h4 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: $apple-black;
+    margin-bottom: 2rem;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+    color: $apple-blue;
+    margin-top: 3rem;
+  }
+  
+  h4 {
+    font-size: 1.25rem;
+    color: $apple-gray-dark;
+    margin-top: 2rem;
+  }
+
+
+.editable-value {
+  display: flex;
+  align-items: center;
+  
+  .edit-input {
+    width: 90px;
+    padding: 0.5rem;
+    border: 1px solid hsl(240, 14%, 93%); 
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: hsl(240, 1%, 12%); 
+    background-color: hsl(0, 0%, 100%); 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-right: 5px;
+    text-align: right;
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+    
+    &:focus {
+      border-color: hsl(213, 100%, 45%); 
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(0, 113, 227, 0.2); 
+    }
+  }
+  
+  .rating-dropdown {
+    width: 90px;
+    padding: 0.5rem;
+    border: 1px solid hsl(240, 14%, 93%); 
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: hsl(240, 1%, 12%); 
+    background-color: hsl(0, 0%, 100%); 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-right: 5px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2386868b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 0.85rem;
+    padding-right: 2rem;
+    cursor: pointer;
+    
+    &:focus {
+      border-color: hsl(213, 100%, 45%); 
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(0, 113, 227, 0.2); 
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    }
+    
+    option {
+      font-weight: normal;
+      padding: 0.5rem;
+    }
+  }
+}
+
+.saved-message {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background-color: hsl(142, 100%, 40%); 
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+  
+  &.show {
+    opacity: 1;
+    transform: translateY(0);
+    animation: fadeInMessage 0.3s ease forwards;
+  }
+  
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    right: 20px;
+    width: 10px;
+    height: 10px;
+    background-color: hsl(142, 100%, 40%); 
+    transform: rotate(45deg);
+  }
+}
+
+@keyframes fadeInMessage {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.comparison-future {
+  .value {
+    font-weight: 500;
+    color: hsl(213, 100%, 45%);
+  }
+}
+
+/* Energy rating value styling */
+.rating-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  min-width: 40px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+  
+  &.rating-a\+ {
+    background-color: hsl(142, 100%, 40%); 
+    color: white;
+  }
+  
+  &.rating-a {
+    background-color: hsl(142, 100%, 50%); 
+    color: white;
+  }
+  
+  &.rating-b {
+    background-color: hsl(50, 100%, 52%);
+    color: hsl(240, 1%, 12%); 
+  }
+  
+  &.rating-c {
+    background-color: hsl(50, 100%, 62%); 
+    color: hsl(240, 1%, 12%);
+  }
+  
+  &.rating-d {
+    background-color: hsl(35, 100%, 52%); 
+    color: hsl(240, 1%, 12%); 
+  }
+  
+  &.rating-e {
+    background-color: hsl(35, 100%, 62%); 
+    color: hsl(240, 1%, 12%); 
+  }
+  
+  &.rating-f {
+    background-color: hsl(4, 100%, 62%); 
+    color: white;
+  }
+  
+  &.rating-g {
+    background-color: hsl(4, 100%, 57%);
+    color: white;
+  }
+  
+  &.rating-h {
+    background-color: hsl(4, 100%, 47%); 
+    color: white;
+  }
+}
+
+/* Style for the edit controls */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  
+  h2 {
+    margin-bottom: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: hsl(240, 1%, 12%); 
+  }
+}
+
+.edit-controls {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.edit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: hsl(0, 0%, 100%);
+  color: hsl(213, 100%, 45%); 
+  border: 1px solid hsl(213, 100%, 45%);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+  
+  svg {
+    stroke: hsl(213, 100%, 45%); 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+  }
+  
+  &:hover {
+    background-color: hsl(213, 100%, 93%); 
+    transform: translateY(-2px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); 
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.cancel-button {
+  background-color: hsl(0, 0%, 100%); 
+  color: hsl(240, 1%, 26%); 
+  border: 1px solid hsl(240, 14%, 93%); 
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+  
+  &:hover {
+    background-color: hsl(240, 14%, 93%); 
+    transform: translateY(-2px);
+  }
+}
+
+.save-button {
+  background-color: hsl(213, 100%, 45%); 
+  color: hsl(0, 0%, 100%); 
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:hover {
+    background-color: hsl(213, 100%, 47%);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); 
+  }
+}
+  .simulation-intro {
+    margin-bottom: 2rem;
+    
+    p {
+      color: $apple-gray-dark;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+  }
+  
+  .renovation-subtitle {
+    font-weight: 600;
+    color: $apple-gray-dark;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+  }
+  
+  .section-subtitle {
+    font-weight: 500;
+    color: $apple-gray-dark;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+  }
+  
+  // Comparison grid styles - Modified for single row layout
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); // Force 4 equal columns
+  gap: 1.5rem; // Reduced gap for better fit
+  margin-bottom: 3rem;
+  
+  .comparison-item {
+    background-color: $apple-white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: $apple-shadow-sm;
+    transition: $apple-transition;
+    
+    &:hover {
+      box-shadow: $apple-shadow;
+      transform: translateY(-2px);
+    }
+    
+    .comparison-label {
+      padding: 1rem;
+      background-color: $apple-blue-light-48;
+      color: $apple-blue;
+      font-weight: 600;
+      font-size: 1rem; // Slightly reduced for better fit
+      border-bottom: 1px solid $apple-gray-light;
+    }
+    
+    .comparison-current, .comparison-future {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid $apple-gray-light;
+      
+      .label {
+        font-weight: 500;
+        color: $apple-gray-dark;
+        font-size: 0.9rem; // Slightly smaller for better fit
+      }
+      
+      .value {
+        font-weight: 600;
+        color: $apple-black;
+        font-size: 0.95rem; // Slightly smaller for better fit
+      }
+    }
+    
+    .comparison-future .value {
+      color: $apple-blue;
+    }
+    
+    .comparison-savings {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto auto;
+      padding: 0.75rem 1rem;
+      background-color: $apple-off-white;
+      
+      .label {
+        grid-column: 1 / 3;
+        grid-row: 1;
+        font-weight: 500;
+        color: $apple-gray-dark;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem; // Slightly smaller for better fit
+      }
+      
+      .value {
+        grid-column: 1;
+        grid-row: 2;
+        font-weight: 700;
+        color: $apple-green;
+        font-size: 0.95rem; // Slightly smaller for better fit
+      }
+      
+      .percentage {
+        grid-column: 2;
+        grid-row: 2;
+        font-weight: 700;
+        color: $apple-green;
+        padding: 0.25rem 0.5rem;
+        background-color: rgba($apple-green, 0.1);
+        border-radius: 4px;
+        font-size: 0.85rem; // Slightly smaller for better fit
+      }
+    }
+    
+    // Special styling for rating values
+    .rating-value {
+      font-size: 1.25rem; // Reduced from 1.5rem for better fit
+      font-weight: 700;
+      
+      &.rating-a {
+        color: $apple-green;
+      }
+    }
+  }
+}
+
+// Responsive adjustments - Updated breakpoints
+@media (max-width: 1200px) {
+  .comparison-grid {
+    grid-template-columns: repeat(2, 1fr); // 2 columns on medium screens
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .comparison-grid {
+    grid-template-columns: 1fr; // Single column on mobile
+    gap: 2rem;
+    
+    .comparison-item {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+  }
+}
+  // Cost estimation styles
+  .cost-estimation {
+    background-color: $apple-off-white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    
+    h3 {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+    }
+    
+    .cost-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      
+      .cost-item {
+        background-color: $apple-white;
+        border-radius: 8px;
+        padding: 1.25rem;
+        box-shadow: $apple-shadow-sm;
+        transition: $apple-transition;
+        
+        &:hover {
+          box-shadow: $apple-shadow;
+          transform: translateY(-2px);
+        }
+        
+        .cost-label {
+          color: $apple-gray-dark;
+          font-size: 0.9rem;
+          margin-bottom: 0.5rem;
+        }
+        
+        .cost-value {
+          color: $apple-blue;
+          font-weight: 700;
+          font-size: 1.25rem;
+        }
+      }
+    }
+  }
+  
+  // ESG data styles
+  .esg-data {
+    margin-bottom: 3rem;
+    
+    .esg-table {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: $apple-shadow-sm;
+      
+      .esg-row {
+        display: flex;
+        
+        &.header-row {
+          background-color: $apple-blue-light-48;
+          
+          .esg-cell {
+            font-weight: 600;
+            color: $apple-blue;
+          }
+        }
+        
+        &:not(.header-row) {
+          &:nth-child(even) {
+            background-color: $apple-white;
+          }
+          
+          &:nth-child(odd) {
+            background-color: $apple-off-white;
+          }
+        }
+        
+        .esg-cell {
+          flex: 1;
+          padding: 1rem;
+          
+          &:first-child {
+            border-right: 1px solid $apple-gray-light;
+          }
+        }
+      }
+    }
+  }
+  
+// Energy rating styles with updated marker positions and value labels
+.energy-rating {
+  margin: 3rem 0;
+  
+  .rating-scale {
+    display: flex;
+    position: relative;
+    margin: 2rem 0 4rem;
+    border-radius: 8px;
+    overflow: visible;
+    box-shadow: $apple-shadow-sm;
+    
+    .scale-label {
+      flex: 1;
+      text-align: center;
+      padding: 1rem 0;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: $apple-transition;
+      
+      &:nth-child(1) { background-color: $apple-green; color: white; }
+      &:nth-child(2) { background-color: $apple-green-light-10; color: white; }
+      &:nth-child(3) { background-color: $apple-yellow; }
+      &:nth-child(4) { background-color: $apple-yellow-light-10; }
+      &:nth-child(5) { background-color: $apple-orange; }
+      &:nth-child(6) { background-color: $apple-orange-light-10; }
+      &:nth-child(7) { background-color: $apple-red; color: white; }
+      &:nth-child(8) { background-color: $apple-red-dark-5; color: white; }
+      &:nth-child(9) { background-color: $apple-red-dark-15; color: white; }
+    }
+    
+    .scale-bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -45px; // Moved "Aktuell" slightly further up
+      bottom: -45px; // Moved "In Zukunft" slightly further down
+      
+      // Marker base styles
+      .marker {
+        position: absolute;
+        transform: translateX(-50%);
+        z-index: 10;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        
+        // Tooltip styling (keep for backward compatibility)
+        .marker-tooltip {
+          position: absolute;
+          left: 50%;
+          background-color: $apple-white;
+          color: $apple-black;
+          padding: 6px 10px;
+          border-radius: 6px;
+          font-size: 0.8rem;
+          opacity: 0;
+          pointer-events: none;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          border: 1px solid $apple-gray-light;
+          white-space: nowrap;
+          font-weight: 500;
+          z-index: 20;
+        }
+        
+        // Show tooltip on hover (if still present)
+        &:hover {
+          .marker-tooltip {
+            opacity: 1;
+          }
+        }
+      }
+      
+      // Current marker - ABOVE the chart (slightly further)
+      .current-marker {
+        top: 0;
+        
+        // Label above arrow with value - positioned like ::before
+        .current-label {
+          display: block;
+          background-color: $apple-black;
+          color: white;
+          padding: 6px 12px;
+          border-radius: 12px;
+          font-weight: 600;
+          font-size: 0.85rem;
+          text-align: center;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+          white-space: nowrap;
+          margin-bottom: 4px; // Same as original
+        }
+        
+        // Down arrow pointing to chart
+        .arrow-up {
+          width: 0; 
+          height: 0; 
+          border-left: 8px solid transparent;
+          border-right: 8px solid transparent;
+          border-top: 12px solid $apple-red;
+          border-bottom: none;
+          margin: 0 auto;
+        }
+        
+        // Tooltip above the marker (if still used)
+        .marker-tooltip {
+          bottom: 100%;
+          margin-bottom: 4px;
+          transform: translateX(-50%);
+          
+          &::before {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background-color: $apple-white;
+            border-bottom: 1px solid $apple-gray-light;
+            border-right: 1px solid $apple-gray-light;
+            transform: translateX(-50%) rotate(45deg);
+          }
+        }
+      }
+      
+      // Future marker - BELOW the chart (slightly further)
+      .future-marker {
+        bottom: 0;
+        top: auto;
+        
+        // Up arrow pointing to chart
+        .arrow-up {
+          width: 0; 
+          height: 0; 
+          border-left: 8px solid transparent;
+          border-right: 8px solid transparent;
+          border-bottom: 12px solid $apple-green;
+          border-top: none;
+          margin: 0 auto;
+        }
+        
+        // Label below arrow with value - positioned like ::after
+        .future-label {
+          display: block;
+          background-color: $apple-green;
+          color: white;
+          padding: 6px 12px;
+          border-radius: 12px;
+          font-weight: 600;
+          font-size: 0.85rem;
+          text-align: center;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+          white-space: nowrap;
+          margin-top: 4px; // Same as original
+        }
+        
+        // Tooltip below the marker (if still used)
+        .marker-tooltip {
+          top: 100%;
+          margin-top: 8px;
+          transform: translateX(-50%);
+          
+          &::before {
+            content: "";
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background-color: $apple-white;
+            border-top: 1px solid $apple-gray-light;
+            border-left: 1px solid $apple-gray-light;
+            transform: translateX(-50%) rotate(45deg);
+          }
+        }
+      }
+    }
+  }
+  
+  .energy-scale-values {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 0 5px;
+    
+    span {
+      font-size: 0.8rem;
+      color: $apple-gray;
+    }
+  }
+  
+  .co2-tax {
+    margin-top: 4rem;
+    text-align: center;
+    background-color: $apple-off-white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    
+    p {
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      
+      &:last-child {
+        font-weight: 600;
+        color: $apple-black;
+        font-size: 1.25rem;
+      }
+    }
+    
+    // User type switch styling
+    .user-type-switch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      
+      .switch-label {
+        margin-bottom: 0.75rem;
+        font-size: 1rem;
+        color: $apple-black;
+        font-weight: 500;
+      }
+      
+      .toggle-container {
+        background-color: rgba(0, 0, 0, 0.04);
+        border-radius: 8px;
+        padding: 0.25rem;
+        width: 80%;
+        max-width: 280px;
+      }
+      
+      .segment-control {
+        display: flex;
+        position: relative;
+        width: 100%;
+        height: 32px;
+        
+        input {
+          display: none;
+          
+          &:checked + label {
+            color: $apple-black;
+            font-weight: 500;
+          }
+          
+          &:first-of-type:checked ~ .selection {
+            transform: translateX(0);
+          }
+          
+          &:last-of-type:checked ~ .selection {
+            transform: translateX(100%);
+          }
+        }
+        
+        label {
+          flex: 1;
+          text-align: center;
+          padding: 6px 0;
+          z-index: 1;
+          cursor: pointer;
+          transition: color 0.3s ease;
+          font-size: 0.9rem;
+          color: rgba(0, 0, 0, 0.6);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .selection {
+          position: absolute;
+          height: 32px;
+          width: 50%;
+          background-color: white;
+          border-radius: 7px;
+          transition: transform 0.3s ease;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+      }
+    }
+  
+      
+      /* Improved Vermieter data styling */
+      .vermieter-table {
+        max-width: 100%;
+        margin: 1rem auto;
+        
+        .vermieter-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.5rem 0;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          
+          &.vermieter-total {
+            border-bottom: none;
+            margin-top: 0.5rem;
+            
+            .vermieter-label, .vermieter-value {
+              color: $apple-red;
+              font-weight: 600;
+            }
+          }
+          
+          .vermieter-label {
+            text-align: left;
+            font-size: 0.95rem;
+            color: rgba(0, 0, 0, 0.6);
+          }
+          
+          .vermieter-value {
+            text-align: right;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: $apple-black;
+          }
+        }
+      }
+      
+      @media (max-width: 576px) {
+        .vermieter-row {
+          flex-direction: column;
+          align-items: flex-start;
+          
+          .vermieter-value {
+            width: 100%;
+            text-align: left;
+            margin-top: 0.25rem;
+          }
+        }
+      }
+    }
+  }
+  
+  // Stranding data with updated boxes
+ .stranding-data {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+  
+  .stranding-box {
+    background-color: $apple-white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: $apple-shadow-sm;
+    transition: $apple-transition;
+    border: 2px solid $apple-blue-light-30;
+    
+    &:hover {
+      box-shadow: $apple-shadow;
+      transform: translateY(-5px);
+    }
+    
+    .stranding-title {
+      font-weight: 600;
+      font-size: 1.125rem;
+      
+      // Remove the old nth-child selectors and replace with specific targeting
+    }
+    
+    // Negative values (red) - first two boxes
+    &:nth-child(1) .stranding-title,
+    &:nth-child(2) .stranding-title {
+      color: $apple-red;
+    }
+    
+    // Positive values (blue) - last two boxes  
+    &:nth-child(3) .stranding-title,
+    &:nth-child(4) .stranding-title {
+      color: $apple-blue;
+    }
+  }
+}
+  
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    .comparison-grid,
+    .cost-grid,
+    .stranding-data {
+      grid-template-columns: 1fr;
+    }
+    
+    .comparison-item {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+  }
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .finance-table {
+    .table-row {
+      padding: 1rem;
+      
+      .row-label, .row-value {
+        font-size: 0.85rem;
+      }
+    }
+    
+    .section-header, .comparison-header {
+      padding: 0.75rem 1rem;
+    }
+    
+    .table-header {
+      padding: 1rem;
+      
+      h3 {
+        font-size: 1.1rem;
+        
+        .header-note {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+  
+  .value-increase-table {
+    .table-row {
+      display: grid;
+      grid-template-columns: 40% repeat(3, 1fr);
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .value-increase-table {
+    .table-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      gap: 0.5rem;
+      
+      .row-label {
+        grid-column: 1 / -1;
+      }
+      
+      .row-value {
+        text-align: left;
+      }
+    }
+    
+    .comparison-header {
+      display: none;
+    }
+  }
+}

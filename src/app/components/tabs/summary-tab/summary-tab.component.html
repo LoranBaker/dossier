@@ -32,7 +32,8 @@
       <div class="summary-panel summary-panel-current">
         <div class="energy-class">
           <span class="energy-label">Energieklasse</span>
-          <span class="energy-badge energy-badge-{{ currentEnergyClass.toLowerCase() }}">{{ currentEnergyClass }}</span>
+          <!-- FIXED: Use method to handle special characters and ensure proper CSS class -->
+          <span [ngClass]="getEnergyBadgeClass(currentEnergyClass)">{{ currentEnergyClass }}</span>
         </div>
         
         <div class="energy-progress">
@@ -63,7 +64,8 @@
       <div class="summary-panel summary-panel-future">
         <div class="energy-class">
           <span class="energy-label">Energieklasse</span>
-          <span class="energy-badge energy-badge-{{ targetEnergyClass.toLowerCase() }}">{{ targetEnergyClass }}</span>
+          <!-- FIXED: Use method to handle special characters and ensure proper CSS class -->
+          <span [ngClass]="getEnergyBadgeClass(targetEnergyClass)">{{ targetEnergyClass }}</span>
         </div>
         
         <div class="energy-progress">
@@ -94,9 +96,9 @@
     <div class="summary-conclusion">
       <h3>Zusammenfassung der Gebäude- und Modernisierungsanalyse – <span class="company-name">ENVALPRO</span></h3>
       
-      <p>Aktuell befindet sich das Gebäude in einem Zustand, der hohe Betriebskosten und einen niedrigen Wert zur Folge hat – die Energieklasse F und der entsprechende Modernisierungsstau sprechen für sich.</p>
+      <p>Aktuell befindet sich das Gebäude in einem Zustand, der hohe Betriebskosten und einen niedrigen Wert zur Folge hat – die Energieklasse {{ currentEnergyClass }} und der entsprechende Modernisierungsstau sprechen für sich.</p>
       
-      <p>Doch die Lösung ist greifbar: Mit den geplanten energetischen Modernisierungen wird das Gebäude auf Energieklasse B gehoben, was die Betriebskosten drastisch senkt und gleichzeitig den Wert der Immobilie steigert.</p>
+      <p>Doch die Lösung ist greifbar: Mit den geplanten energetischen Modernisierungen wird das Gebäude auf Energieklasse {{ targetEnergyClass }} gehoben, was die Betriebskosten drastisch senkt und gleichzeitig den Wert der Immobilie steigert.</p>
       
       <p>Dank Förderungen von KfW und BAFA wird die Investition zusätzlich noch wirtschaftlich unterstützt. Das Ergebnis? Ein zukunftsfähiges, effizientes Gebäude, das sich in der heutigen Zeit als wertvolle und nachhaltige Investition beweist!</p>
       

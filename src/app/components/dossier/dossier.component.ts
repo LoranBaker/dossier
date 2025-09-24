@@ -94,6 +94,7 @@ export class DossierComponent implements OnInit {
   buildingImageUrl$: Observable<string | null>;
   amortizationYears$: Observable<number>;
   foerderboniMeasures: any[] = [];
+  
   // For template access - can be replaced with the async pipe where possible
   building!: Building;
   consumptionData!: ConsumptionData;
@@ -110,6 +111,9 @@ export class DossierComponent implements OnInit {
   currentAmortizationYears: number = 0;
   financialData: any = {};
   co2TaxData: { eigennutzerTotal: number; vermieterTotal: number } = { eigennutzerTotal: 0, vermieterTotal: 0 };
+
+  // NEW: Energy ratings data from renovation results
+  energyRatings: { currentEnergyRating: string; targetEnergyRating: string } | null = null;
 
   // 3D Model specific properties
   buildingId: string | null = null;
@@ -250,12 +254,13 @@ export class DossierComponent implements OnInit {
   }
 
   onScreenshotsChanged(screenshots: ModelScreenshot[]): void {
-  this.modelScreenshots = screenshots;
-  // Pass screenshots to print service
-  this.printService.setScreenshots(screenshots);
-  this.printPdfService.setScreenshots(screenshots); 
-  console.log('Screenshots updated:', screenshots.length, 'images');
-}
+    this.modelScreenshots = screenshots;
+    // Pass screenshots to print service
+    this.printService.setScreenshots(screenshots);
+    this.printPdfService.setScreenshots(screenshots); 
+    console.log('Screenshots updated:', screenshots.length, 'images');
+  }
+
   /**
    * Checks if tabs content overflows and needs scroll buttons
    */
@@ -395,13 +400,13 @@ export class DossierComponent implements OnInit {
   }
   
   async printDossier(printType: 'kunde' | 'lv' | 'bank'): Promise<void> {
-  await this.printService.printDossierWithType(
-    this.building,
-    (tab: string) => this.setActiveTab(tab),
-    () => this.activeTab,
-    printType
-  );
-}
+    await this.printService.printDossierWithType(
+      this.building,
+      (tab: string) => this.setActiveTab(tab),
+      () => this.activeTab,
+      printType
+    );
+  }
 
   printScreenshotDossier() {
     const tabOrder = [
@@ -431,7 +436,6 @@ export class DossierComponent implements OnInit {
       includeScreenshots: true
     });
   }
-
 
   private calculateInitialSavingsPercentages(): void {
     if (this.consumptionData) {
@@ -472,5 +476,16 @@ export class DossierComponent implements OnInit {
       this.savingsPotential.energyBalanceSavings = percentages.energyBalanceSavings;
       this.savingsPotential.co2TaxSavings = percentages.co2TaxSavings;
     }
+  }
+
+  /**
+   * NEW: Handle energy rating changes from renovation results component
+   */
+  onRenovationResultsEnergyRatingChanged(energyRatings: {
+    currentEnergyRating: string;
+    targetEnergyRating: string;
+  }): void {
+    console.log('Energy ratings received from renovation results:', energyRatings);
+    this.energyRatings = energyRatings;
   }
 }

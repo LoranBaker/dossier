@@ -1,0 +1,422 @@
+// Apple-inspired color palette with HSL values for easier manipulation
+$apple-white: hsl(0, 0%, 100%);         // #ffffff
+$apple-off-white: hsl(240, 5%, 96%);    // #f5f5f7
+$apple-gray-light: hsl(240, 14%, 93%);  // #e8e8ed
+$apple-gray: hsl(240, 2%, 54%);         // #86868b
+$apple-gray-dark: hsl(240, 1%, 26%);    // #424245
+$apple-black: hsl(240, 1%, 12%);        // #1d1d1f
+
+// Base blue with variations
+$apple-blue: hsl(213, 100%, 45%);       // #0071e3
+$apple-blue-hover: hsl(213, 100%, 47%); // #0077ed
+$apple-blue-light-40: hsl(213, 100%, 85%); // 40% lighter
+$apple-blue-light-45: hsl(213, 100%, 90%); // 45% lighter
+$apple-blue-light-48: hsl(213, 100%, 93%); // 48% lighter
+$apple-blue-light-30: hsl(213, 100%, 75%); // 30% lighter
+$apple-blue-dark-10: hsl(213, 100%, 35%);  // 10% darker
+$apple-blue-dark-15: hsl(213, 100%, 30%);  // 15% darker
+
+// Other colors with variations
+$apple-green: hsl(142, 100%, 40%);      // #00ca56
+$apple-green-light-10: hsl(142, 100%, 50%); // 10% lighter
+
+$apple-red: hsl(4, 100%, 62%);          // #ff453a
+$apple-red-dark-5: hsl(4, 100%, 57%);   // 5% darker
+$apple-red-dark-10: hsl(4, 100%, 52%);  // 10% darker
+$apple-red-dark-15: hsl(4, 100%, 47%);  // 15% darker
+
+$apple-yellow: hsl(50, 100%, 52%);      // #ffd60a
+$apple-yellow-light-10: hsl(50, 100%, 62%); // 10% lighter
+
+$apple-orange: hsl(35, 100%, 52%);      // #ff9f0a
+$apple-orange-light-10: hsl(35, 100%, 62%); // 10% lighter
+
+//shadow
+$apple-shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
+$apple-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+$apple-shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.16);
+
+//transitions
+$apple-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Consumption tab styles */
+.consumption-section {
+  h2, h3, h4 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: $apple-black;
+    margin-bottom: 2rem;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+    color: $apple-blue;
+    margin-top: 3rem;
+  }
+  
+  h4 {
+    font-size: 1.25rem;
+    color: $apple-gray-dark;
+    margin-top: 2rem;
+  }
+  
+  .consumption-data {
+    margin-bottom: 3rem;
+    
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: $apple-shadow-sm;
+      
+      tr.table-header th {
+        background: linear-gradient(135deg, $apple-blue, $apple-blue-dark-10);
+        color: $apple-white;
+        padding: 1.25rem 1rem;
+        text-align: left;
+        font-weight: 600;
+        font-size: 1rem;
+      }
+      
+      tr {
+        background-color: $apple-white;
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+          background-color: $apple-blue-light-48;
+        }
+      }
+      
+      td {
+        padding: 1rem;
+        font-size: 0.95rem;
+        border-bottom: 1px solid $apple-gray-light;
+        
+        &:first-child {
+          font-weight: 500;
+          color: $apple-black;
+        }
+        
+        &:last-child {
+          font-weight: 500;
+          color: $apple-gray-dark;
+        }
+      }
+      
+      tr:last-child td {
+        border-bottom: none;
+        
+        .alert {
+          color: $apple-red;
+          font-weight: 700;
+        }
+      }
+    }
+    
+    .footnote {
+      font-size: 0.85rem;
+      color: $apple-gray;
+      margin-top: 1rem;
+      padding-left: 1rem;
+      position: relative;
+      
+      &:before {
+        content: "*";
+        position: absolute;
+        left: 0;
+        color: $apple-gray;
+      }
+    }
+  }
+  
+  .esg-data {
+    margin-bottom: 3rem;
+    
+    .esg-table {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: $apple-shadow-sm;
+      
+      .esg-row {
+        display: flex;
+        
+        &:nth-child(even) {
+          background-color: $apple-off-white;
+        }
+        
+        &:nth-child(odd) {
+          background-color: $apple-white;
+        }
+        
+        .esg-cell {
+          flex: 1;
+          padding: 1rem;
+          border-bottom: 1px solid $apple-gray-light;
+          
+          &:first-child {
+            font-weight: 500;
+            color: $apple-black;
+          }
+          
+          &:last-child {
+            font-weight: 500;
+            color: $apple-gray-dark;
+            border-left: 1px solid $apple-gray-light;
+          }
+        }
+        
+        &:last-child .esg-cell {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+  
+// Energy rating styles
+.energy-rating {
+    margin: 3rem 0;
+    
+    h4 {
+      font-size: 1.25rem;
+      color: $apple-gray-dark;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      font-weight: 600;
+    }
+    
+    .rating-scale {
+      display: flex;
+      position: relative;
+      margin: 2rem 0 4rem;
+      border-radius: 8px;
+      overflow: visible;
+      box-shadow: $apple-shadow-sm;
+      
+      .scale-label {
+        flex: 1;
+        text-align: center;
+        padding: 1rem 0;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: $apple-transition;
+        
+        &:nth-child(1) { background-color: $apple-green; color: white; }
+        &:nth-child(2) { background-color: $apple-green-light-10; color: white; }
+        &:nth-child(3) { background-color: $apple-yellow; }
+        &:nth-child(4) { background-color: $apple-yellow-light-10; }
+        &:nth-child(5) { background-color: $apple-orange; }
+        &:nth-child(6) { background-color: $apple-orange-light-10; }
+        &:nth-child(7) { background-color: $apple-red; color: white; }
+        &:nth-child(8) { background-color: $apple-red-dark-5; color: white; }
+        &:nth-child(9) { background-color: $apple-red-dark-15; color: white; }
+        
+        &:hover {
+          transform: translateY(-3px);
+        }
+      }
+      
+      .scale-bar {
+        position: absolute;
+        bottom: -40px;
+        left: 0;
+        right: 0;
+        height: 40px;
+        top: 20;
+        
+//marker styling
+.marker {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+    
+    &:hover {
+      transform: translateX(-50%) translateY(-2px);
+    }
+    
+    .arrow-up {
+      width: 0; 
+      height: 0; 
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 12px solid $apple-red;
+      margin: 0 auto 5px auto;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    }
+    
+    .marker-label {
+      display: block;
+      background-color: $apple-black;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      white-space: nowrap;
+      line-height: 1.2;
+    }
+    
+    // Remove the old marker tooltip
+    .marker-tooltip {
+      display: none;
+    }
+  }
+      }
+    }
+    
+    .energy-scale-values {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      padding: 0 5px;
+      
+      span {
+        font-size: 0.8rem;
+        color: $apple-gray;
+      }
+    }
+    
+    .co2-tax {
+      margin-top: 4rem;
+      text-align: center;
+      background-color: $apple-off-white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      
+      p {
+        margin: 0.5rem 0;
+        font-size: 1rem;
+        
+        &:last-child {
+          font-weight: 600;
+          color: $apple-black;
+          font-size: 1.25rem;
+        }
+      }
+      
+      .small-input {
+        width: 60px;
+        text-align: center;
+        margin-right: 5px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .rating-scale {
+        margin-bottom: 5rem;
+      }
+      
+      .energy-scale-values {
+        font-size: 0.7rem;
+      }
+      
+      .marker .marker-label {
+        font-size: 0.8rem;
+      }
+    }
+  }
+    
+    .energy-scale-values {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      padding: 0 5px;
+      
+      span {
+        font-size: 0.8rem;
+        color: $apple-gray;
+      }
+    }
+    
+    .co2-tax {
+      margin-top: 4rem;
+      text-align: center;
+      background-color: $apple-off-white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      
+      p {
+        margin: 0.5rem 0;
+        font-size: 1rem;
+        
+        &:last-child {
+          font-weight: 600;
+          color: $apple-black;
+          font-size: 1.25rem;
+        }
+      }
+      
+      .small-input {
+        width: 60px;
+        text-align: center;
+        margin-right: 5px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .rating-scale {
+        margin-bottom: 5rem;
+      }
+      
+      .energy-scale-values {
+        font-size: 0.7rem;
+      }
+      
+      .marker .marker-label {
+        font-size: 0.8rem;
+      }
+    }
+  }
+    
+    .co2-tax {
+      margin-top: 4rem;
+      text-align: center;
+      background-color: $apple-off-white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      
+      p {
+        margin: 0.5rem 0;
+        font-size: 1rem;
+        
+        &:last-child {
+          font-weight: 600;
+          color: $apple-black;
+          font-size: 1.25rem;
+        }
+      }
+    }
+  
+  
+  .stranding-data {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    
+    .stranding-box {
+      background-color: $apple-white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: $apple-shadow-sm;
+      transition: $apple-transition;
+      border: 2px solid $apple-blue-light-30;
+      
+      &:hover {
+        box-shadow: $apple-shadow;
+        transform: translateY(-5px);
+      }
+      
+      .stranding-title {
+        font-weight: 600;
+        color: $apple-red;
+        font-size: 1.125rem;
+      }
+    }
+}

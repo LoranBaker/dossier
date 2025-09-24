@@ -529,8 +529,11 @@
             <ng-container *ngIf="!isEditMode">{{building.consumption.heating}}</ng-container>
             <input *ngIf="isEditMode" type="text" [(ngModel)]="editableBuilding!.consumption.heating" class="edit-input">
           </td>
-          <td></td>
-          <td></td>
+          <td>Heizungsverbrauch</td>
+          <td>
+            <ng-container *ngIf="!isEditMode">{{building.consumption.heizungsverbrauch}}</ng-container>
+            <input *ngIf="isEditMode" type="text" [(ngModel)]="editableBuilding!.consumption.heizungsverbrauch" class="edit-input">
+          </td>
         </tr>
       </table>
     </div>

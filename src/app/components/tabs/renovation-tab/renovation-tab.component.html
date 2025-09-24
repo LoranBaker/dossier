@@ -100,7 +100,8 @@
   </tfoot>
 </table>
 
-  <!-- Förderboni Table -->
+
+<!-- Förderboni Table -->
 <table class="foerderboni-table">
   <thead>
     <tr class="foerderboni-header">
@@ -115,7 +116,19 @@
       <td class="foerderboni-type">{{measure.type}}</td>
       <td>{{measure.grundlage}}</td>
       <td>{{measure.kosten}}</td>
-      <td>{{measure.zuschuss}}</td>
+      <td>
+        <ng-container *ngIf="measure.zuschuss.startsWith('www.') || measure.zuschuss.startsWith('http'); else normalText">
+          <a [href]="getFullUrl(measure.zuschuss)" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="external-link">
+            {{measure.zuschuss}}
+          </a>
+        </ng-container>
+        <ng-template #normalText>
+          {{measure.zuschuss}}
+        </ng-template>
+      </td>
     </tr>
   </tbody>
 </table>

@@ -96,6 +96,7 @@ export interface Building {
       electricity: string;
       heating: string;
       hotWater: string;
+      heizungsverbrauch: string;
     };
     renovations: Array<{
       type: string;

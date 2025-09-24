@@ -127,41 +127,41 @@
         </div>
       </div>
     
-      <div class="energy-rating">
-        <h4>Energetische Einstufung</h4>
-        <div class="rating-scale">
-            <div class="scale-label" title="0-25 kWh/m²">A+</div>
-            <div class="scale-label" title="25-50 kWh/m²">A</div>
-            <div class="scale-label" title="50-75 kWh/m²">B</div>
-            <div class="scale-label" title="75-100 kWh/m²">C</div>
-            <div class="scale-label" title="100-125 kWh/m²">D</div>
-            <div class="scale-label" title="125-150 kWh/m²">E</div>
-            <div class="scale-label" title="150-175 kWh/m²">F</div>
-            <div class="scale-label" title="175-200 kWh/m²">G</div>
-            <div class="scale-label" title=">200 kWh/m²">H</div>
-            <div class="scale-bar">
-              <div class="marker" [style.left]="energyRatingPosition">
-                <div class="arrow-up"></div>
-                <span class="marker-tooltip">
-                  {{isEditMode ? editableConsumptionData!.energyIntensity : consumptionData.energyIntensity}} kWh/m²
-                </span>
-              </div>
-            </div>
-          </div>
-        
-        <div class="energy-scale-values">
-          <span>0</span>
-          <span>25</span>
-          <span>50</span>
-          <span>75</span>
-          <span>100</span>
-          <span>125</span>
-          <span>150</span>
-          <span>175</span>
-          <span>200</span>
-          <span>&gt;250</span>
+<div class="energy-rating">
+  <h4>Energetische Einstufung</h4>
+  <div class="rating-scale">
+    <div class="scale-label" title="0-25 kWh/m²">A+</div>
+    <div class="scale-label" title="25-50 kWh/m²">A</div>
+    <div class="scale-label" title="50-75 kWh/m²">B</div>
+    <div class="scale-label" title="75-100 kWh/m²">C</div>
+    <div class="scale-label" title="100-125 kWh/m²">D</div>
+    <div class="scale-label" title="125-150 kWh/m²">E</div>
+    <div class="scale-label" title="150-175 kWh/m²">F</div>
+    <div class="scale-label" title="175-200 kWh/m²">G</div>
+    <div class="scale-label" title=">200 kWh/m²">H</div>
+    <div class="scale-bar">
+      <div class="marker" [style.left]="energyRatingPosition">
+        <div class="arrow-up"></div>
+        <div class="marker-label">
+          Aktuell: {{isEditMode ? editableConsumptionData!.energyIntensity : consumptionData.energyIntensity}} kWh/m²
         </div>
       </div>
+    </div>
+  </div>
+  
+  <div class="energy-scale-values">
+    <span>0</span>
+    <span>25</span>
+    <span>50</span>
+    <span>75</span>
+    <span>100</span>
+    <span>125</span>
+    <span>150</span>
+    <span>175</span>
+    <span>200</span>
+    <span>&gt;250</span>
+  </div>
+</div>
       <div class="co2-tax">
         <!-- Apple-style segmented control -->
         <div class="user-type-switch">
