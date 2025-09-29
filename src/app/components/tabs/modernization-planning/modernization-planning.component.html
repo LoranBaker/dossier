@@ -1,88 +1,40 @@
-<div class="modernization-planning">
-  <!-- Header Section -->
+<div class="modernization-planning"> <!-- Header Section -->
   <div class="planning-header">
     <h1 class="planning-title">Modernisierungsplanung</h1>
     <div class="planning-subtitle">
       <h2>Handwerker- & Fachunternehmensangebote</h2>
       <p class="subtitle-text">Unabhängige Handwerkerangebote – professionell & transparent</p>
     </div>
-  </div>
-
-  <!-- Description Section -->
+  </div> <!-- Description Section -->
   <div class="planning-description">
-    <p class="description-text">
-      Planen Sie eine energetische Modernisierung? Unsere KI-gestützte Lösung erstellt 
-      ein detailliertes Leistungsverzeichnis für Handwerks- und Fachbetriebe.
-    </p>
-    
+    <p class="description-text"> Planen Sie eine energetische Modernisierung? Unsere KI-gestützte Lösung erstellt ein
+      detailliertes Leistungsverzeichnis für Handwerks- und Fachbetriebe. </p>
     <div class="your-benefits">
       <h3 class="benefits-title">Ihr Vorteil:</h3>
       <div class="benefits-list">
-        <div
-          *ngFor="let benefit of benefits; trackBy: trackByIndex"
-          class="benefit-item"
-        >
-          <div class="benefit-check">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
+        <div *ngFor="let benefit of benefits; trackBy: trackByIndex" class="benefit-item">
+          <div class="benefit-check"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"></circle>
               <path d="m9 12 2 2 4-4"></path>
-            </svg>
-          </div>
+            </svg> </div>
           <p class="benefit-text">{{ benefit.text }}</p>
         </div>
       </div>
     </div>
-
-    <p class="closing-text">
-      So treffen Sie die beste Entscheidung für Ihr Projekt!
-    </p>
-    
-    <h3 class="service-title">Service: Wir suchen die entsprechenden Handwerker aus dem Umkreis, sowie von bundesweit tätigen Fachunternehmen für Sie aus.</h3>
-  </div>
-
-  <!-- Service Visualization - MAP WITH HOUSE ICON -->
+    <p class="closing-text"> So treffen Sie die beste Entscheidung für Ihr Projekt! </p>
+    <h3 class="service-title">Service: Wir suchen die entsprechenden Handwerker aus dem Umkreis, sowie von bundesweit
+      tätigen Fachunternehmen für Sie aus.</h3>
+  </div> <!-- Service Visualization - MAPBOX MAP WITH HOUSE ICON -->
   <div class="service-visualization">
     <div class="service-circle">
-      <img 
-        [src]="staticMapUrl" 
-        alt="Service Area Map - 100km Radius"
-        class="map-container"
-        (error)="onImageError($event)"
-        (load)="onImageLoad()"
-        loading="lazy"
-      />
-      
-      <!-- CENTER HOUSE ICON -->
-      <div class="center-house-icon">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-          <polyline points="9,22 9,12 15,12 15,22"/>
-        </svg>
-      </div>
-      
-      <div class="service-tooltip">
-        bis 100 km Umkreis
-        <div class="tooltip-arrow"></div>
+      <div #mapContainer class="map-container"></div> <!-- CENTER HOUSE ICON -->
+      <div class="center-house-icon"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9,22 9,12 15,12 15,22" />
+        </svg> </div>
+      <div class="service-tooltip"> bis 100 km Umkreis <div class="tooltip-arrow"></div>
       </div>
     </div>
   </div>

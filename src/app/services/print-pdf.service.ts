@@ -539,6 +539,7 @@ export class PrintPdfService {
       }
     });
   }
+  
 
   // All other existing methods remain exactly the same...
   // [Rest of the original methods: waitForImages, ensureLibraries, loadScriptOnce, etc.]

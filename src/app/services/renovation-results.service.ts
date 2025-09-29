@@ -88,7 +88,7 @@ export class RenovationResultsService {
     return {
       energyCosts: 1092,
       energyUse: 10400,
-      co2Emissions: currentValues.co2Emissions, // Using current CO2 emissions value
+      co2Emissions: 3880,
       energyRating: targetEnergyRating || 'A',
       co2Tax: 0
     };

@@ -2,15 +2,15 @@
 <div class="dossier-container">
 <!-- Updated print section with restructured button content -->
 <div class="print-section">
-  <button class="print-button" (click)="printDossier('kunde')" aria-label="Dossier für Kunde drucken">
+  <button class="print-button" (click)="printScreenshotDossier()" aria-label="Dossier als Screenshot-PDF drucken">
     <span class="print-text">
       <span class="print-icon">🖨️</span>
       <span class="print-main">Drucken</span>
       <span class="print-label">Kunde</span>
     </span>
-  </button>
+  </button> 
   
-  <button class="print-button" (click)="printDossier('lv')" aria-label="LV-Verzeichnis drucken">
+  <!-- <button class="print-button" (click)="printDossier('lv')" aria-label="LV-Verzeichnis drucken">
     <span class="print-text">
       <span class="print-icon">🖨️</span>
       <span class="print-main">Drucken</span>
@@ -24,15 +24,9 @@
       <span class="print-main">Drucken</span>
       <span class="print-label">Bank</span>
     </span>
-  </button>
+  </button> -->
 
-   <button class="print-button" (click)="printScreenshotDossier()" aria-label="Dossier als Screenshot-PDF drucken">
-    <span class="print-text">
-      <span class="print-icon">🖼️</span>
-      <span class="print-main">New print</span>
-      <span class="print-label">Button</span>
-    </span>
-  </button> 
+ 
 </div>
   <!-- Header Section -->
   <header class="dossier-header">

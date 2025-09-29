@@ -73,8 +73,8 @@
         </div>
         
         <div class="property-value">
-          <div class="value-label">Immobilienwert</div>
-          <div class="value-amount animated-value">ca. {{ targetPropertyValue | number:'1.0-0' }} EUR</div>
+          <div class="value-label">Immobilienwert ca.</div>
+          <div class="value-amount animated-value">{{ targetPropertyValue | number:'1.0-0' }} EUR</div>
           <div class="value-increase">Wertsteigerung <span>ca. {{ propertyValueIncrease | number:'1.0-0' }} EUR</span></div>
         </div>
   
@@ -94,6 +94,7 @@
     </div>
   
     <div class="summary-conclusion">
+      <span style="color: black;">Hinweis: Die Angaben zu Immobilienwerten stellen unverbindliche Marktwerteinschätzungen dar. Sie basieren auf den derzeit verfügbaren Informationen und können durch weitere Faktoren, insbesondere Lage, Zustand und Qualität der Ausstattung, beeinflusst werden. Für die Vollständigkeit und Richtigkeit der Angaben wird keine Gewähr übernommen. Eine Haftung ist – außer bei Vorsatz oder grober Fahrlässigkeit – ausgeschlossen.</span>
       <h3>Zusammenfassung der Gebäude- und Modernisierungsanalyse – <span class="company-name">ENVALPRO</span></h3>
       
       <p>Aktuell befindet sich das Gebäude in einem Zustand, der hohe Betriebskosten und einen niedrigen Wert zur Folge hat – die Energieklasse {{ currentEnergyClass }} und der entsprechende Modernisierungsstau sprechen für sich.</p>

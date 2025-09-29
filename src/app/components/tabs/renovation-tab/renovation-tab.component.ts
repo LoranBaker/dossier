@@ -293,4 +293,14 @@ getFullUrl(url: string): string {
   return `https://www.${url}`;
 }
 
+// Add this getter method in the RenovationTabComponent class
+get numberOfMeasures(): number {
+  if (!this.renovationMeasures || this.renovationMeasures.length === 0) {
+    return 0;
+  }
+  
+  // Count measures excluding 'Förderboni' type if you don't want to count it
+  return this.renovationMeasures.filter(measure => measure.type !== 'Förderboni').length;
+}
+
 }
